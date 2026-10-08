@@ -1,5 +1,696 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>PAR Management & KPI Dashboard</title>
+
+  <!-- Excel reader -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    .header {
+      background: #17365d;
+      color: white;
+      padding: 28px 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .header p {
+      margin: 8px 0 0;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 25px auto;
+      padding: 0 18px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .card-title {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .card-value {
+      font-size: 30px;
+      font-weight: bold;
+      color: #17365d;
+    }
+
+    .section {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+    }
+
+    .section h2 {
+      margin-top: 0;
+      color: #17365d;
+    }
+
+    .upload-box {
+      border: 2px dashed #9ca3af;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      background: #fafafa;
+    }
+
+    input[type="file"] {
+      margin: 15px 0;
+    }
+
+    button {
+      background: #17365d;
+      color: white;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    button:hover {
+      background: #0f2744;
+    }
+
+    .status {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #eef4ff;
+      color: #17365d;
+    }
+
+    .columns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      background: #e8eef7;
+      color: #17365d;
+      padding: 7px 10px;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      max-height: 450px;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th {
+      background: #17365d;
+      color: white;
+      padding: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    td {
+      padding: 9px;
+      border-bottom: 1px solid #e5e7eb;
+      white-space: nowrap;
+    }
+
+    tr:nth-child(even) {
+      background: #f9fafb;
+    }
+
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .module {
+      padding: 20px;
+      border-radius: 12px;
+      background: #f5f7fb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .module h3 {
+      margin-top: 0;
+      color: #17365d;
+    }
+
+    .success {
+      color: #166534;
+      font-weight: bold;
+    }
+
+    .warning {
+      color: #92400e;
+      font-weight: bold;
+    }
+
+    @media (max-width: 800px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .modules {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="container">
+      <h1>PAR Management & KPI Dashboard</h1>
+      <p>Dynamic PAR Management • Medication Availability • KPI Analysis</p>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- KPI CARDS -->
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-title">Availability</div>
+        <div class="card-value" id="availability">--%</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Total Medications</div>
+        <div class="card-value" id="totalMedications">--</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Problem Items</div>
+        <div class="card-value" id="problemItems">--</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">PAR Changes</div>
+        <div class="card-value" id="parChanges">--</div>
+      </div>
+
+    </div>
+
+
+    <!-- UPLOAD -->
+    <div class="section">
+
+      <h2>Upload Excel File</h2>
+
+      <div class="upload-box">
+
+        <p>
+          Upload your Omnicell / PAR Excel export to start the analysis.
+        </p>
+
+        <input
+          type="file"
+          id="excelFile"
+          accept=".xlsx,.xls"
+        >
+
+        <br>
+
+        <button onclick="analyzeExcel()">
+          Start Analysis
+        </button>
+
+        <div id="status" class="status">
+          Waiting for Excel file...
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- DETECTED COLUMNS -->
+    <div class="section">
+
+      <h2>Detected Excel Columns</h2>
+
+      <div id="columns" class="columns">
+        No Excel file loaded yet.
+      </div>
+
+    </div>
+
+
+    <!-- DATA PREVIEW -->
+    <div class="section">
+
+      <h2>Excel Data Preview</h2>
+
+      <div class="table-container">
+
+        <table id="previewTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+
+    <!-- ANALYSIS MODULES -->
+    <div class="section">
+
+      <h2>Analysis Modules</h2>
+
+      <div class="modules">
+
+        <div class="module">
+          <h3>KPI Dashboard</h3>
+          <p>
+            Medication availability and KPI performance.
+          </p>
+        </div>
+
+        <div class="module">
+          <h3>Medication Analysis</h3>
+          <p>
+            PAR movement, usage and medication-level analysis.
+          </p>
+        </div>
+
+        <div class="module">
+          <h3>Ward / ADC Analysis</h3>
+          <p>
+            Identify wards and ADCs with availability or PAR problems.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- STATUS -->
+    <div class="section">
+
+      <h2>Analysis Status</h2>
+
+      <div id="analysisStatus">
+        No analysis performed yet.
+      </div>
+
+    </div>
+
+  </div>
+
+
+<script>
+
+async function analyzeExcel() {
+
+  const fileInput = document.getElementById("excelFile");
+
+  const status = document.getElementById("status");
+
+  const analysisStatus =
+    document.getElementById("analysisStatus");
+
+  if (!fileInput.files.length) {
+
+    status.innerHTML =
+      '<span class="warning">Please select an Excel file first.</span>';
+
+    return;
+  }
+
+  const file = fileInput.files[0];
+
+  status.innerHTML = "Reading Excel file...";
+
+  try {
+
+    const data = await file.arrayBuffer();
+
+    const workbook =
+      XLSX.read(data, { type: "array" });
+
+    const sheetName =
+      workbook.SheetNames[0];
+
+    const worksheet =
+      workbook.Sheets[sheetName];
+
+    const rows =
+      XLSX.utils.sheet_to_json(
+        worksheet,
+        {
+          defval: ""
+        }
+      );
+
+
+    /* --------------------------------
+       CHECK DATA
+    -------------------------------- */
+
+    if (!rows.length) {
+
+      status.innerHTML =
+        '<span class="warning">The Excel sheet is empty.</span>';
+
+      return;
+    }
+
+
+    /* --------------------------------
+       DETECT COLUMNS
+    -------------------------------- */
+
+    const columns =
+      Object.keys(rows[0]);
+
+
+    const columnsDiv =
+      document.getElementById("columns");
+
+    columnsDiv.innerHTML = "";
+
+    columns.forEach(column => {
+
+      const tag =
+        document.createElement("div");
+
+      tag.className = "tag";
+
+      tag.textContent = column;
+
+      columnsDiv.appendChild(tag);
+
+    });
+
+
+    /* --------------------------------
+       FIND MEDICATION COLUMN
+    -------------------------------- */
+
+    const medicationColumn =
+      findMedicationColumn(columns);
+
+
+    /* --------------------------------
+       CALCULATE UNIQUE MEDICATIONS
+    -------------------------------- */
+
+    let uniqueMedications = [];
+
+    if (medicationColumn) {
+
+      uniqueMedications =
+        rows
+          .map(row =>
+            String(
+              row[medicationColumn] || ""
+            ).trim()
+          )
+          .filter(value => value !== "");
+
+    }
+
+    const uniqueMedicationSet =
+      new Set(uniqueMedications);
+
+
+    /* --------------------------------
+       TOTAL MEDICATIONS
+    -------------------------------- */
+
+    document.getElementById(
+      "totalMedications"
+    ).textContent =
+      uniqueMedicationSet.size;
+
+
+    /* --------------------------------
+       PREVIEW
+    -------------------------------- */
+
+    createPreview(columns, rows);
+
+
+    /* --------------------------------
+       STATUS
+    -------------------------------- */
+
+    status.innerHTML =
+      '<span class="success">' +
+      'Excel loaded successfully. ' +
+      rows.length +
+      ' records found.' +
+      '</span>';
+
+
+    if (medicationColumn) {
+
+      analysisStatus.innerHTML =
+        '<span class="success">' +
+        'Medication column detected: "' +
+        medicationColumn +
+        '"<br>' +
+        'Unique medications: ' +
+        uniqueMedicationSet.size +
+        '<br>' +
+        'Total Excel records: ' +
+        rows.length +
+        '</span>';
+
+    } else {
+
+      analysisStatus.innerHTML =
+        '<span class="warning">' +
+        'Excel loaded, but the medication column could not be identified automatically.' +
+        '<br>Please check the Detected Excel Columns section.' +
+        '</span>';
+
+    }
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    status.innerHTML =
+      '<span class="warning">' +
+      'Error reading Excel file: ' +
+      error.message +
+      '</span>';
+
+  }
+
+}
+
+
+/* --------------------------------
+   FIND MEDICATION COLUMN
+-------------------------------- */
+
+function findMedicationColumn(columns) {
+
+  const keywords = [
+
+    "medication",
+    "medication name",
+    "drug",
+    "drug name",
+    "item",
+    "item name",
+    "medicine",
+    "medicine name",
+    "generic name",
+    "drug description",
+    "item description"
+
+  ];
+
+
+  /* Exact / partial match */
+
+  for (const column of columns) {
+
+    const normalized =
+      column
+        .toLowerCase()
+        .trim();
+
+    for (const keyword of keywords) {
+
+      if (
+        normalized === keyword ||
+        normalized.includes(keyword)
+      ) {
+
+        return column;
+
+      }
+
+    }
+
+  }
+
+
+  return null;
+
+}
+
+
+/* --------------------------------
+   CREATE DATA PREVIEW
+-------------------------------- */
+
+function createPreview(columns, rows) {
+
+  const table =
+    document.getElementById("previewTable");
+
+  const thead =
+    table.querySelector("thead");
+
+  const tbody =
+    table.querySelector("tbody");
+
+
+  thead.innerHTML = "";
+  tbody.innerHTML = "";
+
+
+  /* HEADER */
+
+  const headerRow =
+    document.createElement("tr");
+
+
+  columns.forEach(column => {
+
+    const th =
+      document.createElement("th");
+
+    th.textContent =
+      column;
+
+    headerRow.appendChild(th);
+
+  });
+
+
+  thead.appendChild(headerRow);
+
+
+  /* FIRST 20 ROWS */
+
+  rows.slice(0, 20).forEach(row => {
+
+    const tr =
+      document.createElement("tr");
+
+
+    columns.forEach(column => {
+
+      const td =
+        document.createElement("td");
+
+      td.textContent =
+        row[column];
+
+      tr.appendChild(td);
+
+    });
+
+
+    tbody.appendChild(tr);
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
+
+
+Sent from Yahoo Mail for iPhone
+
+On Thursday, October 8, 2026, 9:30 PM, Bushra Ayed <bushraayed@yahoo.com> wrote:
+
+"Excel loaded successfully. " +
+                rows.length +
+                " records found.";
+
+
+ 
+
+ 
+
+Bushra Ayed
+King Abdulaziz Medical City-Jeddah
+
+Pharmaceutical Care Department
+
+Tel : 012-2266666 Ext. 28862
+
+
+On Thursday, October 8, 2026 at 09:07:10 PM GMT+3, Bushra Ayed <bushraayed@yahoo.com> wrote:
+
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
 
