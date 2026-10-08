@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PAR Management & KPI Dashboard</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #1f2937;
+    }
+
+    header {
+      background: #17324d;
+      color: white;
+      padding: 24px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      opacity: 0.85;
+    }
+
+    .container {
+      padding: 24px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .card .number {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .section {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .upload-box {
+      border: 2px dashed #9ca3af;
+      padding: 35px;
+      text-align: center;
+      border-radius: 10px;
+    }
+
+    button {
+      background: #17324d;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>PAR Management & KPI Dashboard</h1>
+  <p>Medication Inventory Analysis & Dynamic PAR Management</p>
+</header>
+
+<div class="container">
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>Availability</h3>
+      <div class="number">--%</div>
+    </div>
+
+    <div class="card">
+      <h3>Total Medications</h3>
+      <div class="number">--</div>
+    </div>
+
+    <div class="card">
+      <h3>Problem Items</h3>
+      <div class="number">--</div>
+    </div>
+
+    <div class="card">
+      <h3>PAR Changes</h3>
+      <div class="number">--</div>
+    </div>
+
+  </div>
+
+  <div class="section">
+
+    <h2>Upload PAR Data</h2>
+
+    <div class="upload-box">
+
+      <p>Upload your Omnicell / PAR Excel file</p>
+
+      <input type="file" id="excelFile" accept=".xlsx,.xls">
+
+      <br><br>
+
+      <button onclick="analyzeFile()">
+        Analyze File
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="section">
+
+    <h2>Analysis</h2>
+
+    <p id="result">
+      Upload an Excel file to start the analysis.
+    </p>
+
+  </div>
+
+</div>
+
+<script>
+
+function analyzeFile() {
+
+  const file = document.getElementById("excelFile").files[0];
+
+  if (!file) {
+    alert("Please upload an Excel file first.");
+    return;
+  }
+
+  document.getElementById("result").innerText =
+    "File uploaded successfully. PAR analysis will be added next.";
+
+}
+
+</script>
+
+</body>
+</html>
