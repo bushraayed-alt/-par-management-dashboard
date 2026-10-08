@@ -1,6 +1,1253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MedAvail Intelligence</title>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f7fb;
+    color:#172033;
+}
+
+.container{
+    width:92%;
+    max-width:1400px;
+    margin:auto;
+}
+
+header{
+    background:white;
+    padding:32px 0;
+    border-bottom:1px solid #e7eaf0;
+}
+
+.header-content{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.brand h1{
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.brand p{
+    color:#687386;
+    font-size:15px;
+}
+
+.engine{
+    background:#eef4ff;
+    color:#3156a6;
+    padding:10px 16px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.upload-section{
+    margin:28px 0;
+    background:white;
+    padding:24px;
+    border-radius:16px;
+    border:1px solid #e7eaf0;
+}
+
+.upload-title{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.upload-subtitle{
+    color:#687386;
+    margin-bottom:18px;
+}
+
+.upload-row{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    align-items:center;
+}
+
+input[type="file"]{
+    padding:12px;
+    border:1px solid #d9dee8;
+    border-radius:10px;
+    background:#fafbfc;
+}
+
+button{
+    border:none;
+    padding:12px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    background:#3156a6;
+    color:white;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.status{
+    margin-top:14px;
+    color:#526071;
+    font-size:14px;
+}
+
+.kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:16px;
+    margin:24px 0;
+}
+
+.kpi{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    border:1px solid #e7eaf0;
+}
+
+.kpi-label{
+    color:#687386;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+.kpi-value{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.kpi-note{
+    margin-top:7px;
+    color:#8993a4;
+    font-size:12px;
+}
+
+.section{
+    background:white;
+    margin:24px 0;
+    padding:24px;
+    border-radius:16px;
+    border:1px solid #e7eaf0;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+}
+
+.section-title{
+    font-size:21px;
+    font-weight:bold;
+}
+
+.filters{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.filter-btn{
+    background:#f1f4f8;
+    color:#435066;
+    padding:9px 14px;
+    font-size:12px;
+}
+
+.filter-btn.active{
+    background:#3156a6;
+    color:white;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1050px;
+}
+
+th{
+    text-align:left;
+    background:#f7f8fa;
+    padding:13px;
+    font-size:12px;
+    color:#596579;
+    border-bottom:1px solid #e5e8ee;
+}
+
+td{
+    padding:13px;
+    border-bottom:1px solid #edf0f4;
+    font-size:13px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.badge-t{
+    background:#eaf7ef;
+    color:#247542;
+}
+
+.badge-f{
+    background:#f3f4f6;
+    color:#687386;
+}
+
+.badge-increase{
+    background:#fff1e8;
+    color:#b45309;
+}
+
+.badge-decrease{
+    background:#eef4ff;
+    color:#3156a6;
+}
+
+.badge-maintain{
+    background:#edf8f1;
+    color:#247542;
+}
+
+.empty{
+    text-align:center;
+    padding:45px;
+    color:#8a94a5;
+}
+
+.intelligence-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+}
+
+.intelligence-card{
+    padding:20px;
+    background:#f8f9fb;
+    border-radius:14px;
+    border:1px solid #e8ebf0;
+}
+
+.intelligence-card h3{
+    font-size:15px;
+    margin-bottom:8px;
+}
+
+.intelligence-card p{
+    color:#697487;
+    font-size:13px;
+    line-height:1.5;
+}
+
+footer{
+    text-align:center;
+    color:#8a94a5;
+    padding:30px 0 40px;
+    font-size:12px;
+}
+
+@media(max-width:1100px){
+    .kpi-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .intelligence-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:650px){
+    .container{
+        width:94%;
+    }
+
+    .header-content{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .kpi-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .intelligence-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="container header-content">
+
+        <div class="brand">
+            <h1>MedAvail Intelligence</h1>
+            <p>Smart Medication Availability &amp; Inventory Management</p>
+        </div>
+
+        <div class="engine">
+            Smart PAR Optimization Engine
+        </div>
+
+    </div>
+</header>
+
+
+<main class="container">
+
+    <!-- Upload -->
+    <section class="upload-section">
+
+        <div class="upload-title">
+            Analyze Medication Data
+        </div>
+
+        <div class="upload-subtitle">
+            Upload the raw medication export from the server.
+            MedAvail Intelligence will calculate the analysis automatically.
+        </div>
+
+        <div class="upload-row">
+
+            <input
+                type="file"
+                id="excelFile"
+                accept=".xlsx,.xls"
+            >
+
+            <button onclick="analyzeExcel()">
+                Start Analysis
+            </button>
+
+        </div>
+
+        <div class="status" id="status">
+            Waiting for Excel file...
+        </div>
+
+    </section>
+
+
+    <!-- KPI -->
+    <section class="kpi-grid">
+
+        <div class="kpi">
+            <div class="kpi-label">
+                Medication Availability
+            </div>
+            <div class="kpi-value" id="availability">
+                --%
+            </div>
+            <div class="kpi-note">
+                Based on zero-stock status
+            </div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">
+                Zero Stock Medications
+            </div>
+            <div class="kpi-value" id="zeroStock">
+                --
+            </div>
+            <div class="kpi-note">
+                Medications with Zero Days
+            </div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">
+                PAR Changes
+            </div>
+            <div class="kpi-value" id="parChanges">
+                --
+            </div>
+            <div class="kpi-note">
+                Increase or Decrease
+            </div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">
+                Total Medications
+            </div>
+            <div class="kpi-value" id="totalMedications">
+                --
+            </div>
+            <div class="kpi-note">
+                Unique medication items
+            </div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">
+                Used Medications (T)
+            </div>
+            <div class="kpi-value" id="usedMedications">
+                --
+            </div>
+            <div class="kpi-note">
+                TOTALQTY &gt; 0
+            </div>
+        </div>
+
+        <div class="kpi">
+            <div class="kpi-label">
+                Unused Medications (F)
+            </div>
+            <div class="kpi-value" id="unusedMedications">
+                --
+            </div>
+            <div class="kpi-note">
+                TOTALQTY = 0
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- Medication Analysis -->
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-title">
+                Medication Analysis
+            </div>
+
+            <div class="filters">
+
+                <button
+                    class="filter-btn active"
+                    onclick="filterMedicationTable('ALL', this)">
+                    All
+                </button>
+
+                <button
+                    class="filter-btn"
+                    onclick="filterMedicationTable('ZERO', this)">
+                    Zero Stock
+                </button>
+
+                <button
+                    class="filter-btn"
+                    onclick="filterMedicationTable('LOW', this)">
+                    Low Stock
+                </button>
+
+                <button
+                    class="filter-btn"
+                    onclick="filterMedicationTable('INCREASE', this)">
+                    Increase PAR
+                </button>
+
+                <button
+                    class="filter-btn"
+                    onclick="filterMedicationTable('DECREASE', this)">
+                    Decrease PAR
+                </button>
+
+                <button
+                    class="filter-btn"
+                    onclick="filterMedicationTable('MAINTAIN', this)">
+                    Maintain
+                </button>
+
+                <button
+                    class="filter-btn"
+                    onclick="filterMedicationTable('USED', this)">
+                    Used (T)
+                </button>
+
+                <button
+                    class="filter-btn"
+                    onclick="filterMedicationTable('UNUSED', this)">
+                    Unused (F)
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Medication</th>
+                        <th>Ward / ADC</th>
+                        <th>Current PAR</th>
+                        <th>On Hand</th>
+                        <th>Total Usage</th>
+                        <th>Used</th>
+                        <th>Low Days</th>
+                        <th>Zero Days</th>
+                        <th>Recommended PAR</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="medicationTable">
+
+                    <tr>
+                        <td colspan="10" class="empty">
+                            Upload an Excel file to start the analysis.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- Ward / ADC -->
+    <section class="section">
+
+        <div class="section-title">
+            Ward / ADC Analysis
+        </div>
+
+        <div class="intelligence-grid" style="margin-top:18px;">
+
+            <div class="intelligence-card">
+                <h3>Ward Performance</h3>
+                <p>
+                    Medication availability and utilization by ward
+                    will be calculated automatically.
+                </p>
+            </div>
+
+            <div class="intelligence-card">
+                <h3>ADC Performance</h3>
+                <p>
+                    Compare medication availability and stock status
+                    across ADC locations.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Intelligence -->
+    <section class="section">
+
+        <div class="section-title">
+            Intelligence Modules
+        </div>
+
+        <div class="intelligence-grid" style="margin-top:18px;">
+
+            <div class="intelligence-card">
+                <h3>Medication Movement</h3>
+                <p>
+                    Identify medications with increasing or decreasing
+                    utilization.
+                </p>
+            </div>
+
+            <div class="intelligence-card">
+                <h3>Smart PAR Optimization</h3>
+                <p>
+                    Recommend PAR adjustments based on medication
+                    utilization and availability.
+                </p>
+            </div>
+
+            <div class="intelligence-card">
+                <h3>Zero Stock Monitoring</h3>
+                <p>
+                    Detect medications experiencing zero-stock days
+                    and prioritize them for review.
+                </p>
+            </div>
+
+            <div class="intelligence-card">
+                <h3>Availability Performance</h3>
+                <p>
+                    Monitor medication availability and identify
+                    areas requiring intervention.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    MedAvail Intelligence — Smart Medication Availability &amp; Inventory Management
+</footer>
+
+
+<script>
+
+let medicationData = [];
+let currentFilter = "ALL";
+
+
+function normalize(value){
+
+    return String(value ?? "")
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ");
+
+}
+
+
+function parseNumber(value){
+
+    if(value === null || value === undefined || value === ""){
+        return 0;
+    }
+
+    if(typeof value === "number"){
+        return isFinite(value) ? value : 0;
+    }
+
+    let cleaned = String(value)
+        .replace(/,/g, "")
+        .replace(/[^\d.-]/g, "");
+
+    let number = parseFloat(cleaned);
+
+    return isFinite(number) ? number : 0;
+}
+
+
+function findColumn(headers, possibleNames){
+
+    const normalizedHeaders = headers.map(h => normalize(h));
+
+    for(const name of possibleNames){
+
+        const index = normalizedHeaders.indexOf(normalize(name));
+
+        if(index !== -1){
+            return headers[index];
+        }
+
+    }
+
+    return null;
+}
+
+
+function analyzeExcel(){
+
+    const fileInput = document.getElementById("excelFile");
+    const status = document.getElementById("status");
+
+    if(!fileInput.files.length){
+
+        status.textContent = "Please select an Excel file first.";
+        return;
+
+    }
+
+    const file = fileInput.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = function(event){
+
+        try{
+
+            const workbook = XLSX.read(
+                event.target.result,
+                {type:"array"}
+            );
+
+            const sheetName = workbook.SheetNames[0];
+
+            const worksheet = workbook.Sheets[sheetName];
+
+            const rows = XLSX.utils.sheet_to_json(
+                worksheet,
+                {defval:""}
+            );
+
+            if(!rows.length){
+
+                status.textContent =
+                    "The Excel file does not contain data.";
+
+                return;
+            }
+
+
+            const headers = Object.keys(rows[0]);
+
+
+            /*
+             * Raw server columns
+             */
+
+            const medicationColumn = findColumn(
+                headers,
+                [
+                    "ITEM_NAME"
+                ]
+            );
+
+            const itemIdColumn = findColumn(
+                headers,
+                [
+                    "ITEM_ID"
+                ]
+            );
+
+            const locationColumn = findColumn(
+                headers,
+                [
+                    "OMNI_STID"
+                ]
+            );
+
+            const parColumn = findColumn(
+                headers,
+                [
+                    "PAR"
+                ]
+            );
+
+            const onHandColumn = findColumn(
+                headers,
+                [
+                    "QTY_ONHAND"
+                ]
+            );
+
+            const usageColumn = findColumn(
+                headers,
+                [
+                    "TOTALQTY"
+                ]
+            );
+
+            const countDayColumn = findColumn(
+                headers,
+                [
+                    "COUNTDAY"
+                ]
+            );
+
+            const lowDaysColumn = findColumn(
+                headers,
+                [
+                    "LOWDAYS"
+                ]
+            );
+
+            const zeroDaysColumn = findColumn(
+                headers,
+                [
+                    "ZERODAYS"
+                ]
+            );
+
+
+            if(!medicationColumn){
+
+                status.textContent =
+                    "ITEM_NAME column was not found.";
+
+                return;
+            }
+
+
+            /*
+             * Build analysis dataset
+             */
+
+            medicationData = rows.map(row => {
+
+                const medication =
+                    String(row[medicationColumn] ?? "").trim();
+
+                const itemId =
+                    String(row[itemIdColumn] ?? "").trim();
+
+                const location =
+                    String(row[locationColumn] ?? "").trim();
+
+                const currentPAR =
+                    parseNumber(row[parColumn]);
+
+                const onHand =
+                    parseNumber(row[onHandColumn]);
+
+                const totalUsage =
+                    parseNumber(row[usageColumn]);
+
+                const countDays =
+                    parseNumber(row[countDayColumn]);
+
+                const lowDays =
+                    parseNumber(row[lowDaysColumn]);
+
+                const zeroDays =
+                    parseNumber(row[zeroDaysColumn]);
+
+
+                /*
+                 * Used status is calculated by the application.
+                 *
+                 * T = TOTALQTY > 0
+                 * F = TOTALQTY = 0
+                 */
+
+                const used =
+                    totalUsage > 0;
+
+
+                /*
+                 * Temporary PAR calculation.
+                 *
+                 * This will be replaced with the approved
+                 * Smart PAR Optimization methodology.
+                 */
+
+                let recommendedPAR = 0;
+
+                if(totalUsage > 0){
+
+                    recommendedPAR =
+                        Math.ceil(totalUsage / 3);
+
+                }
+
+
+                let action = "MAINTAIN";
+
+
+                if(
+                    currentPAR > 0 &&
+                    recommendedPAR > currentPAR
+                ){
+
+                    action = "INCREASE";
+
+                }
+                else if(
+                    currentPAR > 0 &&
+                    recommendedPAR < currentPAR
+                ){
+
+                    action = "DECREASE";
+
+                }
+
+
+                return {
+
+                    medication,
+                    itemId,
+                    location,
+                    currentPAR,
+                    onHand,
+                    totalUsage,
+                    countDays,
+                    lowDays,
+                    zeroDays,
+                    used,
+                    recommendedPAR,
+                    action
+
+                };
+
+            });
+
+
+            updateKPIs();
+
+            displayMedicationAnalysis();
+
+            status.textContent =
+                `Excel loaded successfully. ${medicationData.length} records analyzed.`;
+
+        }
+        catch(error){
+
+            console.error(error);
+
+            status.textContent =
+                "Unable to analyze the Excel file.";
+
+        }
+
+    };
+
+
+    reader.readAsArrayBuffer(file);
+
+}
+
+
+function updateKPIs(){
+
+    /*
+     * Total rows / medication records
+     */
+
+    const total =
+        medicationData.length;
+
+
+    /*
+     * Used / Unused
+     */
+
+    const used =
+        medicationData.filter(item => item.used).length;
+
+    const unused =
+        medicationData.filter(item => !item.used).length;
+
+
+    /*
+     * Zero stock
+     */
+
+    const zeroStock =
+        medicationData.filter(
+            item => item.zeroDays > 0
+        ).length;
+
+
+    /*
+     * Availability
+     */
+
+    let availability = 0;
+
+    if(total > 0){
+
+        const available =
+            medicationData.filter(
+                item => item.zeroDays === 0
+            ).length;
+
+        availability =
+            (available / total) * 100;
+
+    }
+
+
+    /*
+     * PAR changes
+     */
+
+    const parChanges =
+        medicationData.filter(
+            item =>
+                item.action === "INCREASE" ||
+                item.action === "DECREASE"
+        ).length;
+
+
+    document.getElementById("availability")
+        .textContent =
+        availability.toFixed(1) + "%";
+
+
+    document.getElementById("zeroStock")
+        .textContent =
+        zeroStock;
+
+
+    document.getElementById("parChanges")
+        .textContent =
+        parChanges;
+
+
+    document.getElementById("totalMedications")
+        .textContent =
+        total;
+
+
+    document.getElementById("usedMedications")
+        .textContent =
+        used;
+
+
+    document.getElementById("unusedMedications")
+        .textContent =
+        unused;
+
+}
+
+
+function displayMedicationAnalysis(){
+
+    const table =
+        document.getElementById("medicationTable");
+
+
+    let filtered =
+        medicationData.filter(item => {
+
+            if(currentFilter === "ALL"){
+                return true;
+            }
+
+            if(currentFilter === "ZERO"){
+                return item.zeroDays > 0;
+            }
+
+            if(currentFilter === "LOW"){
+                return item.lowDays > 0;
+            }
+
+            if(currentFilter === "INCREASE"){
+                return item.action === "INCREASE";
+            }
+
+            if(currentFilter === "DECREASE"){
+                return item.action === "DECREASE";
+            }
+
+            if(currentFilter === "MAINTAIN"){
+                return item.action === "MAINTAIN";
+            }
+
+            if(currentFilter === "USED"){
+                return item.used;
+            }
+
+            if(currentFilter === "UNUSED"){
+                return !item.used;
+            }
+
+            return true;
+
+        });
+
+
+    if(!filtered.length){
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="10" class="empty">
+                    No medications match this filter.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    table.innerHTML =
+        filtered.map(item => {
+
+            const usedBadge =
+                item.used
+                ? `<span class="badge badge-t">T</span>`
+                : `<span class="badge badge-f">F</span>`;
+
+
+            let actionBadge = "";
+
+            if(item.action === "INCREASE"){
+
+                actionBadge =
+                    `<span class="badge badge-increase">
+                        INCREASE
+                    </span>`;
+
+            }
+            else if(item.action === "DECREASE"){
+
+                actionBadge =
+                    `<span class="badge badge-decrease">
+                        DECREASE
+                    </span>`;
+
+            }
+            else{
+
+                actionBadge =
+                    `<span class="badge badge-maintain">
+                        MAINTAIN
+                    </span>`;
+
+            }
+
+
+            return `
+                <tr>
+
+                    <td>
+                        ${escapeHTML(item.medication)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(item.location)}
+                    </td>
+
+                    <td>
+                        ${formatNumber(item.currentPAR)}
+                    </td>
+
+                    <td>
+                        ${formatNumber(item.onHand)}
+                    </td>
+
+                    <td>
+                        ${formatNumber(item.totalUsage)}
+                    </td>
+
+                    <td>
+                        ${usedBadge}
+                    </td>
+
+                    <td>
+                        ${formatNumber(item.lowDays)}
+                    </td>
+
+                    <td>
+                        ${formatNumber(item.zeroDays)}
+                    </td>
+
+                    <td>
+                        ${formatNumber(item.recommendedPAR)}
+                    </td>
+
+                    <td>
+                        ${actionBadge}
+                    </td>
+
+                </tr>
+            `;
+
+        }).join("");
+
+}
+
+
+function filterMedicationTable(filter, button){
+
+    currentFilter = filter;
+
+
+    document
+        .querySelectorAll(".filter-btn")
+        .forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+
+    if(button){
+
+        button.classList.add("active");
+
+    }
+
+
+    displayMedicationAnalysis();
+
+}
+
+
+function formatNumber(value){
+
+    return Number(value || 0)
+        .toLocaleString(undefined,{
+            maximumFractionDigits:2
+        });
+
+}
+
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
+
+
+Sent from Yahoo Mail for iPhone
+
+On Thursday, October 8, 2026, 10:07 PM, Bushra Ayed <bushraayed@yahoo.com> wrote:
+
+OMNI_STID	ITEM_ID	ITEM_NAME	RX_SUFFIX	RX_DISP	ITEM_USED	PAR	QTY_ONHAND	RO	CL	TOTALQTY	UNIT_ISSUE	EXT_COST	AVG_COST	MINQTY	MAXQTY	AVGQTY	COUNTDAY	LOWDAYS	ZERODAYS	XACT_DATI	XFER_TYPE
+
+
+ 
+
+ 
+
+Bushra Ayed
+King Abdulaziz Medical City-Jeddah
+
+Pharmaceutical Care Department
+
+Tel : 012-2266666 Ext. 28862
+
+
+On Thursday, October 8, 2026 at 09:54:55 PM GMT+3, Bushra Ayed <bushraayed@yahoo.com> wrote:
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
