@@ -6,9 +6,11 @@
 
   <title>MedAvail Intelligence</title>
 
+  <!-- Excel Reader -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -20,49 +22,55 @@
       color: #1f2937;
     }
 
-    /* HEADER */
+    /* =========================
+       HEADER
+    ========================= */
 
     .header {
       background: linear-gradient(135deg, #17365d, #245b8f);
       color: white;
-      padding: 38px 20px;
+      padding: 40px 20px;
     }
 
     .header-content {
-      max-width: 1200px;
+      max-width: 1250px;
       margin: auto;
     }
 
     .brand {
-      font-size: 34px;
-      font-weight: 700;
       margin: 0;
+      font-size: 36px;
+      font-weight: 700;
     }
 
     .tagline {
-      font-size: 16px;
       margin-top: 10px;
+      font-size: 16px;
       opacity: 0.95;
     }
 
     .engine {
       display: inline-block;
       margin-top: 18px;
-      padding: 8px 14px;
+      padding: 8px 15px;
       border-radius: 20px;
       background: rgba(255,255,255,0.15);
       font-size: 13px;
     }
 
-    /* MAIN */
+    /* =========================
+       CONTAINER
+    ========================= */
 
     .container {
-      max-width: 1200px;
-      margin: 28px auto;
+      max-width: 1250px;
+      margin: 30px auto;
       padding: 0 18px;
     }
 
-    /* KPI */
+    /* =========================
+       KPI CARDS
+    ========================= */
 
     .kpi-grid {
       display: grid;
@@ -74,9 +82,9 @@
     .kpi-card {
       background: white;
       border-radius: 16px;
-      padding: 22px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+      padding: 23px;
       border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
     }
 
     .kpi-label {
@@ -91,21 +99,23 @@
       color: #17365d;
     }
 
-    /* SECTIONS */
+    /* =========================
+       SECTION
+    ========================= */
 
     .section {
       background: white;
       border-radius: 16px;
       padding: 25px;
       margin-bottom: 24px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
 
     .section-title {
-      font-size: 21px;
-      font-weight: 700;
+      margin: 0 0 7px;
       color: #17365d;
-      margin: 0 0 8px;
+      font-size: 21px;
     }
 
     .section-subtitle {
@@ -114,14 +124,16 @@
       margin-bottom: 20px;
     }
 
-    /* UPLOAD */
+    /* =========================
+       UPLOAD
+    ========================= */
 
     .upload-box {
-      border: 2px dashed #b8c4d3;
+      border: 2px dashed #b7c3d1;
       border-radius: 14px;
       padding: 35px;
       text-align: center;
-      background: #f9fbfd;
+      background: #fafbfd;
     }
 
     .upload-title {
@@ -139,18 +151,18 @@
       margin: 10px;
     }
 
-    button {
+    .primary-button {
       background: #17365d;
       color: white;
       border: none;
-      padding: 12px 25px;
+      padding: 12px 24px;
       border-radius: 9px;
       cursor: pointer;
       font-size: 15px;
       font-weight: 600;
     }
 
-    button:hover {
+    .primary-button:hover {
       background: #102c4b;
     }
 
@@ -169,7 +181,97 @@
       font-weight: 600;
     }
 
-    /* MODULES */
+    /* =========================
+       FILTERS
+    ========================= */
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 20px;
+    }
+
+    .filter-button {
+      border: 1px solid #d1d5db;
+      background: white;
+      color: #374151;
+      padding: 9px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .filter-button:hover {
+      background: #eef3f8;
+    }
+
+    .filter-button.active {
+      background: #17365d;
+      color: white;
+      border-color: #17365d;
+    }
+
+    /* =========================
+       TABLE
+    ========================= */
+
+    .table-container {
+      overflow-x: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 950px;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: #17365d;
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .action-increase {
+      color: #166534;
+      font-weight: 700;
+    }
+
+    .action-decrease {
+      color: #b45309;
+      font-weight: 700;
+    }
+
+    .action-maintain {
+      color: #475569;
+      font-weight: 700;
+    }
+
+    .empty-message {
+      padding: 30px;
+      text-align: center;
+      color: #6b7280;
+    }
+
+    /* =========================
+       ANALYSIS MODULES
+    ========================= */
 
     .module-grid {
       display: grid;
@@ -178,16 +280,15 @@
     }
 
     .module {
+      background: #fafbfd;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
       padding: 22px;
-      background: #fafbfd;
     }
 
     .module h3 {
-      color: #17365d;
       margin-top: 0;
-      margin-bottom: 8px;
+      color: #17365d;
     }
 
     .module p {
@@ -198,15 +299,17 @@
 
     .module-tag {
       display: inline-block;
-      margin-top: 10px;
+      margin-top: 8px;
+      padding: 6px 10px;
       background: #e8eef7;
       color: #17365d;
-      padding: 6px 10px;
       border-radius: 15px;
       font-size: 12px;
     }
 
-    /* FOOTER */
+    /* =========================
+       FOOTER
+    ========================= */
 
     .footer {
       text-align: center;
@@ -215,7 +318,9 @@
       font-size: 13px;
     }
 
-    /* MOBILE */
+    /* =========================
+       RESPONSIVE
+    ========================= */
 
     @media (max-width: 850px) {
 
@@ -236,7 +341,11 @@
       }
 
       .brand {
-        font-size: 27px;
+        font-size: 28px;
+      }
+
+      .upload-box {
+        padding: 25px 15px;
       }
 
     }
@@ -244,307 +353,476 @@
   </style>
 </head>
 
+
 <body>
 
-  <!-- HEADER -->
 
-  <header class="header">
+<!-- =========================
+     HEADER
+========================= -->
 
-    <div class="header-content">
+<header class="header">
 
-      <h1 class="brand">
-        MedAvail Intelligence
-      </h1>
+  <div class="header-content">
 
-      <div class="tagline">
-        Smart Medication Availability & Inventory Management
-      </div>
+    <h1 class="brand">
+      MedAvail Intelligence
+    </h1>
 
-      <div class="engine">
-        Smart PAR Optimization Engine
-      </div>
-
+    <div class="tagline">
+      Smart Medication Availability & Inventory Management
     </div>
 
-  </header>
+    <div class="engine">
+      Smart PAR Optimization Engine
+    </div>
+
+  </div>
+
+</header>
 
 
-  <main class="container">
+<main class="container">
 
 
-    <!-- KPI DASHBOARD -->
+<!-- =========================
+     KPI DASHBOARD
+========================= -->
 
-    <div class="kpi-grid">
-
-      <div class="kpi-card">
-
-        <div class="kpi-label">
-          Medication Availability
-        </div>
-
-        <div
-          class="kpi-value"
-          id="availability"
-        >
-          --%
-        </div>
-
-      </div>
+<div class="kpi-grid">
 
 
-      <div class="kpi-card">
+  <div class="kpi-card">
 
-        <div class="kpi-label">
-          Zero Stock Medications
-        </div>
+    <div class="kpi-label">
+      Medication Availability
+    </div>
 
-        <div
-          class="kpi-value"
-          id="zeroStock"
-        >
-          --
-        </div>
+    <div
+      class="kpi-value"
+      id="availability"
+    >
+      --%
+    </div>
 
-      </div>
-
-
-      <div class="kpi-card">
-
-        <div class="kpi-label">
-          PAR Changes
-        </div>
-
-        <div
-          class="kpi-value"
-          id="parChanges"
-        >
-          --
-        </div>
-
-      </div>
+  </div>
 
 
-      <div class="kpi-card">
+  <div class="kpi-card">
 
-        <div class="kpi-label">
-          Total Medications
-        </div>
+    <div class="kpi-label">
+      Zero Stock Medications
+    </div>
 
-        <div
-          class="kpi-value"
-          id="totalMedications"
-        >
-          --
-        </div>
+    <div
+      class="kpi-value"
+      id="zeroStock"
+    >
+      --
+    </div>
 
-      </div>
+  </div>
 
+
+  <div class="kpi-card">
+
+    <div class="kpi-label">
+      PAR Changes
+    </div>
+
+    <div
+      class="kpi-value"
+      id="parChanges"
+    >
+      --
+    </div>
+
+  </div>
+
+
+  <div class="kpi-card">
+
+    <div class="kpi-label">
+      Total Medications
+    </div>
+
+    <div
+      class="kpi-value"
+      id="totalMedications"
+    >
+      --
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<!-- =========================
+     UPLOAD
+========================= -->
+
+<section class="section">
+
+  <h2 class="section-title">
+    Upload Medication Data
+  </h2>
+
+  <div class="section-subtitle">
+    Upload your pharmacy inventory or Omnicell Excel export to begin the analysis.
+  </div>
+
+
+  <div class="upload-box">
+
+    <div class="upload-title">
+      Upload Excel File
+    </div>
+
+    <div class="upload-text">
+      Supported formats: .xlsx and .xls
     </div>
 
 
-    <!-- UPLOAD -->
+    <input
+      type="file"
+      id="excelFile"
+      accept=".xlsx,.xls"
+    >
 
-    <section class="section">
 
-      <h2 class="section-title">
-        Upload Medication Data
-      </h2>
-
-      <div class="section-subtitle">
-        Upload your pharmacy inventory or Omnicell Excel export to begin the analysis.
-      </div>
-
-
-      <div class="upload-box">
-
-        <div class="upload-title">
-          Upload Excel File
-        </div>
-
-        <div class="upload-text">
-          Supported formats: .xlsx and .xls
-        </div>
-
-
-        <input
-          type="file"
-          id="excelFile"
-          accept=".xlsx,.xls"
-        >
-
-        <br>
-
-        <button onclick="analyzeExcel()">
-          Start Analysis
-        </button>
-
-
-        <div id="status">
-          Waiting for Excel file...
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- MEDICATION ANALYSIS -->
-
-    <section class="section">
-
-      <h2 class="section-title">
-        Medication Analysis
-      </h2>
-
-      <div class="section-subtitle">
-        Identify medication stock risks and optimize inventory levels.
-      </div>
-
-
-      <div class="module-grid">
-
-        <div class="module">
-
-          <h3>
-            Medication Movement
-          </h3>
-
-          <p>
-            Analyze medication consumption and identify medications with significant increases or decreases in demand.
-          </p>
-
-          <span class="module-tag">
-            Usage Analysis
-          </span>
-
-        </div>
-
-
-        <div class="module">
-
-          <h3>
-            Smart PAR Optimization
-          </h3>
-
-          <p>
-            Recommend PAR increases, decreases, or maintenance based on medication demand and availability.
-          </p>
-
-          <span class="module-tag">
-            PAR Optimization
-          </span>
-
-        </div>
-
-
-        <div class="module">
-
-          <h3>
-            Zero Stock Monitoring
-          </h3>
-
-          <p>
-            Identify medications that reached zero stock and highlight potential availability risks.
-          </p>
-
-          <span class="module-tag">
-            Stockout Prevention
-          </span>
-
-        </div>
-
-
-        <div class="module">
-
-          <h3>
-            Availability Performance
-          </h3>
-
-          <p>
-            Monitor medication availability and track performance against the target KPI.
-          </p>
-
-          <span class="module-tag">
-            KPI Monitoring
-          </span>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- WARD / ADC -->
-
-    <section class="section">
-
-      <h2 class="section-title">
-        Ward / ADC Analysis
-      </h2>
-
-      <div class="section-subtitle">
-        Identify areas requiring attention and prioritize inventory optimization.
-      </div>
-
-
-      <div class="module-grid">
-
-        <div class="module">
-
-          <h3>
-            Ward Performance
-          </h3>
-
-          <p>
-            Compare medication availability and stock performance across wards.
-          </p>
-
-          <span class="module-tag">
-            Ward KPI
-          </span>
-
-        </div>
-
-
-        <div class="module">
-
-          <h3>
-            ADC Performance
-          </h3>
-
-          <p>
-            Identify ADCs with zero stock, low stock, or PAR optimization opportunities.
-          </p>
-
-          <span class="module-tag">
-            ADC Analysis
-          </span>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-  </main>
-
-
-  <footer class="footer">
-
-    MedAvail Intelligence
     <br>
-    Smart Medication Availability & Inventory Management
 
-  </footer>
+
+    <button
+      class="primary-button"
+      onclick="analyzeExcel()"
+    >
+      Start Analysis
+    </button>
+
+
+    <div id="status">
+      Waiting for Excel file...
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     MEDICATION ANALYSIS
+========================= -->
+
+<section class="section">
+
+  <h2 class="section-title">
+    Medication Analysis
+  </h2>
+
+  <div class="section-subtitle">
+    Identify stock risks and optimize medication inventory levels.
+  </div>
+
+
+  <!-- FILTERS -->
+
+  <div class="filters">
+
+    <button
+      class="filter-button active"
+      onclick="filterMedicationTable('ALL', this)"
+    >
+      All
+    </button>
+
+
+    <button
+      class="filter-button"
+      onclick="filterMedicationTable('ZERO', this)"
+    >
+      Zero Stock
+    </button>
+
+
+    <button
+      class="filter-button"
+      onclick="filterMedicationTable('LOW', this)"
+    >
+      Low Stock
+    </button>
+
+
+    <button
+      class="filter-button"
+      onclick="filterMedicationTable('INCREASE', this)"
+    >
+      Increase PAR
+    </button>
+
+
+    <button
+      class="filter-button"
+      onclick="filterMedicationTable('DECREASE', this)"
+    >
+      Decrease PAR
+    </button>
+
+
+    <button
+      class="filter-button"
+      onclick="filterMedicationTable('MAINTAIN', this)"
+    >
+      Maintain
+    </button>
+
+  </div>
+
+
+  <!-- TABLE -->
+
+  <div class="table-container">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>
+            Medication
+          </th>
+
+          <th>
+            Ward / ADC
+          </th>
+
+          <th>
+            Current PAR
+          </th>
+
+          <th>
+            3-Month Usage
+          </th>
+
+          <th>
+            Recommended PAR
+          </th>
+
+          <th>
+            Zero Days
+          </th>
+
+          <th>
+            Low Days
+          </th>
+
+          <th>
+            Action
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody id="medicationTableBody">
+
+        <tr>
+
+          <td
+            colspan="8"
+            class="empty-message"
+          >
+
+            Upload an Excel file to display medication analysis.
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     WARD / ADC ANALYSIS
+========================= -->
+
+<section class="section">
+
+  <h2 class="section-title">
+    Ward / ADC Analysis
+  </h2>
+
+  <div class="section-subtitle">
+    Identify areas requiring attention and prioritize inventory optimization.
+  </div>
+
+
+  <div class="module-grid">
+
+
+    <div class="module">
+
+      <h3>
+        Ward Performance
+      </h3>
+
+      <p>
+        Compare medication availability and stock performance across wards.
+      </p>
+
+      <span class="module-tag">
+        Ward KPI
+      </span>
+
+    </div>
+
+
+    <div class="module">
+
+      <h3>
+        ADC Performance
+      </h3>
+
+      <p>
+        Identify ADCs with zero stock, low stock, or PAR optimization opportunities.
+      </p>
+
+      <span class="module-tag">
+        ADC Analysis
+      </span>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     ANALYSIS MODULES
+========================= -->
+
+<section class="section">
+
+  <h2 class="section-title">
+    Intelligence Modules
+  </h2>
+
+  <div class="section-subtitle">
+    Turn pharmacy data into actionable inventory decisions.
+  </div>
+
+
+  <div class="module-grid">
+
+
+    <div class="module">
+
+      <h3>
+        Medication Movement
+      </h3>
+
+      <p>
+        Analyze medication consumption and identify significant increases or decreases in demand.
+      </p>
+
+      <span class="module-tag">
+        Usage Analysis
+      </span>
+
+    </div>
+
+
+    <div class="module">
+
+      <h3>
+        Smart PAR Optimization
+      </h3>
+
+      <p>
+        Recommend PAR increases, decreases, or maintenance based on demand and availability.
+      </p>
+
+      <span class="module-tag">
+        PAR Optimization
+      </span>
+
+    </div>
+
+
+    <div class="module">
+
+      <h3>
+        Zero Stock Monitoring
+      </h3>
+
+      <p>
+        Identify medications reaching zero stock and highlight potential availability risks.
+      </p>
+
+      <span class="module-tag">
+        Stockout Prevention
+      </span>
+
+    </div>
+
+
+    <div class="module">
+
+      <h3>
+        Availability Performance
+      </h3>
+
+      <p>
+        Monitor medication availability and track performance against the target KPI.
+      </p>
+
+      <span class="module-tag">
+        KPI Monitoring
+      </span>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+</main>
+
+
+<footer class="footer">
+
+  MedAvail Intelligence
+  <br>
+  Smart Medication Availability & Inventory Management
+
+</footer>
 
 
 <script>
 
+/* ==========================================
+   GLOBAL DATA
+========================================== */
+
+let medicationAnalysisData = [];
+
 
 /* ==========================================
-   MAIN EXCEL ANALYSIS
+   EXCEL ANALYSIS
 ========================================== */
 
 async function analyzeExcel() {
@@ -622,19 +900,96 @@ async function analyzeExcel() {
       Object.keys(rows[0]);
 
 
-    /* FIND MEDICATION COLUMN */
+    /* FIND COLUMNS */
 
     const medicationColumn =
-      findMedicationColumn(columns);
+      findColumn(
+        columns,
+        [
+          "medication",
+          "medication name",
+          "drug",
+          "drug name",
+          "item",
+          "item name",
+          "medicine",
+          "medicine name",
+          "generic name",
+          "drug description",
+          "item description"
+        ]
+      );
 
 
-    let uniqueMedications =
+    const locationColumn =
+      findColumn(
+        columns,
+        [
+          "ward",
+          "adc",
+          "location",
+          "station",
+          "unit"
+        ]
+      );
+
+
+    const currentPARColumn =
+      findColumn(
+        columns,
+        [
+          "current par",
+          "par",
+          "currentpar"
+        ]
+      );
+
+
+    const usageColumn =
+      findColumn(
+        columns,
+        [
+          "3-month usage",
+          "3 month usage",
+          "3-month consumption",
+          "3 month consumption",
+          "usage",
+          "consumption"
+        ]
+      );
+
+
+    const zeroDaysColumn =
+      findColumn(
+        columns,
+        [
+          "zero days",
+          "zero day",
+          "zero"
+        ]
+      );
+
+
+    const lowDaysColumn =
+      findColumn(
+        columns,
+        [
+          "low days",
+          "low day",
+          "low"
+        ]
+      );
+
+
+    /* UNIQUE MEDICATIONS */
+
+    const uniqueMedications =
       new Set();
 
 
-    if (medicationColumn) {
+    rows.forEach(row => {
 
-      rows.forEach(row => {
+      if (medicationColumn) {
 
         const medication =
           String(
@@ -642,7 +997,7 @@ async function analyzeExcel() {
           ).trim();
 
 
-        if (medication !== "") {
+        if (medication) {
 
           uniqueMedications.add(
             medication
@@ -650,12 +1005,10 @@ async function analyzeExcel() {
 
         }
 
-      });
+      }
 
-    }
+    });
 
-
-    /* TOTAL MEDICATIONS */
 
     document.getElementById(
       "totalMedications"
@@ -663,7 +1016,208 @@ async function analyzeExcel() {
       uniqueMedications.size;
 
 
-    /* TEMPORARY STATUS */
+    /* BUILD ANALYSIS */
+
+    medicationAnalysisData =
+      rows.map(row => {
+
+        const medication =
+          medicationColumn
+            ? row[medicationColumn]
+            : "";
+
+
+        const location =
+          locationColumn
+            ? row[locationColumn]
+            : "";
+
+
+        const currentPAR =
+          currentPARColumn
+            ? parseNumber(row[currentPARColumn])
+            : null;
+
+
+        const usage =
+          usageColumn
+            ? parseNumber(row[usageColumn])
+            : null;
+
+
+        const zeroDays =
+          zeroDaysColumn
+            ? parseNumber(row[zeroDaysColumn])
+            : 0;
+
+
+        const lowDays =
+          lowDaysColumn
+            ? parseNumber(row[lowDaysColumn])
+            : 0;
+
+
+        let recommendedPAR =
+          null;
+
+
+        let action =
+          "MAINTAIN";
+
+
+        /*
+          Temporary recommendation logic.
+
+          Final PAR calculation will be
+          replaced with the approved project
+          methodology after testing the
+          actual Omnicell export.
+        */
+
+        if (
+          usage !== null &&
+          !isNaN(usage)
+        ) {
+
+          recommendedPAR =
+            Math.ceil(
+              usage / 3
+            );
+
+        }
+
+
+        if (
+          currentPAR !== null &&
+          recommendedPAR !== null
+        ) {
+
+          if (
+            recommendedPAR >
+            currentPAR
+          ) {
+
+            action =
+              "INCREASE";
+
+          }
+          else if (
+            recommendedPAR <
+            currentPAR
+          ) {
+
+            action =
+              "DECREASE";
+
+          }
+          else {
+
+            action =
+              "MAINTAIN";
+
+          }
+
+        }
+
+
+        return {
+
+          medication:
+            medication || "-",
+
+          location:
+            location || "-",
+
+          currentPAR:
+            currentPAR,
+
+          usage:
+            usage,
+
+          recommendedPAR:
+            recommendedPAR,
+
+          zeroDays:
+            zeroDays,
+
+          lowDays:
+            lowDays,
+
+          action:
+            action
+
+        };
+
+      });
+
+
+    /* DISPLAY */
+
+    displayMedicationAnalysis(
+      medicationAnalysisData
+    );
+
+
+    /* ZERO STOCK KPI */
+
+    const zeroStockCount =
+      medicationAnalysisData.filter(
+        item =>
+          Number(item.zeroDays) > 0
+      ).length;
+
+
+    document.getElementById(
+      "zeroStock"
+    ).textContent =
+      zeroStockCount;
+
+
+    /* PAR CHANGE KPI */
+
+    const parChangeCount =
+      medicationAnalysisData.filter(
+        item =>
+          item.action === "INCREASE" ||
+          item.action === "DECREASE"
+      ).length;
+
+
+    document.getElementById(
+      "parChanges"
+    ).textContent =
+      parChangeCount;
+
+
+    /* AVAILABILITY */
+
+    const totalRows =
+      medicationAnalysisData.length;
+
+
+    const availableRows =
+      medicationAnalysisData.filter(
+        item =>
+          Number(item.zeroDays) === 0
+      ).length;
+
+
+    if (totalRows > 0) {
+
+      const availability =
+        (
+          availableRows /
+          totalRows
+        ) * 100;
+
+
+      document.getElementById(
+        "availability"
+      ).textContent =
+        availability.toFixed(1) + "%";
+
+    }
+
 
     status.innerHTML =
       '<span class="success">' +
@@ -673,34 +1227,8 @@ async function analyzeExcel() {
       '</span>';
 
 
-    console.log(
-      "Detected columns:",
-      columns
-    );
-
-
-    console.log(
-      "Medication column:",
-      medicationColumn
-    );
-
-
-    console.log(
-      "Unique medications:",
-      uniqueMedications.size
-    );
-
-
-    /*
-      NEXT STEP:
-      Medication Availability
-      Zero Stock
-      PAR Changes
-      Ward / ADC Analysis
-    */
-
-
-  } catch (error) {
+  }
+  catch (error) {
 
     console.error(error);
 
@@ -717,37 +1245,13 @@ async function analyzeExcel() {
 
 
 /* ==========================================
-   FIND MEDICATION COLUMN
+   FIND COLUMN
 ========================================== */
 
-function findMedicationColumn(columns) {
-
-  const keywords = [
-
-    "medication",
-
-    "medication name",
-
-    "drug",
-
-    "drug name",
-
-    "item",
-
-    "item name",
-
-    "medicine",
-
-    "medicine name",
-
-    "generic name",
-
-    "drug description",
-
-    "item description"
-
-  ];
-
+function findColumn(
+  columns,
+  keywords
+) {
 
   for (
     const column of columns
@@ -763,9 +1267,15 @@ function findMedicationColumn(columns) {
       const keyword of keywords
     ) {
 
+      const key =
+        keyword
+          .toLowerCase()
+          .trim();
+
+
       if (
-        normalized === keyword ||
-        normalized.includes(keyword)
+        normalized === key ||
+        normalized.includes(key)
       ) {
 
         return column;
@@ -782,461 +1292,337 @@ function findMedicationColumn(columns) {
 }
 
 
-</script>
+/* ==========================================
+   NUMBER CONVERSION
+========================================== */
 
-</body>
-</html>
+function parseNumber(value) {
 
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
 
-Sent from Yahoo Mail for iPhone
+    return null;
 
-On Thursday, October 8, 2026, 9:30 PM, Bushra Ayed <bushraayed@yahoo.com> wrote:
-
-"Excel loaded successfully. " +
-                rows.length +
-                " records found.";
-
-
- 
-
- 
-
-Bushra Ayed
-King Abdulaziz Medical City-Jeddah
-
-Pharmaceutical Care Department
-
-Tel : 012-2266666 Ext. 28862
+  }
 
 
-On Thursday, October 8, 2026 at 09:07:10 PM GMT+3, Bushra Ayed <bushraayed@yahoo.com> wrote:
+  const number =
+    Number(
+      String(value)
+        .replace(/,/g, "")
+        .trim()
+    );
 
 
-<!DOCTYPE html>
-<html lang="en">
+  return isNaN(number)
+    ? null
+    : number;
 
-<head>
-
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PAR Management & KPI Dashboard</title>
-
-<style>
-
-* {
-    box-sizing: border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    color: #1f2937;
-}
 
-header {
-    background: #17324d;
-    color: white;
-    padding: 28px 35px;
-}
+/* ==========================================
+   DISPLAY TABLE
+========================================== */
 
-header h1 {
-    margin: 0;
-    font-size: 28px;
-}
+function displayMedicationAnalysis(
+  data
+) {
 
-header p {
-    margin: 8px 0 0;
-    opacity: 0.85;
-}
+  const tbody =
+    document.getElementById(
+      "medicationTableBody"
+    );
 
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 30px;
-}
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 25px;
-}
+  tbody.innerHTML = "";
 
-.card {
-    background: white;
-    border-radius: 12px;
-    padding: 22px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
 
-.card h3 {
-    margin: 0 0 12px;
-    font-size: 14px;
-    color: #6b7280;
-}
+  if (!data.length) {
 
-.number {
-    font-size: 30px;
-    font-weight: bold;
-}
+    tbody.innerHTML = `
 
-.section {
-    background: white;
-    border-radius: 12px;
-    padding: 25px;
-    margin-bottom: 22px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
+      <tr>
 
-.upload-box {
-    border: 2px dashed #9ca3af;
-    border-radius: 10px;
-    padding: 35px;
-    text-align: center;
-}
+        <td
+          colspan="8"
+          class="empty-message"
+        >
 
-input[type="file"] {
-    margin: 15px;
-}
+          No medication data available.
 
-button {
-    background: #17324d;
-    color: white;
-    border: none;
-    padding: 12px 22px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-}
+        </td>
 
-button:hover {
-    opacity: 0.9;
-}
+      </tr>
 
-.features {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
+    `;
 
-.feature {
-    border: 1px solid #e5e7eb;
-    padding: 20px;
-    border-radius: 10px;
-}
+    return;
 
-.feature h3 {
-    margin-top: 0;
-}
+  }
 
-.status-success {
-    color: #166534;
-    font-weight: bold;
-}
 
-.status-error {
-    color: #b91c1c;
-    font-weight: bold;
-}
+  data.forEach(item => {
 
-@media (max-width: 800px) {
+    const row =
+      document.createElement("tr");
 
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
+
+    row.dataset.action =
+      item.action;
+
+
+    row.dataset.zero =
+      Number(item.zeroDays) > 0
+        ? "true"
+        : "false";
+
+
+    row.dataset.low =
+      Number(item.lowDays) > 0
+        ? "true"
+        : "false";
+
+
+    let actionHTML =
+      "✓ Maintain";
+
+
+    let actionClass =
+      "action-maintain";
+
+
+    if (
+      item.action === "INCREASE"
+    ) {
+
+      actionHTML =
+        "↑ Increase PAR";
+
+      actionClass =
+        "action-increase";
+
     }
 
-    .features {
-        grid-template-columns: 1fr;
+
+    if (
+      item.action === "DECREASE"
+    ) {
+
+      actionHTML =
+        "↓ Decrease PAR";
+
+      actionClass =
+        "action-decrease";
+
     }
+
+
+    row.innerHTML = `
+
+      <td>
+        ${escapeHTML(item.medication)}
+      </td>
+
+      <td>
+        ${escapeHTML(item.location)}
+      </td>
+
+      <td>
+        ${formatNumber(item.currentPAR)}
+      </td>
+
+      <td>
+        ${formatNumber(item.usage)}
+      </td>
+
+      <td>
+        ${formatNumber(item.recommendedPAR)}
+      </td>
+
+      <td>
+        ${formatNumber(item.zeroDays)}
+      </td>
+
+      <td>
+        ${formatNumber(item.lowDays)}
+      </td>
+
+      <td class="${actionClass}">
+        ${actionHTML}
+      </td>
+
+    `;
+
+
+    tbody.appendChild(row);
+
+  });
 
 }
 
-@media (max-width: 500px) {
 
-    .cards {
-        grid-template-columns: 1fr;
+/* ==========================================
+   FILTER TABLE
+========================================== */
+
+function filterMedicationTable(
+  filter,
+  button
+) {
+
+  const buttons =
+    document.querySelectorAll(
+      ".filter-button"
+    );
+
+
+  buttons.forEach(
+    item =>
+      item.classList.remove("active")
+  );
+
+
+  if (button) {
+
+    button.classList.add("active");
+
+  }
+
+
+  const rows =
+    document.querySelectorAll(
+      "#medicationTableBody tr"
+    );
+
+
+  rows.forEach(row => {
+
+    const action =
+      row.dataset.action || "";
+
+
+    const zero =
+      row.dataset.zero === "true";
+
+
+    const low =
+      row.dataset.low === "true";
+
+
+    let show =
+      false;
+
+
+    if (
+      filter === "ALL"
+    ) {
+
+      show = true;
+
     }
 
-    .container {
-        padding: 15px;
+
+    if (
+      filter === "ZERO" &&
+      zero
+    ) {
+
+      show = true;
+
     }
 
-    header {
-        padding: 22px;
+
+    if (
+      filter === "LOW" &&
+      low
+    ) {
+
+      show = true;
+
     }
+
+
+    if (
+      filter === "INCREASE" &&
+      action === "INCREASE"
+    ) {
+
+      show = true;
+
+    }
+
+
+    if (
+      filter === "DECREASE" &&
+      action === "DECREASE"
+    ) {
+
+      show = true;
+
+    }
+
+
+    if (
+      filter === "MAINTAIN" &&
+      action === "MAINTAIN"
+    ) {
+
+      show = true;
+
+    }
+
+
+    row.style.display =
+      show ? "" : "none";
+
+  });
 
 }
 
-</style>
 
-</head>
+/* ==========================================
+   FORMAT NUMBER
+========================================== */
 
-<body>
+function formatNumber(value) {
 
-<header>
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
 
-<h1>PAR Management & KPI Dashboard</h1>
+    return "-";
 
-<p>
-Dynamic PAR Management • Medication Availability • KPI Analysis
-</p>
+  }
 
-</header>
 
-<div class="container">
+  return Number(value).toLocaleString();
 
-<!-- KPI CARDS -->
+}
 
-<div class="cards">
 
-<div class="card">
-<h3>Availability</h3>
-<div class="number">--%</div>
-</div>
+/* ==========================================
+   SECURITY
+========================================== */
 
-<div class="card">
-<h3>Total Medications</h3>
-<div class="number">--</div>
-</div>
+function escapeHTML(value) {
 
-<div class="card">
-<h3>Problem Items</h3>
-<div class="number">--</div>
-</div>
-
-<div class="card">
-<h3>PAR Changes</h3>
-<div class="number">--</div>
-</div>
-
-</div>
-
-
-<!-- UPLOAD -->
-
-<div class="section">
-
-<h2>Upload PAR Data</h2>
-
-<div class="upload-box">
-
-<p>
-Upload your Omnicell PAR Excel file to begin analysis.
-</p>
-
-<input
-type="file"
-id="excelFile"
-accept=".xlsx,.xls"
->
-
-<br>
-
-<button onclick="startAnalysis()">
-Start Analysis
-</button>
-
-</div>
-
-</div>
-
-
-<!-- ANALYSIS MODULES -->
-
-<div class="section">
-
-<h2>Analysis Modules</h2>
-
-<div class="features">
-
-<div class="feature">
-
-<h3>📊 KPI Dashboard</h3>
-
-<p>
-Track medication availability and PAR performance.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<h3>💊 Medication Analysis</h3>
-
-<p>
-Identify medications requiring PAR adjustment.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<h3>🏥 Ward / ADC Analysis</h3>
-
-<p>
-Identify problem locations and inventory patterns.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- STATUS -->
-
-<div class="section">
-
-<h2>Analysis Status</h2>
-
-<p id="status">
-No Excel file has been analyzed yet.
-</p>
-
-</div>
-
-</div>
-
-
-<script>
-
-function startAnalysis() {
-
-    const file =
-        document.getElementById("excelFile").files[0];
-
-    if (!file) {
-
-        alert("Please select an Excel file first.");
-
-        return;
-    }
-
-    const status =
-        document.getElementById("status");
-
-    status.innerText =
-        "Reading Excel file...";
-
-    status.className = "";
-
-
-    const reader =
-        new FileReader();
-
-
-    reader.onload = function(e) {
-
-        try {
-
-            const data =
-                new Uint8Array(e.target.result);
-
-
-            const workbook =
-                XLSX.read(data, {
-                    type: "array"
-                });
-
-
-            const firstSheet =
-                workbook.SheetNames[0];
-
-
-            const worksheet =
-                workbook.Sheets[firstSheet];
-
-
-            const rows =
-                XLSX.utils.sheet_to_json(
-                    worksheet
-                );
-
-
-            console.log(
-                "Excel data:",
-                rows
-            );
-
-
-            status.innerText =
-                "Excel loaded successfully. " +
-                rows.length +
-                " records found.";
-
-            status.className =
-                "status-success";
-
-
-            /*
-            Update Total Medications
-            */
-
-            document.querySelectorAll(
-                ".number"
-            )[1].innerText =
-                rows.length;
-
-
-            /*
-            Temporary calculation
-            */
-
-            document.querySelectorAll(
-                ".number"
-            )[0].innerText =
-                "--%";
-
-
-            document.querySelectorAll(
-                ".number"
-            )[2].innerText =
-                "--";
-
-
-            document.querySelectorAll(
-                ".number"
-            )[3].innerText =
-                "--";
-
-
-        }
-
-        catch (error) {
-
-            console.error(error);
-
-
-            status.innerText =
-                "Error reading Excel file.";
-
-            status.className =
-                "status-error";
-
-
-            alert(
-                "Unable to read this Excel file. " +
-                "Please check the file format."
-            );
-
-        }
-
-    };
-
-
-    reader.readAsArrayBuffer(file);
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 }
 
 </script>
 
-</body>
 
+</body>
 </html>
