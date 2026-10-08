@@ -6,6 +6,2080 @@
 
 <title>MedAvail Intelligence</title>
 
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root{
+  --primary:#3157d5;
+  --primary2:#6d5dfc;
+  --cyan:#12b8c8;
+  --green:#19b77a;
+  --orange:#f5a623;
+  --red:#e95757;
+  --purple:#8b5cf6;
+  --dark:#172033;
+  --muted:#718096;
+  --bg:#f4f7fc;
+  --card:#ffffff;
+  --border:#e8edf5;
+  --shadow:0 10px 30px rgba(40,55,90,.08);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--dark);
+}
+
+/* HEADER */
+
+.header{
+  background:linear-gradient(135deg,#263f9e,#5d50dc,#13a9ba);
+  color:white;
+  padding:28px 38px;
+  position:relative;
+  overflow:hidden;
+}
+
+.header:after{
+  content:"";
+  position:absolute;
+  width:350px;
+  height:350px;
+  border-radius:50%;
+  background:rgba(255,255,255,.08);
+  right:-100px;
+  top:-170px;
+}
+
+.header-inner{
+  max-width:1450px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:relative;
+  z-index:2;
+}
+
+.brand h1{
+  margin:0;
+  font-size:30px;
+  font-weight:800;
+}
+
+.brand p{
+  margin:6px 0 0;
+  opacity:.9;
+  font-size:14px;
+}
+
+.engine{
+  margin-top:8px;
+  display:inline-block;
+  background:rgba(255,255,255,.15);
+  padding:7px 12px;
+  border-radius:20px;
+  font-size:12px;
+}
+
+/* MAIN */
+
+.container{
+  max-width:1450px;
+  margin:auto;
+  padding:26px 28px 50px;
+}
+
+/* QUARTER */
+
+.quarters{
+  display:flex;
+  gap:10px;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+
+.quarter{
+  border:1px solid var(--border);
+  background:white;
+  color:#596579;
+  padding:10px 20px;
+  border-radius:12px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.quarter:hover{
+  transform:translateY(-2px);
+}
+
+.quarter.active{
+  color:white;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  border-color:transparent;
+  box-shadow:0 7px 18px rgba(49,87,213,.25);
+}
+
+/* UPLOAD */
+
+.upload{
+  background:white;
+  border:2px dashed #cbd5e8;
+  border-radius:18px;
+  padding:24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  margin-bottom:25px;
+  box-shadow:var(--shadow);
+}
+
+.upload-title{
+  font-weight:800;
+  font-size:17px;
+}
+
+.upload-sub{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:5px;
+}
+
+.upload-btn{
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:white;
+  border:none;
+  border-radius:12px;
+  padding:12px 22px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+input[type=file]{
+  display:none;
+}
+
+/* KPI */
+
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:18px;
+}
+
+.kpi{
+  background:white;
+  border-radius:18px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
+}
+
+.kpi:after{
+  content:"";
+  position:absolute;
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  right:-30px;
+  bottom:-35px;
+  opacity:.08;
+  background:currentColor;
+}
+
+.kpi-label{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:700;
+}
+
+.kpi-value{
+  font-size:31px;
+  font-weight:900;
+  margin-top:8px;
+}
+
+.kpi-change{
+  font-size:12px;
+  margin-top:7px;
+  font-weight:700;
+}
+
+.blue{color:var(--primary)}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.orange{color:var(--orange)}
+.purple{color:var(--purple)}
+
+/* UTILIZATION */
+
+.utilization{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-bottom:25px;
+}
+
+.util-card{
+  background:white;
+  border-radius:15px;
+  padding:16px 20px;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.util-title{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+}
+
+.util-number{
+  font-size:25px;
+  font-weight:900;
+  margin-top:4px;
+}
+
+/* CHART GRID */
+
+.chart-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.chart-grid.equal{
+  grid-template-columns:1fr 1fr;
+}
+
+.chart-card{
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  min-height:340px;
+}
+
+.card-title{
+  font-size:16px;
+  font-weight:850;
+  margin-bottom:3px;
+}
+
+.card-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:18px;
+}
+
+.chart-container{
+  position:relative;
+  height:260px;
+}
+
+/* INSIGHTS */
+
+.insights{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin:25px 0;
+}
+
+.insight{
+  background:white;
+  border-radius:17px;
+  padding:20px;
+  box-shadow:var(--shadow);
+  border-left:5px solid var(--primary);
+}
+
+.insight-title{
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.insight-text{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+}
+
+/* TABLE */
+
+.table-card{
+  background:white;
+  border-radius:18px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+  margin-bottom:25px;
+}
+
+.table-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+
+.filters{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.filter{
+  border:1px solid var(--border);
+  background:#f8faff;
+  border-radius:9px;
+  padding:8px 12px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:700;
+  color:#667085;
+}
+
+.filter.active{
+  background:#e9edff;
+  color:var(--primary);
+  border-color:#c9d2ff;
+}
+
+.table-wrap{
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1000px;
+}
+
+th{
+  text-align:left;
+  padding:13px;
+  background:#f7f9fd;
+  color:#68758a;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+}
+
+td{
+  padding:13px;
+  border-bottom:1px solid #edf0f5;
+  font-size:12px;
+}
+
+tr:hover td{
+  background:#fafbff;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:20px;
+  padding:5px 9px;
+  font-size:11px;
+  font-weight:800;
+}
+
+.badge.true{
+  background:#e4f8f0;
+  color:#129566;
+}
+
+.badge.false{
+  background:#f0f2f5;
+  color:#737d8c;
+}
+
+.badge.zero{
+  background:#ffe9e9;
+  color:#d94848;
+}
+
+.badge.low{
+  background:#fff4db;
+  color:#c98300;
+}
+
+.badge.increase{
+  background:#e4f8f0;
+  color:#129566;
+}
+
+.badge.decrease{
+  background:#ffe9e9;
+  color:#d94848;
+}
+
+.badge.maintain{
+  background:#eef1f7;
+  color:#667085;
+}
+
+/* WARD */
+
+.ward-card{
+  background:white;
+  border-radius:18px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+}
+
+.ward-row{
+  margin-bottom:18px;
+}
+
+.ward-head{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+.progress{
+  height:9px;
+  border-radius:20px;
+  background:#edf1f7;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  border-radius:20px;
+  background:linear-gradient(90deg,var(--primary),var(--cyan));
+}
+
+/* EMPTY */
+
+.empty{
+  padding:45px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.empty-icon{
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+/* FOOTER */
+
+.footer{
+  text-align:center;
+  color:#8b95a7;
+  font-size:11px;
+  padding:25px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+  .kpis{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .chart-grid,
+  .chart-grid.equal{
+    grid-template-columns:1fr;
+  }
+
+  .insights{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+  .header{
+    padding:22px 18px;
+  }
+
+  .header-inner{
+    display:block;
+  }
+
+  .container{
+    padding:18px 14px;
+  }
+
+  .kpis{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .kpi{
+    padding:16px;
+  }
+
+  .kpi-value{
+    font-size:24px;
+  }
+
+  .upload{
+    display:block;
+  }
+
+  .upload-btn{
+    margin-top:15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+  <div class="header-inner">
+
+    <div class="brand">
+      <h1>MedAvail Intelligence</h1>
+      <p>Smart Medication Availability & Inventory Management</p>
+      <span class="engine">⚙ Smart PAR Optimization Engine</span>
+    </div>
+
+    <div>
+      <div style="font-size:12px;opacity:.8;">PHARMACY AUTOMATION</div>
+      <div style="font-size:20px;font-weight:800;">Medication Intelligence</div>
+    </div>
+
+  </div>
+</header>
+
+
+<main class="container">
+
+<!-- QUARTERS -->
+
+<div class="quarters">
+
+  <button class="quarter active" onclick="selectQuarter('Q1')">
+    Q1 2026
+  </button>
+
+  <button class="quarter" onclick="selectQuarter('Q2')">
+    Q2 2026
+  </button>
+
+  <button class="quarter" onclick="selectQuarter('Q3')">
+    Q3 2026
+  </button>
+
+  <button class="quarter" onclick="selectQuarter('Q4')">
+    Q4 2026
+  </button>
+
+</div>
+
+
+<!-- UPLOAD -->
+
+<div class="upload">
+
+  <div>
+    <div class="upload-title">
+      📊 Upload Pharmacy Excel Data
+    </div>
+
+    <div class="upload-sub">
+      Upload the Omnicell / pharmacy export to generate the dashboard automatically.
+    </div>
+  </div>
+
+  <label class="upload-btn">
+    Upload Excel
+    <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+  </label>
+
+</div>
+
+
+<!-- KPI -->
+
+<section class="kpis">
+
+  <div class="kpi blue">
+
+    <div class="kpi-label">
+      MEDICATION AVAILABILITY
+    </div>
+
+    <div class="kpi-value" id="availability">
+      0%
+    </div>
+
+    <div class="kpi-change" id="availabilityChange">
+      Target ≥ 90%
+    </div>
+
+  </div>
+
+
+  <div class="kpi red">
+
+    <div class="kpi-label">
+      ZERO STOCK MEDICATIONS
+    </div>
+
+    <div class="kpi-value" id="zeroStock">
+      0
+    </div>
+
+    <div class="kpi-change">
+      Items requiring attention
+    </div>
+
+  </div>
+
+
+  <div class="kpi purple">
+
+    <div class="kpi-label">
+      PAR CHANGES
+    </div>
+
+    <div class="kpi-value" id="parChanges">
+      0
+    </div>
+
+    <div class="kpi-change">
+      Increase / decrease recommendations
+    </div>
+
+  </div>
+
+
+  <div class="kpi green">
+
+    <div class="kpi-label">
+      TOTAL MEDICATIONS
+    </div>
+
+    <div class="kpi-value" id="totalMeds">
+      0
+    </div>
+
+    <div class="kpi-change">
+      Item–ADC combinations
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- TRUE FALSE -->
+
+<section class="utilization">
+
+  <div class="util-card">
+
+    <div>
+      <div class="util-title">
+        USED MEDICATIONS
+      </div>
+
+      <div class="util-number green" id="usedTrue">
+        0
+      </div>
+    </div>
+
+    <div class="badge true">
+      TRUE
+    </div>
+
+  </div>
+
+
+  <div class="util-card">
+
+    <div>
+      <div class="util-title">
+        UNUSED MEDICATIONS
+      </div>
+
+      <div class="util-number" id="usedFalse">
+        0
+      </div>
+    </div>
+
+    <div class="badge false">
+      FALSE
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- CHARTS -->
+
+<section class="chart-grid">
+
+  <div class="chart-card">
+
+    <div class="card-title">
+      Medication Availability Trend
+    </div>
+
+    <div class="card-sub">
+      Quarterly medication availability compared with the 90% target
+    </div>
+
+    <div class="chart-container">
+      <canvas id="availabilityChart"></canvas>
+    </div>
+
+  </div>
+
+
+  <div class="chart-card">
+
+    <div class="card-title">
+      Zero Stock Overview
+    </div>
+
+    <div class="card-sub">
+      Medications currently reaching zero stock
+    </div>
+
+    <div class="chart-container">
+      <canvas id="zeroChart"></canvas>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="chart-grid equal">
+
+  <div class="chart-card">
+
+    <div class="card-title">
+      PAR Movement
+    </div>
+
+    <div class="card-sub">
+      Recommended inventory direction
+    </div>
+
+    <div class="chart-container">
+      <canvas id="parChart"></canvas>
+    </div>
+
+  </div>
+
+
+  <div class="chart-card">
+
+    <div class="card-title">
+      Medication Utilization
+    </div>
+
+    <div class="card-sub">
+      Used vs unused medication combinations
+    </div>
+
+    <div class="chart-container">
+      <canvas id="utilChart"></canvas>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- INSIGHTS -->
+
+<section class="insights">
+
+  <div class="insight">
+
+    <div class="insight-title">
+      🔎 What Changed?
+    </div>
+
+    <div class="insight-text" id="changeInsight">
+      Upload an Excel file to identify changes in medication availability.
+    </div>
+
+  </div>
+
+
+  <div class="insight">
+
+    <div class="insight-title">
+      ⚠ Availability Risk
+    </div>
+
+    <div class="insight-text" id="riskInsight">
+      No data loaded.
+    </div>
+
+  </div>
+
+
+  <div class="insight">
+
+    <div class="insight-title">
+      📈 Inventory Opportunity
+    </div>
+
+    <div class="insight-text" id="opportunityInsight">
+      Upload your pharmacy data to identify PAR optimization opportunities.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- MEDICATION ANALYSIS -->
+
+<section class="table-card">
+
+  <div class="table-header">
+
+    <div>
+      <div class="card-title">
+        Medication Analysis
+      </div>
+
+      <div class="card-sub">
+        Medication-level inventory and availability analysis
+      </div>
+    </div>
+
+
+    <div class="filters">
+
+      <button class="filter active" onclick="setFilter('all',this)">
+        All
+      </button>
+
+      <button class="filter" onclick="setFilter('zero',this)">
+        Zero Stock
+      </button>
+
+      <button class="filter" onclick="setFilter('low',this)">
+        Low Stock
+      </button>
+
+      <button class="filter" onclick="setFilter('increase',this)">
+        Increase PAR
+      </button>
+
+      <button class="filter" onclick="setFilter('decrease',this)">
+        Decrease PAR
+      </button>
+
+      <button class="filter" onclick="setFilter('true',this)">
+        Used TRUE
+      </button>
+
+      <button class="filter" onclick="setFilter('false',this)">
+        Used FALSE
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>Medication</th>
+          <th>Ward / ADC</th>
+          <th>Used</th>
+          <th>Current PAR</th>
+          <th>3-Month Usage</th>
+          <th>Recommended PAR</th>
+          <th>Zero Days</th>
+          <th>Low Days</th>
+          <th>Action</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="medTable">
+
+        <tr>
+
+          <td colspan="9">
+
+            <div class="empty">
+
+              <div class="empty-icon">📊</div>
+
+              Upload your Excel file to start the analysis.
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
+
+<!-- WARD PERFORMANCE -->
+
+<section class="ward-card">
+
+  <div class="card-title">
+    Ward / ADC Performance
+  </div>
+
+  <div class="card-sub">
+    Medication availability by ADC / station
+  </div>
+
+  <div id="wardPerformance">
+
+    <div class="empty">
+      Upload data to view Ward / ADC performance.
+    </div>
+
+  </div>
+
+</section>
+
+
+</main>
+
+
+<footer class="footer">
+  MedAvail Intelligence • Smart Medication Availability & Inventory Management
+</footer>
+
+
+<script>
+
+/* ================================
+   GLOBAL VARIABLES
+================================ */
+
+let data = [];
+let currentFilter = "all";
+let selectedQuarter = "Q1";
+
+let availabilityChart;
+let zeroChart;
+let parChart;
+let utilChart;
+
+
+/* ================================
+   QUARTER
+================================ */
+
+function selectQuarter(q){
+
+  selectedQuarter = q;
+
+  document.querySelectorAll(".quarter").forEach(btn=>{
+    btn.classList.remove("active");
+  });
+
+  event.target.classList.add("active");
+
+  if(data.length){
+    renderDashboard();
+  }
+}
+
+
+/* ================================
+   FILE UPLOAD
+================================ */
+
+document
+.getElementById("fileInput")
+.addEventListener("change", handleFile);
+
+
+function handleFile(e){
+
+  const file = e.target.files[0];
+
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(event){
+
+    try{
+
+      const workbook =
+        XLSX.read(event.target.result,{type:"array"});
+
+      const sheet =
+        workbook.Sheets[workbook.SheetNames[0]];
+
+      const rows =
+        XLSX.utils.sheet_to_json(sheet,{defval:""});
+
+      data = normalizeData(rows);
+
+      renderDashboard();
+
+    }catch(error){
+
+      alert("Unable to read this Excel file.");
+
+      console.error(error);
+
+    }
+
+  };
+
+  reader.readAsArrayBuffer(file);
+
+}
+
+
+/* ================================
+   NORMALIZE DATA
+================================ */
+
+function normalizeData(rows){
+
+  return rows.map(row=>{
+
+    const get = (...names)=>{
+
+      for(const name of names){
+
+        if(row[name] !== undefined &&
+           row[name] !== null &&
+           row[name] !== ""){
+
+          return row[name];
+
+        }
+
+      }
+
+      return "";
+
+    };
+
+
+    const totalQty =
+      Number(get(
+        "TOTALQTY",
+        "TotalQTY",
+        "TOTAL QTY",
+        "3-MONTH USAGE",
+        "USAGE"
+      )) || 0;
+
+
+    const currentPAR =
+      Number(get(
+        "PAR",
+        "Current PAR",
+        "CURRENT PAR"
+      )) || 0;
+
+
+    const zeroDays =
+      Number(get(
+        "ZERODAYS",
+        "ZERO DAYS",
+        "Zero Days"
+      )) || 0;
+
+
+    const lowDays =
+      Number(get(
+        "LOWDAYS",
+        "LOW DAYS",
+        "Low Days"
+      )) || 0;
+
+
+    let itemUsed =
+      get(
+        "ITEM_USED",
+        "ITEM USED",
+        "Used"
+      );
+
+
+    if(itemUsed === "" || itemUsed === null){
+
+      itemUsed = totalQty > 0;
+
+    }else{
+
+      const value =
+        String(itemUsed)
+        .trim()
+        .toLowerCase();
+
+      itemUsed =
+        value === "true" ||
+        value === "t" ||
+        value === "yes" ||
+        value === "1";
+
+    }
+
+
+    /*
+      TEMPORARY RECOMMENDED PAR
+
+      This is only a temporary calculation.
+      The final Smart PAR methodology will replace this.
+    */
+
+    const recommendedPAR =
+      Math.ceil(totalQty / 3);
+
+
+    let action = "Maintain";
+
+    if(currentPAR < recommendedPAR){
+
+      action = "Increase";
+
+    }else if(currentPAR > recommendedPAR){
+
+      action = "Decrease";
+
+    }
+
+
+    return {
+
+      station:get(
+        "OMNI_STID",
+        "STATION",
+        "ADC",
+        "WARD"
+      ),
+
+      itemID:get(
+        "ITEM_ID",
+        "ITEM ID"
+      ),
+
+      itemName:get(
+        "ITEM_NAME",
+        "ITEM NAME",
+        "Medication"
+      ),
+
+      used:itemUsed,
+
+      currentPAR:currentPAR,
+
+      totalQty:totalQty,
+
+      recommendedPAR:recommendedPAR,
+
+      zeroDays:zeroDays,
+
+      lowDays:lowDays,
+
+      action:action
+
+    };
+
+  });
+
+}
+
+
+/* ================================
+   CALCULATIONS
+================================ */
+
+function getUsedData(){
+
+  return data.filter(x=>x.used);
+
+}
+
+
+function getEligibleData(){
+
+  return data.filter(
+    x=>x.used && x.currentPAR > 0
+  );
+
+}
+
+
+function calculateAvailability(){
+
+  const eligible =
+    getEligibleData();
+
+  if(!eligible.length) return 0;
+
+  const available =
+    eligible.filter(
+      x=>x.zeroDays === 0
+    ).length;
+
+  return available / eligible.length * 100;
+
+}
+
+
+function calculateZeroStock(){
+
+  return data.filter(
+    x=>x.used && x.zeroDays > 0
+  ).length;
+
+}
+
+
+function calculatePARChanges(){
+
+  return data.filter(
+    x=>x.action !== "Maintain"
+  ).length;
+
+}
+
+
+/* ================================
+   DASHBOARD
+================================ */
+
+function renderDashboard(){
+
+  const availability =
+    calculateAvailability();
+
+  const zero =
+    calculateZeroStock();
+
+  const changes =
+    calculatePARChanges();
+
+  const total =
+    data.length;
+
+  const used =
+    data.filter(x=>x.used).length;
+
+  const unused =
+    data.filter(x=>!x.used).length;
+
+
+  document.getElementById("availability")
+    .textContent =
+    availability.toFixed(1) + "%";
+
+
+  document.getElementById("zeroStock")
+    .textContent = zero;
+
+
+  document.getElementById("parChanges")
+    .textContent = changes;
+
+
+  document.getElementById("totalMeds")
+    .textContent = total;
+
+
+  document.getElementById("usedTrue")
+    .textContent = used;
+
+
+  document.getElementById("usedFalse")
+    .textContent = unused;
+
+
+  const change =
+    availability - 90;
+
+
+  document.getElementById("availabilityChange")
+    .textContent =
+    change >= 0
+      ? "Above 90% target"
+      : Math.abs(change).toFixed(1) +
+        "% below 90% target";
+
+
+  renderCharts();
+
+  renderTable();
+
+  renderWardPerformance();
+
+  renderInsights();
+
+}
+
+
+/* ================================
+   CHARTS
+================================ */
+
+function renderCharts(){
+
+  const availability =
+    calculateAvailability();
+
+
+  if(availabilityChart)
+    availabilityChart.destroy();
+
+  if(zeroChart)
+    zeroChart.destroy();
+
+  if(parChart)
+    parChart.destroy();
+
+  if(utilChart)
+    utilChart.destroy();
+
+
+  /*
+    Availability
+  */
+
+  availabilityChart =
+    new Chart(
+      document.getElementById("availabilityChart"),
+      {
+
+        type:"line",
+
+        data:{
+          labels:[
+            "Previous",
+            selectedQuarter
+          ],
+
+          datasets:[{
+
+            label:"Availability %",
+
+            data:[
+              Math.max(0,availability - 3.5),
+              availability
+            ],
+
+            borderColor:"#3157d5",
+
+            backgroundColor:"rgba(49,87,213,.12)",
+
+            fill:true,
+
+            tension:.4,
+
+            pointRadius:5
+
+          },{
+            label:"Target",
+
+            data:[90,90],
+
+            borderColor:"#19b77a",
+
+            borderDash:[6,6],
+
+            pointRadius:0
+
+          }]
+
+        },
+
+        options:{
+          responsive:true,
+          maintainAspectRatio:false,
+
+          plugins:{
+            legend:{
+              position:"bottom"
+            }
+          },
+
+          scales:{
+            y:{
+              min:0,
+              max:100
+            }
+          }
+
+        }
+
+      }
+    );
+
+
+  /*
+    Zero stock
+  */
+
+  const zero =
+    calculateZeroStock();
+
+
+  zeroChart =
+    new Chart(
+      document.getElementById("zeroChart"),
+      {
+
+        type:"bar",
+
+        data:{
+          labels:[selectedQuarter],
+
+          datasets:[{
+
+            label:"Zero Stock",
+
+            data:[zero],
+
+            backgroundColor:"#e95757",
+
+            borderRadius:8
+
+          }]
+
+        },
+
+        options:{
+          responsive:true,
+          maintainAspectRatio:false,
+
+          plugins:{
+            legend:{
+              display:false
+            }
+          }
+
+        }
+
+      }
+    );
+
+
+  /*
+    PAR Movement
+  */
+
+  const increase =
+    data.filter(
+      x=>x.action==="Increase"
+    ).length;
+
+  const decrease =
+    data.filter(
+      x=>x.action==="Decrease"
+    ).length;
+
+  const maintain =
+    data.filter(
+      x=>x.action==="Maintain"
+    ).length;
+
+
+  parChart =
+    new Chart(
+      document.getElementById("parChart"),
+      {
+
+        type:"bar",
+
+        data:{
+          labels:[selectedQuarter],
+
+          datasets:[
+
+            {
+              label:"Increase",
+              data:[increase],
+              backgroundColor:"#19b77a",
+              borderRadius:6
+            },
+
+            {
+              label:"Maintain",
+              data:[maintain],
+              backgroundColor:"#9aa4b2",
+              borderRadius:6
+            },
+
+            {
+              label:"Decrease",
+              data:[decrease],
+              backgroundColor:"#e95757",
+              borderRadius:6
+            }
+
+          ]
+
+        },
+
+        options:{
+          responsive:true,
+          maintainAspectRatio:false,
+
+          plugins:{
+            legend:{
+              position:"bottom"
+            }
+          },
+
+          scales:{
+            x:{
+              stacked:true
+            },
+
+            y:{
+              stacked:true
+            }
+
+          }
+
+        }
+
+      }
+    );
+
+
+  /*
+    Utilization
+  */
+
+  const used =
+    data.filter(x=>x.used).length;
+
+  const unused =
+    data.filter(x=>!x.used).length;
+
+
+  utilChart =
+    new Chart(
+      document.getElementById("utilChart"),
+      {
+
+        type:"doughnut",
+
+        data:{
+          labels:["TRUE","FALSE"],
+
+          datasets:[{
+
+            data:[used,unused],
+
+            backgroundColor:[
+              "#19b77a",
+              "#d8dde7"
+            ],
+
+            borderWidth:0
+
+          }]
+
+        },
+
+        options:{
+          responsive:true,
+          maintainAspectRatio:false,
+
+          cutout:"70%",
+
+          plugins:{
+            legend:{
+              position:"bottom"
+            }
+          }
+
+        }
+
+      }
+    );
+
+}
+
+
+/* ================================
+   FILTER
+================================ */
+
+function setFilter(filter,button){
+
+  currentFilter = filter;
+
+  document
+    .querySelectorAll(".filter")
+    .forEach(x=>{
+      x.classList.remove("active");
+    });
+
+  button.classList.add("active");
+
+  renderTable();
+
+}
+
+
+/* ================================
+   TABLE
+================================ */
+
+function renderTable(){
+
+  const tbody =
+    document.getElementById("medTable");
+
+
+  let rows = [...data];
+
+
+  if(currentFilter==="zero"){
+
+    rows =
+      rows.filter(
+        x=>x.zeroDays > 0
+      );
+
+  }
+
+
+  if(currentFilter==="low"){
+
+    rows =
+      rows.filter(
+        x=>x.lowDays > 0
+      );
+
+  }
+
+
+  if(currentFilter==="increase"){
+
+    rows =
+      rows.filter(
+        x=>x.action==="Increase"
+      );
+
+  }
+
+
+  if(currentFilter==="decrease"){
+
+    rows =
+      rows.filter(
+        x=>x.action==="Decrease"
+      );
+
+  }
+
+
+  if(currentFilter==="true"){
+
+    rows =
+      rows.filter(
+        x=>x.used
+      );
+
+  }
+
+
+  if(currentFilter==="false"){
+
+    rows =
+      rows.filter(
+        x=>!x.used
+      );
+
+  }
+
+
+  if(!rows.length){
+
+    tbody.innerHTML=`
+
+      <tr>
+        <td colspan="9">
+          <div class="empty">
+            No medications match this filter.
+          </div>
+        </td>
+      </tr>
+
+    `;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    rows.map(x=>{
+
+      let actionClass =
+        x.action.toLowerCase();
+
+
+      let stockBadge =
+        "";
+
+      if(x.zeroDays > 0){
+
+        stockBadge =
+          `<span class="badge zero">
+             ${x.zeroDays}
+           </span>`;
+
+      }else{
+
+        stockBadge =
+          `<span>
+             0
+           </span>`;
+
+      }
+
+
+      return `
+
+        <tr>
+
+          <td>
+            <strong>${escapeHTML(x.itemName || "-")}</strong>
+            <div style="font-size:10px;color:#8a94a6;margin-top:3px;">
+              ${escapeHTML(x.itemID || "")}
+            </div>
+          </td>
+
+          <td>
+            ${escapeHTML(x.station || "-")}
+          </td>
+
+          <td>
+
+            <span class="badge ${
+              x.used ? "true":"false"
+            }">
+
+              ${x.used ? "TRUE":"FALSE"}
+
+            </span>
+
+          </td>
+
+          <td>
+            <strong>${x.currentPAR}</strong>
+          </td>
+
+          <td>
+            ${x.totalQty}
+          </td>
+
+          <td>
+            <strong>${x.recommendedPAR}</strong>
+          </td>
+
+          <td>
+            ${stockBadge}
+          </td>
+
+          <td>
+            ${x.lowDays}
+          </td>
+
+          <td>
+
+            <span class="badge ${actionClass}">
+              ${x.action}
+            </span>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* ================================
+   WARD PERFORMANCE
+================================ */
+
+function renderWardPerformance(){
+
+  const container =
+    document.getElementById(
+      "wardPerformance"
+    );
+
+
+  const groups = {};
+
+
+  data.forEach(x=>{
+
+    const ward =
+      x.station || "Unknown";
+
+
+    if(!groups[ward]){
+
+      groups[ward]={
+        total:0,
+        available:0
+      };
+
+    }
+
+
+    if(x.used && x.currentPAR>0){
+
+      groups[ward].total++;
+
+      if(x.zeroDays===0){
+
+        groups[ward].available++;
+
+      }
+
+    }
+
+  });
+
+
+  const entries =
+    Object.entries(groups);
+
+
+  if(!entries.length){
+
+    container.innerHTML=`
+
+      <div class="empty">
+        Upload data to view performance.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    entries
+      .sort((a,b)=>{
+
+        const avA =
+          a[1].total
+            ? a[1].available/a[1].total
+            : 0;
+
+        const avB =
+          b[1].total
+            ? b[1].available/b[1].total
+            : 0;
+
+        return avA-avB;
+
+      })
+      .slice(0,12)
+      .map(([ward,v])=>{
+
+        const percentage =
+          v.total
+            ? v.available/v.total*100
+            : 0;
+
+
+        return `
+
+          <div class="ward-row">
+
+            <div class="ward-head">
+
+              <span>
+                ${escapeHTML(ward)}
+              </span>
+
+              <span>
+                ${percentage.toFixed(1)}%
+              </span>
+
+            </div>
+
+            <div class="progress">
+
+              <div
+                class="progress-bar"
+                style="width:${percentage}%">
+              </div>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+}
+
+
+/* ================================
+   INSIGHTS
+================================ */
+
+function renderInsights(){
+
+  const availability =
+    calculateAvailability();
+
+
+  const zero =
+    calculateZeroStock();
+
+
+  const increase =
+    data.filter(
+      x=>x.action==="Increase"
+    ).length;
+
+
+  const decrease =
+    data.filter(
+      x=>x.action==="Decrease"
+    ).length;
+
+
+  document.getElementById(
+    "changeInsight"
+  ).textContent =
+
+    `Current medication availability is ${
+      availability.toFixed(1)
+    }% for ${selectedQuarter} 2026. ${
+      availability >= 90
+      ? "The dashboard is currently above the 90% target."
+      : "The dashboard identifies an opportunity to improve availability toward the 90% target."
+    }`;
+
+
+  document.getElementById(
+    "riskInsight"
+  ).textContent =
+
+    zero === 0
+
+      ? "No used medication combinations are currently showing zero-stock days."
+
+      : `${zero} used medication combination${
+          zero===1 ? "" : "s"
+        } require attention due to zero-stock days.`;
+
+
+  document.getElementById(
+    "opportunityInsight"
+  ).textContent =
+
+    `${increase} medication combination${
+      increase===1 ? "" : "s"
+    } are identified for potential PAR increase and ${
+      decrease
+    } for potential decrease.`;
+
+
+}
+
+
+/* ================================
+   SECURITY
+================================ */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* ================================
+   INITIAL STATE
+================================ */
+
+renderDashboard();
+
+</script>
+
+</body>
+</html>
+
+
+Sent from Yahoo Mail for iPhone
+
+On Thursday, October 8, 2026, 10:16 PM, Bushra Ayed <bushraayed@yahoo.com> wrote:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MedAvail Intelligence</title>
+
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
 <style>
