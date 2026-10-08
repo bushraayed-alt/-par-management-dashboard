@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    
+
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-    
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>PAR Management & KPI Dashboard</title>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
@@ -117,6 +119,16 @@ button:hover {
     margin-top: 0;
 }
 
+.status-success {
+    color: #166534;
+    font-weight: bold;
+}
+
+.status-error {
+    color: #b91c1c;
+    font-weight: bold;
+}
+
 @media (max-width: 800px) {
 
     .cards {
@@ -126,8 +138,27 @@ button:hover {
     .features {
         grid-template-columns: 1fr;
     }
+
 }
+
+@media (max-width: 500px) {
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    header {
+        padding: 22px;
+    }
+
+}
+
 </style>
+
 </head>
 
 <body>
@@ -143,6 +174,8 @@ Dynamic PAR Management • Medication Availability • KPI Analysis
 </header>
 
 <div class="container">
+
+<!-- KPI CARDS -->
 
 <div class="cards">
 
@@ -168,6 +201,8 @@ Dynamic PAR Management • Medication Availability • KPI Analysis
 
 </div>
 
+
+<!-- UPLOAD -->
 
 <div class="section">
 
@@ -196,6 +231,8 @@ Start Analysis
 </div>
 
 
+<!-- ANALYSIS MODULES -->
+
 <div class="section">
 
 <h2>Analysis Modules</h2>
@@ -203,30 +240,43 @@ Start Analysis
 <div class="features">
 
 <div class="feature">
+
 <h3>📊 KPI Dashboard</h3>
+
 <p>
 Track medication availability and PAR performance.
 </p>
+
 </div>
 
+
 <div class="feature">
+
 <h3>💊 Medication Analysis</h3>
+
 <p>
 Identify medications requiring PAR adjustment.
 </p>
+
 </div>
 
+
 <div class="feature">
+
 <h3>🏥 Ward / ADC Analysis</h3>
+
 <p>
 Identify problem locations and inventory patterns.
 </p>
-</div>
 
 </div>
 
 </div>
 
+</div>
+
+
+<!-- STATUS -->
 
 <div class="section">
 
@@ -255,13 +305,124 @@ function startAnalysis() {
         return;
     }
 
-    document.getElementById("status").innerText =
-        "File selected: " + file.name +
-        ". Excel analysis engine will be connected next.";
+    const status =
+        document.getElementById("status");
+
+    status.innerText =
+        "Reading Excel file...";
+
+    status.className = "";
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload = function(e) {
+
+        try {
+
+            const data =
+                new Uint8Array(e.target.result);
+
+
+            const workbook =
+                XLSX.read(data, {
+                    type: "array"
+                });
+
+
+            const firstSheet =
+                workbook.SheetNames[0];
+
+
+            const worksheet =
+                workbook.Sheets[firstSheet];
+
+
+            const rows =
+                XLSX.utils.sheet_to_json(
+                    worksheet
+                );
+
+
+            console.log(
+                "Excel data:",
+                rows
+            );
+
+
+            status.innerText =
+                "Excel loaded successfully. " +
+                rows.length +
+                " records found.";
+
+            status.className =
+                "status-success";
+
+
+            /*
+            Update Total Medications
+            */
+
+            document.querySelectorAll(
+                ".number"
+            )[1].innerText =
+                rows.length;
+
+
+            /*
+            Temporary calculation
+            */
+
+            document.querySelectorAll(
+                ".number"
+            )[0].innerText =
+                "--%";
+
+
+            document.querySelectorAll(
+                ".number"
+            )[2].innerText =
+                "--";
+
+
+            document.querySelectorAll(
+                ".number"
+            )[3].innerText =
+                "--";
+
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+
+            status.innerText =
+                "Error reading Excel file.";
+
+            status.className =
+                "status-error";
+
+
+            alert(
+                "Unable to read this Excel file. " +
+                "Please check the file format."
+            );
+
+        }
+
+    };
+
+
+    reader.readAsArrayBuffer(file);
 
 }
 
 </script>
 
 </body>
+
 </html>
