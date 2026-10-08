@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>PAR Management & KPI Dashboard</title>
+  <title>MedAvail Intelligence</title>
 
-  <!-- Excel reader -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
   <style>
@@ -16,244 +15,356 @@
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7fb;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7fb;
       color: #1f2937;
     }
 
+    /* HEADER */
+
     .header {
-      background: #17365d;
+      background: linear-gradient(135deg, #17365d, #245b8f);
       color: white;
-      padding: 28px 20px;
+      padding: 38px 20px;
     }
 
-    .header h1 {
+    .header-content {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .brand {
+      font-size: 34px;
+      font-weight: 700;
       margin: 0;
-      font-size: 28px;
     }
 
-    .header p {
-      margin: 8px 0 0;
-      opacity: 0.9;
+    .tagline {
+      font-size: 16px;
+      margin-top: 10px;
+      opacity: 0.95;
     }
+
+    .engine {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.15);
+      font-size: 13px;
+    }
+
+    /* MAIN */
 
     .container {
       max-width: 1200px;
-      margin: 25px auto;
+      margin: 28px auto;
       padding: 0 18px;
     }
 
-    .cards {
+    /* KPI */
+
+    .kpi-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 25px;
+      gap: 18px;
+      margin-bottom: 28px;
     }
 
-    .card {
+    .kpi-card {
       background: white;
-      border-radius: 14px;
-      padding: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+      border: 1px solid #e5e7eb;
     }
 
-    .card-title {
-      color: #6b7280;
+    .kpi-label {
       font-size: 14px;
-      margin-bottom: 10px;
+      color: #6b7280;
+      margin-bottom: 12px;
     }
 
-    .card-value {
-      font-size: 30px;
-      font-weight: bold;
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 700;
       color: #17365d;
     }
+
+    /* SECTIONS */
 
     .section {
       background: white;
-      border-radius: 14px;
-      padding: 22px;
-      margin-bottom: 22px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
     }
 
-    .section h2 {
-      margin-top: 0;
+    .section-title {
+      font-size: 21px;
+      font-weight: 700;
       color: #17365d;
+      margin: 0 0 8px;
     }
+
+    .section-subtitle {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    /* UPLOAD */
 
     .upload-box {
-      border: 2px dashed #9ca3af;
-      border-radius: 12px;
-      padding: 30px;
+      border: 2px dashed #b8c4d3;
+      border-radius: 14px;
+      padding: 35px;
       text-align: center;
-      background: #fafafa;
+      background: #f9fbfd;
+    }
+
+    .upload-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .upload-text {
+      color: #6b7280;
+      margin-bottom: 18px;
     }
 
     input[type="file"] {
-      margin: 15px 0;
+      margin: 10px;
     }
 
     button {
       background: #17365d;
       color: white;
       border: none;
-      padding: 12px 22px;
-      border-radius: 8px;
+      padding: 12px 25px;
+      border-radius: 9px;
       cursor: pointer;
       font-size: 15px;
+      font-weight: 600;
     }
 
     button:hover {
-      background: #0f2744;
+      background: #102c4b;
     }
 
-    .status {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #eef4ff;
-      color: #17365d;
-    }
-
-    .columns {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .tag {
-      background: #e8eef7;
-      color: #17365d;
-      padding: 7px 10px;
-      border-radius: 20px;
-      font-size: 13px;
-    }
-
-    .table-container {
-      overflow-x: auto;
-      max-height: 450px;
-      overflow-y: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-
-    th {
-      background: #17365d;
-      color: white;
-      padding: 10px;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-
-    td {
-      padding: 9px;
-      border-bottom: 1px solid #e5e7eb;
-      white-space: nowrap;
-    }
-
-    tr:nth-child(even) {
-      background: #f9fafb;
-    }
-
-    .modules {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-    }
-
-    .module {
-      padding: 20px;
-      border-radius: 12px;
-      background: #f5f7fb;
-      border: 1px solid #e5e7eb;
-    }
-
-    .module h3 {
-      margin-top: 0;
-      color: #17365d;
+    #status {
+      margin-top: 18px;
+      font-size: 14px;
     }
 
     .success {
       color: #166534;
-      font-weight: bold;
+      font-weight: 600;
     }
 
     .warning {
       color: #92400e;
-      font-weight: bold;
+      font-weight: 600;
     }
 
-    @media (max-width: 800px) {
-      .cards {
+    /* MODULES */
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .module {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 22px;
+      background: #fafbfd;
+    }
+
+    .module h3 {
+      color: #17365d;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .module p {
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .module-tag {
+      display: inline-block;
+      margin-top: 10px;
+      background: #e8eef7;
+      color: #17365d;
+      padding: 6px 10px;
+      border-radius: 15px;
+      font-size: 12px;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      text-align: center;
+      padding: 25px;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 850px) {
+
+      .kpi-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .modules {
+      .module-grid {
         grid-template-columns: 1fr;
       }
+
     }
 
     @media (max-width: 500px) {
-      .cards {
+
+      .kpi-grid {
         grid-template-columns: 1fr;
       }
+
+      .brand {
+        font-size: 27px;
+      }
+
     }
+
   </style>
 </head>
 
 <body>
 
-  <div class="header">
-    <div class="container">
-      <h1>PAR Management & KPI Dashboard</h1>
-      <p>Dynamic PAR Management • Medication Availability • KPI Analysis</p>
+  <!-- HEADER -->
+
+  <header class="header">
+
+    <div class="header-content">
+
+      <h1 class="brand">
+        MedAvail Intelligence
+      </h1>
+
+      <div class="tagline">
+        Smart Medication Availability & Inventory Management
+      </div>
+
+      <div class="engine">
+        Smart PAR Optimization Engine
+      </div>
+
     </div>
-  </div>
 
-  <div class="container">
+  </header>
 
-    <!-- KPI CARDS -->
-    <div class="cards">
 
-      <div class="card">
-        <div class="card-title">Availability</div>
-        <div class="card-value" id="availability">--%</div>
+  <main class="container">
+
+
+    <!-- KPI DASHBOARD -->
+
+    <div class="kpi-grid">
+
+      <div class="kpi-card">
+
+        <div class="kpi-label">
+          Medication Availability
+        </div>
+
+        <div
+          class="kpi-value"
+          id="availability"
+        >
+          --%
+        </div>
+
       </div>
 
-      <div class="card">
-        <div class="card-title">Total Medications</div>
-        <div class="card-value" id="totalMedications">--</div>
+
+      <div class="kpi-card">
+
+        <div class="kpi-label">
+          Zero Stock Medications
+        </div>
+
+        <div
+          class="kpi-value"
+          id="zeroStock"
+        >
+          --
+        </div>
+
       </div>
 
-      <div class="card">
-        <div class="card-title">Problem Items</div>
-        <div class="card-value" id="problemItems">--</div>
+
+      <div class="kpi-card">
+
+        <div class="kpi-label">
+          PAR Changes
+        </div>
+
+        <div
+          class="kpi-value"
+          id="parChanges"
+        >
+          --
+        </div>
+
       </div>
 
-      <div class="card">
-        <div class="card-title">PAR Changes</div>
-        <div class="card-value" id="parChanges">--</div>
+
+      <div class="kpi-card">
+
+        <div class="kpi-label">
+          Total Medications
+        </div>
+
+        <div
+          class="kpi-value"
+          id="totalMedications"
+        >
+          --
+        </div>
+
       </div>
 
     </div>
 
 
     <!-- UPLOAD -->
-    <div class="section">
 
-      <h2>Upload Excel File</h2>
+    <section class="section">
+
+      <h2 class="section-title">
+        Upload Medication Data
+      </h2>
+
+      <div class="section-subtitle">
+        Upload your pharmacy inventory or Omnicell Excel export to begin the analysis.
+      </div>
+
 
       <div class="upload-box">
 
-        <p>
-          Upload your Omnicell / PAR Excel export to start the analysis.
-        </p>
+        <div class="upload-title">
+          Upload Excel File
+        </div>
+
+        <div class="upload-text">
+          Supported formats: .xlsx and .xls
+        </div>
+
 
         <input
           type="file"
@@ -267,126 +378,224 @@
           Start Analysis
         </button>
 
-        <div id="status" class="status">
+
+        <div id="status">
           Waiting for Excel file...
         </div>
 
       </div>
 
-    </div>
+    </section>
 
 
-    <!-- DETECTED COLUMNS -->
-    <div class="section">
+    <!-- MEDICATION ANALYSIS -->
 
-      <h2>Detected Excel Columns</h2>
+    <section class="section">
 
-      <div id="columns" class="columns">
-        No Excel file loaded yet.
+      <h2 class="section-title">
+        Medication Analysis
+      </h2>
+
+      <div class="section-subtitle">
+        Identify medication stock risks and optimize inventory levels.
       </div>
 
-    </div>
 
-
-    <!-- DATA PREVIEW -->
-    <div class="section">
-
-      <h2>Excel Data Preview</h2>
-
-      <div class="table-container">
-
-        <table id="previewTable">
-          <thead></thead>
-          <tbody></tbody>
-        </table>
-
-      </div>
-
-    </div>
-
-
-    <!-- ANALYSIS MODULES -->
-    <div class="section">
-
-      <h2>Analysis Modules</h2>
-
-      <div class="modules">
+      <div class="module-grid">
 
         <div class="module">
-          <h3>KPI Dashboard</h3>
+
+          <h3>
+            Medication Movement
+          </h3>
+
           <p>
-            Medication availability and KPI performance.
+            Analyze medication consumption and identify medications with significant increases or decreases in demand.
           </p>
+
+          <span class="module-tag">
+            Usage Analysis
+          </span>
+
         </div>
 
-        <div class="module">
-          <h3>Medication Analysis</h3>
-          <p>
-            PAR movement, usage and medication-level analysis.
-          </p>
-        </div>
 
         <div class="module">
-          <h3>Ward / ADC Analysis</h3>
+
+          <h3>
+            Smart PAR Optimization
+          </h3>
+
           <p>
-            Identify wards and ADCs with availability or PAR problems.
+            Recommend PAR increases, decreases, or maintenance based on medication demand and availability.
           </p>
+
+          <span class="module-tag">
+            PAR Optimization
+          </span>
+
+        </div>
+
+
+        <div class="module">
+
+          <h3>
+            Zero Stock Monitoring
+          </h3>
+
+          <p>
+            Identify medications that reached zero stock and highlight potential availability risks.
+          </p>
+
+          <span class="module-tag">
+            Stockout Prevention
+          </span>
+
+        </div>
+
+
+        <div class="module">
+
+          <h3>
+            Availability Performance
+          </h3>
+
+          <p>
+            Monitor medication availability and track performance against the target KPI.
+          </p>
+
+          <span class="module-tag">
+            KPI Monitoring
+          </span>
+
         </div>
 
       </div>
 
-    </div>
+    </section>
 
 
-    <!-- STATUS -->
-    <div class="section">
+    <!-- WARD / ADC -->
 
-      <h2>Analysis Status</h2>
+    <section class="section">
 
-      <div id="analysisStatus">
-        No analysis performed yet.
+      <h2 class="section-title">
+        Ward / ADC Analysis
+      </h2>
+
+      <div class="section-subtitle">
+        Identify areas requiring attention and prioritize inventory optimization.
       </div>
 
-    </div>
 
-  </div>
+      <div class="module-grid">
+
+        <div class="module">
+
+          <h3>
+            Ward Performance
+          </h3>
+
+          <p>
+            Compare medication availability and stock performance across wards.
+          </p>
+
+          <span class="module-tag">
+            Ward KPI
+          </span>
+
+        </div>
+
+
+        <div class="module">
+
+          <h3>
+            ADC Performance
+          </h3>
+
+          <p>
+            Identify ADCs with zero stock, low stock, or PAR optimization opportunities.
+          </p>
+
+          <span class="module-tag">
+            ADC Analysis
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <footer class="footer">
+
+    MedAvail Intelligence
+    <br>
+    Smart Medication Availability & Inventory Management
+
+  </footer>
 
 
 <script>
 
+
+/* ==========================================
+   MAIN EXCEL ANALYSIS
+========================================== */
+
 async function analyzeExcel() {
 
-  const fileInput = document.getElementById("excelFile");
+  const fileInput =
+    document.getElementById("excelFile");
 
-  const status = document.getElementById("status");
+  const status =
+    document.getElementById("status");
 
-  const analysisStatus =
-    document.getElementById("analysisStatus");
 
   if (!fileInput.files.length) {
 
     status.innerHTML =
-      '<span class="warning">Please select an Excel file first.</span>';
+      '<span class="warning">' +
+      'Please select an Excel file first.' +
+      '</span>';
 
     return;
+
   }
 
-  const file = fileInput.files[0];
 
-  status.innerHTML = "Reading Excel file...";
+  const file =
+    fileInput.files[0];
+
+
+  status.innerHTML =
+    "Reading Excel file...";
+
 
   try {
 
-    const data = await file.arrayBuffer();
+    const data =
+      await file.arrayBuffer();
+
 
     const workbook =
-      XLSX.read(data, { type: "array" });
+      XLSX.read(
+        data,
+        { type: "array" }
+      );
+
 
     const sheetName =
       workbook.SheetNames[0];
 
+
     const worksheet =
       workbook.Sheets[sheetName];
+
 
     const rows =
       XLSX.utils.sheet_to_json(
@@ -397,134 +606,104 @@ async function analyzeExcel() {
       );
 
 
-    /* --------------------------------
-       CHECK DATA
-    -------------------------------- */
-
     if (!rows.length) {
 
       status.innerHTML =
-        '<span class="warning">The Excel sheet is empty.</span>';
+        '<span class="warning">' +
+        'The Excel sheet is empty.' +
+        '</span>';
 
       return;
+
     }
 
-
-    /* --------------------------------
-       DETECT COLUMNS
-    -------------------------------- */
 
     const columns =
       Object.keys(rows[0]);
 
 
-    const columnsDiv =
-      document.getElementById("columns");
-
-    columnsDiv.innerHTML = "";
-
-    columns.forEach(column => {
-
-      const tag =
-        document.createElement("div");
-
-      tag.className = "tag";
-
-      tag.textContent = column;
-
-      columnsDiv.appendChild(tag);
-
-    });
-
-
-    /* --------------------------------
-       FIND MEDICATION COLUMN
-    -------------------------------- */
+    /* FIND MEDICATION COLUMN */
 
     const medicationColumn =
       findMedicationColumn(columns);
 
 
-    /* --------------------------------
-       CALCULATE UNIQUE MEDICATIONS
-    -------------------------------- */
+    let uniqueMedications =
+      new Set();
 
-    let uniqueMedications = [];
 
     if (medicationColumn) {
 
-      uniqueMedications =
-        rows
-          .map(row =>
-            String(
-              row[medicationColumn] || ""
-            ).trim()
-          )
-          .filter(value => value !== "");
+      rows.forEach(row => {
+
+        const medication =
+          String(
+            row[medicationColumn] || ""
+          ).trim();
+
+
+        if (medication !== "") {
+
+          uniqueMedications.add(
+            medication
+          );
+
+        }
+
+      });
 
     }
 
-    const uniqueMedicationSet =
-      new Set(uniqueMedications);
 
-
-    /* --------------------------------
-       TOTAL MEDICATIONS
-    -------------------------------- */
+    /* TOTAL MEDICATIONS */
 
     document.getElementById(
       "totalMedications"
     ).textContent =
-      uniqueMedicationSet.size;
+      uniqueMedications.size;
 
 
-    /* --------------------------------
-       PREVIEW
-    -------------------------------- */
-
-    createPreview(columns, rows);
-
-
-    /* --------------------------------
-       STATUS
-    -------------------------------- */
+    /* TEMPORARY STATUS */
 
     status.innerHTML =
       '<span class="success">' +
       'Excel loaded successfully. ' +
       rows.length +
-      ' records found.' +
+      ' records analyzed.' +
       '</span>';
 
 
-    if (medicationColumn) {
+    console.log(
+      "Detected columns:",
+      columns
+    );
 
-      analysisStatus.innerHTML =
-        '<span class="success">' +
-        'Medication column detected: "' +
-        medicationColumn +
-        '"<br>' +
-        'Unique medications: ' +
-        uniqueMedicationSet.size +
-        '<br>' +
-        'Total Excel records: ' +
-        rows.length +
-        '</span>';
 
-    } else {
+    console.log(
+      "Medication column:",
+      medicationColumn
+    );
 
-      analysisStatus.innerHTML =
-        '<span class="warning">' +
-        'Excel loaded, but the medication column could not be identified automatically.' +
-        '<br>Please check the Detected Excel Columns section.' +
-        '</span>';
 
-    }
+    console.log(
+      "Unique medications:",
+      uniqueMedications.size
+    );
+
+
+    /*
+      NEXT STEP:
+      Medication Availability
+      Zero Stock
+      PAR Changes
+      Ward / ADC Analysis
+    */
 
 
   } catch (error) {
 
     console.error(error);
+
 
     status.innerHTML =
       '<span class="warning">' +
@@ -537,39 +716,52 @@ async function analyzeExcel() {
 }
 
 
-/* --------------------------------
+/* ==========================================
    FIND MEDICATION COLUMN
--------------------------------- */
+========================================== */
 
 function findMedicationColumn(columns) {
 
   const keywords = [
 
     "medication",
+
     "medication name",
+
     "drug",
+
     "drug name",
+
     "item",
+
     "item name",
+
     "medicine",
+
     "medicine name",
+
     "generic name",
+
     "drug description",
+
     "item description"
 
   ];
 
 
-  /* Exact / partial match */
-
-  for (const column of columns) {
+  for (
+    const column of columns
+  ) {
 
     const normalized =
       column
         .toLowerCase()
         .trim();
 
-    for (const keyword of keywords) {
+
+    for (
+      const keyword of keywords
+    ) {
 
       if (
         normalized === keyword ||
@@ -589,75 +781,6 @@ function findMedicationColumn(columns) {
 
 }
 
-
-/* --------------------------------
-   CREATE DATA PREVIEW
--------------------------------- */
-
-function createPreview(columns, rows) {
-
-  const table =
-    document.getElementById("previewTable");
-
-  const thead =
-    table.querySelector("thead");
-
-  const tbody =
-    table.querySelector("tbody");
-
-
-  thead.innerHTML = "";
-  tbody.innerHTML = "";
-
-
-  /* HEADER */
-
-  const headerRow =
-    document.createElement("tr");
-
-
-  columns.forEach(column => {
-
-    const th =
-      document.createElement("th");
-
-    th.textContent =
-      column;
-
-    headerRow.appendChild(th);
-
-  });
-
-
-  thead.appendChild(headerRow);
-
-
-  /* FIRST 20 ROWS */
-
-  rows.slice(0, 20).forEach(row => {
-
-    const tr =
-      document.createElement("tr");
-
-
-    columns.forEach(column => {
-
-      const td =
-        document.createElement("td");
-
-      td.textContent =
-        row[column];
-
-      tr.appendChild(td);
-
-    });
-
-
-    tbody.appendChild(tr);
-
-  });
-
-}
 
 </script>
 
