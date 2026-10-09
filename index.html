@@ -19,7 +19,6 @@
   --red:#d74747;
 }
 * { box-sizing:border-box; }
-
 body {
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
@@ -73,7 +72,7 @@ main { flex:1; min-width:0; padding:30px; }
   justify-content:space-between;
   gap:18px;
   flex-wrap:wrap;
-  margin-bottom:24px;
+  margin-bottom:26px;
 }
 .eyebrow {
   color:var(--teal);
@@ -111,32 +110,78 @@ input[type=file] {
   overflow:hidden;
 }
 
-.panel,.card {
-  background:var(--white);
+.quarter-panel {
+  background:white;
   border:1px solid var(--border);
   border-radius:13px;
+  padding:21px;
+  margin-bottom:22px;
   box-shadow:0 3px 12px #18345206;
 }
-.upload-panel { padding:18px; margin-bottom:22px; }
-.upload-row {
+.section-title {
+  color:var(--navy);
+  font-size:15px;
+  font-weight:800;
+}
+.section-subtitle {
+  margin-top:6px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+}
+.quarters {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-top:18px;
+}
+.quarter-btn {
+  padding:15px 10px;
+  background:#f7f9fc;
+  color:var(--navy);
+  border:1px solid var(--border);
+  border-radius:10px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:800;
+  transition:all .15s ease;
+}
+.quarter-btn:hover {
+  border-color:var(--teal);
+  background:#f0fbf9;
+}
+.quarter-btn.active {
+  background:var(--navy);
+  color:white;
+  border-color:var(--navy);
+  box-shadow:0 4px 12px #16345220;
+}
+.quarter-btn small {
+  display:block;
+  margin-top:6px;
+  font-size:10px;
+  font-weight:400;
+  opacity:.8;
+}
+.quarter-actions {
   display:flex;
   align-items:center;
-  gap:12px;
+  justify-content:space-between;
+  gap:14px;
   flex-wrap:wrap;
+  margin-top:20px;
+  padding-top:18px;
+  border-top:1px solid var(--border);
 }
-select {
-  max-width:100%;
-  padding:10px 12px;
-  border:1px solid #d7e0ea;
-  border-radius:8px;
-  background:white;
+.selected-quarter {
   color:var(--navy);
   font-size:13px;
+  font-weight:800;
 }
 .file-status {
-  margin-top:11px;
-  font-size:12px;
+  margin-top:12px;
   color:var(--muted);
+  font-size:12px;
   line-height:1.7;
   overflow-wrap:anywhere;
 }
@@ -145,10 +190,14 @@ select {
 
 .kpis {
   display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-template-columns:repeat(3,minmax(0,1fr));
   gap:16px;
 }
 .card {
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:13px;
+  box-shadow:0 3px 12px #18345206;
   min-height:150px;
   padding:21px;
   border-top:3px solid var(--accent,var(--teal));
@@ -179,10 +228,10 @@ select {
   color:#96a1b0;
 }
 
-@media(max-width:1200px) {
+@media(max-width:1100px) {
   .kpis { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
-@media(max-width:1000px) {
+@media(max-width:850px) {
   .sidebar { width:190px; }
   main { padding:22px; }
 }
@@ -190,6 +239,7 @@ select {
   .sidebar { display:none; }
   main { padding:17px 12px; }
   h1 { font-size:22px; }
+  .quarters { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
   .kpis { grid-template-columns:1fr; gap:10px; }
   .card { min-height:120px; padding:17px; }
   .metric { font-size:30px; margin-top:10px; }
@@ -212,7 +262,7 @@ select {
   <div class="sidebar-foot">
     SMARTER INVENTORY<br>
     BETTER AVAILABILITY<br><br>
-    Upload an Excel report to begin.
+    Quarterly medication analysis.
   </div>
 </aside>
 
@@ -222,25 +272,56 @@ select {
       <div class="eyebrow">PHARMACY AUTOMATION &amp; TECHNOLOGY</div>
       <h1>Medication Data Analysis</h1>
       <div class="subtitle">
-        Basic analysis of medication records, ADC locations and stock availability.
+        Select a quarter, upload its Excel report and view the analysis.
       </div>
-    </div>
-
-    <div>
-      <label for="excelFile" class="upload-btn">↑ &nbsp; Upload Excel</label>
-      <input id="excelFile" type="file" accept=".xlsx,.xls,.xlsm">
     </div>
   </header>
 
-  <section class="panel upload-panel">
-    <div class="upload-row">
-      <strong style="font-size:13px;color:#163452">Report Workspace</strong>
-      <select id="sheetSelect" aria-label="Select worksheet" disabled>
-        <option value="">Upload a workbook first</option>
-      </select>
+  <section class="quarter-panel">
+    <div class="section-title">Quarterly Analysis</div>
+    <div class="section-subtitle">
+      Choose the quarter you want to analyze.
     </div>
+
+    <div class="quarters">
+      <button class="quarter-btn active" data-quarter="Q1">
+        Q1
+        <small>January – March</small>
+      </button>
+      <button class="quarter-btn" data-quarter="Q2">
+        Q2
+        <small>April – June</small>
+      </button>
+      <button class="quarter-btn" data-quarter="Q3">
+        Q3
+        <small>July – September</small>
+      </button>
+      <button class="quarter-btn" data-quarter="Q4">
+        Q4
+        <small>October – December</small>
+      </button>
+    </div>
+
+    <div class="quarter-actions">
+      <div>
+        <div class="selected-quarter" id="selectedQuarter">
+          Selected Quarter: Q1
+        </div>
+        <div class="section-subtitle" id="quarterFile">
+          No file uploaded for this quarter.
+        </div>
+      </div>
+
+      <div>
+        <label for="excelFile" class="upload-btn" id="uploadLabel">
+          ↑ &nbsp; Upload Q1 Excel
+        </label>
+        <input id="excelFile" type="file" accept=".xlsx,.xls,.xlsm">
+      </div>
+    </div>
+
     <div id="fileStatus" class="file-status">
-      No report uploaded. Upload your Excel workbook to start.
+      Select a quarter and upload its Excel report to begin.
     </div>
     <div id="fileError" class="file-status error"></div>
   </section>
@@ -250,7 +331,7 @@ select {
       <div class="card-label">Medication Records Analyzed</div>
       <div class="metric" id="total">—</div>
       <div class="card-note" id="totalNote">
-        Valid records after data checks
+        Medication records in the selected quarter
       </div>
     </div>
 
@@ -263,13 +344,9 @@ select {
     <div class="card" style="--accent:#d74747">
       <div class="card-label">Zero Days Records</div>
       <div class="metric red" id="zeroDays">—</div>
-      <div class="card-note">Records where Zero Days is greater than zero</div>
-    </div>
-
-    <div class="card" style="--accent:#e29a42">
-      <div class="card-label">Current Zero Stock</div>
-      <div class="metric red" id="currentZero">—</div>
-      <div class="card-note">Records with current on-hand quantity equal to zero</div>
+      <div class="card-note">
+        Records where Zero Days is greater than zero
+      </div>
     </div>
   </section>
 
@@ -285,9 +362,60 @@ select {
 
   const $ = id => document.getElementById(id);
   const fileInput = $('excelFile');
-  const sheetSelect = $('sheetSelect');
 
-  let workbook = null;
+  let selectedQuarter = 'Q1';
+
+  // Each quarter retains its own workbook and filename while the page is open.
+  const quarterData = {
+    Q1: null,
+    Q2: null,
+    Q3: null,
+    Q4: null
+  };
+
+  const aliases = {
+    medication: [
+      'rx disp', 'rxdisp',
+      'item name', 'item description', 'item desc',
+      'medication name', 'drug name', 'drug description',
+      'medication description', 'description',
+      'medication', 'drug', 'item',
+      'item id', 'item code', 'item number', 'item no',
+      'medication id', 'medication code',
+      'ndc', 'product name', 'product description'
+    ],
+    ward: [
+      'omni stid', 'omni station id',
+      'station id', 'station name', 'station',
+      'adc name', 'adc location', 'adc',
+      'ward', 'ward name', 'ward location',
+      'location', 'location name',
+      'department', 'department name',
+      'unit', 'unit name',
+      'cabinet', 'cabinet name', 'device location'
+    ],
+    zero: [
+      'zero days', 'zerodays', 'zero day',
+      'days zero', 'zero stock days',
+      'days out of stock', 'stockout days',
+      'stock out days', 'days at zero',
+      'days with zero stock'
+    ],
+    stock: [
+      'qty onhand', 'qty on hand',
+      'onhand qty', 'on hand quantity',
+      'quantity on hand', 'on hand',
+      'stock on hand', 'actual stock',
+      'current stock', 'current quantity',
+      'current qty', 'available quantity',
+      'available qty', 'quantity available',
+      'onhand', 'on hand qty', 'physical quantity'
+    ],
+    low: [
+      'low days', 'lowdays', 'low day',
+      'critical low days'
+    ]
+  };
 
   function clean(value) {
     return String(value ?? '').trim();
@@ -327,60 +455,11 @@ select {
   }
 
   function resetDashboard() {
-    ['total', 'wards', 'zeroDays', 'currentZero'].forEach(id => {
-      setText(id, '—');
-    });
-
-    setText('totalNote', 'Valid records after data checks');
+    setText('total', '—');
+    setText('wards', '—');
+    setText('zeroDays', '—');
+    setText('totalNote', 'Medication records in the selected quarter');
   }
-
-  const aliases = {
-    medication: [
-      'rx disp', 'rxdisp',
-      'item name', 'item description', 'item desc',
-      'medication name', 'drug name', 'drug description',
-      'medication description', 'description',
-      'medication', 'drug', 'item',
-      'item id', 'item code', 'item number', 'item no',
-      'medication id', 'medication code',
-      'ndc', 'product name', 'product description'
-    ],
-
-    ward: [
-      'omni stid', 'omni station id',
-      'station id', 'station name', 'station',
-      'adc name', 'adc location', 'adc',
-      'ward', 'ward name', 'ward location',
-      'location', 'location name',
-      'department', 'department name',
-      'unit', 'unit name',
-      'cabinet', 'cabinet name', 'device location'
-    ],
-
-    zero: [
-      'zero days', 'zerodays', 'zero day',
-      'days zero', 'zero stock days',
-      'days out of stock', 'stockout days',
-      'stock out days', 'days at zero',
-      'days with zero stock'
-    ],
-
-    stock: [
-      'qty onhand', 'qty on hand',
-      'onhand qty', 'on hand quantity',
-      'quantity on hand', 'on hand',
-      'stock on hand', 'actual stock',
-      'current stock', 'current quantity',
-      'current qty', 'available quantity',
-      'available qty', 'quantity available',
-      'onhand', 'on hand qty', 'physical quantity'
-    ],
-
-    low: [
-      'low days', 'lowdays', 'low day',
-      'critical low days'
-    ]
-  };
 
   function findColumn(headers, type) {
     const normalizedHeaders = headers.map(normalize);
@@ -452,16 +531,13 @@ select {
     return -1;
   }
 
-  function headerDetails(row) {
+  function getHeaderDetails(row) {
     const headers = row.map(clean);
     const columns = {};
 
     ['medication', 'ward', 'zero', 'stock', 'low'].forEach(type => {
       columns[type] = findColumn(headers, type);
     });
-
-    let score = 0;
-    let recognized = 0;
 
     const weights = {
       medication: 3,
@@ -470,6 +546,9 @@ select {
       stock: 3,
       low: 1
     };
+
+    let score = 0;
+    let recognized = 0;
 
     Object.keys(columns).forEach(type => {
       if (columns[type] >= 0) {
@@ -492,7 +571,7 @@ select {
     const limit = Math.min(matrix.length, 60);
 
     for (let i = 0; i < limit; i++) {
-      const details = headerDetails(matrix[i]);
+      const details = getHeaderDetails(matrix[i]);
 
       if (details.recognized < 2 || details.score < 4) continue;
 
@@ -506,17 +585,22 @@ select {
 
   function isSummaryRow(row) {
     return row.some(value => {
-      const v = normalize(value);
-      return /^(grand total|total|subtotal|overall total)$/.test(v);
+      const valueNormalized = normalize(value);
+      return /^(grand total|total|subtotal|overall total)$/.test(valueNormalized);
     });
   }
 
-  function analyzeSheet(sheetName) {
-    if (!workbook || !sheetName) return;
+  function analyzeWorkbook(dataForQuarter) {
+    if (!dataForQuarter) {
+      resetDashboard();
+      setText('fileStatus', 'Select this quarter and upload its Excel report.');
+      $('fileStatus').className = 'file-status';
+      setText('fileError', '');
+      return;
+    }
 
-    setText('fileError', '');
-    setText('fileStatus', 'Analyzing worksheet: ' + sheetName + ' ...');
-    $('fileStatus').className = 'file-status';
+    const workbook = dataForQuarter.workbook;
+    const sheetName = dataForQuarter.sheetName || workbook.SheetNames[0];
 
     try {
       const sheet = workbook.Sheets[sheetName];
@@ -536,19 +620,16 @@ select {
 
       if (!header) {
         throw new Error(
-          'Could not confidently identify the header row. ' +
-          'Select the worksheet that contains the medication data.'
+          'Could not identify the header row. Please check the worksheet.'
         );
       }
 
       const headerIndex = header.index;
-      const headers = header.details.headers;
       const cols = header.details.columns;
 
       const medCol = cols.medication;
       const wardCol = cols.ward;
       const zeroCol = cols.zero;
-      const stockCol = cols.stock;
 
       const rawRows = matrix
         .slice(headerIndex + 1)
@@ -558,8 +639,7 @@ select {
       const records = rawRows.map(row => ({
         medication: medCol >= 0 ? clean(row[medCol]) : '',
         ward: wardCol >= 0 ? clean(row[wardCol]) : '',
-        zeroDays: zeroCol >= 0 ? parseNumber(row[zeroCol]) : null,
-        stock: stockCol >= 0 ? parseNumber(row[stockCol]) : null
+        zeroDays: zeroCol >= 0 ? parseNumber(row[zeroCol]) : null
       }));
 
       let data;
@@ -568,34 +648,27 @@ select {
         data = records.filter(row => row.medication !== '');
       } else {
         data = records.filter(row =>
-          (zeroCol >= 0 && row.zeroDays !== null) ||
-          (stockCol >= 0 && row.stock !== null)
+          zeroCol >= 0 && row.zeroDays !== null
         );
       }
 
       if (!data.length) {
         throw new Error(
-          'No usable medication records were found. ' +
-          'Check the selected worksheet and detected columns.'
+          'No usable medication records were found in this worksheet.'
         );
       }
 
-      const uniqueLocations = new Map();
+      const uniqueLocations = new Set();
 
       data.forEach(row => {
-        const location = clean(row.ward);
-        const key = normalize(location);
-        if (key && !uniqueLocations.has(key)) {
-          uniqueLocations.set(key, location);
-        }
+        const locationKey = normalize(row.ward);
+        if (locationKey) uniqueLocations.add(locationKey);
       });
 
       const zeroDaysCount = zeroCol >= 0
-        ? data.filter(row => row.zeroDays !== null && row.zeroDays > 0).length
-        : null;
-
-      const currentZeroCount = stockCol >= 0
-        ? data.filter(row => row.stock !== null && row.stock === 0).length
+        ? data.filter(row =>
+            row.zeroDays !== null && row.zeroDays > 0
+          ).length
         : null;
 
       setText('total', data.length.toLocaleString());
@@ -611,45 +684,30 @@ select {
       );
 
       setText(
-        'currentZero',
-        currentZeroCount === null ? 'N/A' : currentZeroCount.toLocaleString()
-      );
-
-      setText(
         'totalNote',
         medCol >= 0
           ? 'Rows with a non-empty medication identifier'
-          : 'Estimated rows; medication identifier not detected'
+          : 'Estimated records; medication identifier not detected'
       );
 
       const messages = [];
 
-      if (medCol < 0) {
-        messages.push('Medication identifier was not detected.');
-      }
-
-      if (wardCol < 0) {
-        messages.push('Location column was not detected.');
-      }
-
-      if (zeroCol < 0) {
-        messages.push('Zero Days data was not detected.');
-      }
-
-      if (stockCol < 0) {
-        messages.push('Current on-hand quantity was not detected.');
-      }
+      if (medCol < 0) messages.push('Medication identifier not detected.');
+      if (wardCol < 0) messages.push('Location column not detected.');
+      if (zeroCol < 0) messages.push('Zero Days column not detected.');
 
       setText(
         'fileStatus',
-        'Analysis complete: ' + data.length.toLocaleString() +
-        ' records analyzed from "' + sheetName + '".' +
+        selectedQuarter + ' analysis complete: ' +
+        data.length.toLocaleString() + ' records from "' + sheetName + '".' +
         (messages.length ? ' Note: ' + messages.join(' ') : '')
       );
 
       $('fileStatus').className = messages.length
         ? 'file-status'
         : 'file-status success';
+
+      setText('fileError', '');
 
     } catch (error) {
       resetDashboard();
@@ -659,7 +717,7 @@ select {
     }
   }
 
-  function chooseBestSheet() {
+  function findBestSheet(workbook) {
     let bestName = workbook.SheetNames[0];
     let bestScore = -1;
 
@@ -671,17 +729,7 @@ select {
       });
 
       const header = findHeader(matrix);
-      let score = header ? header.details.score : 0;
-
-      const normalizedName = normalize(name);
-
-      if (
-        normalizedName.includes('calculation') ||
-        normalizedName.includes('action') ||
-        normalizedName.includes('par')
-      ) {
-        score += 0.25;
-      }
+      const score = header ? header.details.score : 0;
 
       if (score > bestScore) {
         bestScore = score;
@@ -692,14 +740,42 @@ select {
     return bestName;
   }
 
+  function updateQuarterUI() {
+    document.querySelectorAll('.quarter-btn').forEach(button => {
+      const isActive = button.dataset.quarter === selectedQuarter;
+      button.classList.toggle('active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
+
+    setText('selectedQuarter', 'Selected Quarter: ' + selectedQuarter);
+    $('uploadLabel').innerHTML = '↑ &nbsp; Upload ' + selectedQuarter + ' Excel';
+
+    const data = quarterData[selectedQuarter];
+
+    if (data) {
+      setText('quarterFile', 'Uploaded: ' + data.fileName);
+      analyzeWorkbook(data);
+    } else {
+      setText('quarterFile', 'No file uploaded for this quarter.');
+      resetDashboard();
+      setText('fileStatus', 'Upload the Excel report for ' + selectedQuarter + '.');
+      $('fileStatus').className = 'file-status';
+      setText('fileError', '');
+    }
+  }
+
+  document.querySelectorAll('.quarter-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      selectedQuarter = button.dataset.quarter;
+      updateQuarterUI();
+    });
+  });
+
   fileInput.addEventListener('change', async event => {
     const file = event.target.files && event.target.files[0];
     if (!file) return;
 
-    workbook = null;
-    sheetSelect.disabled = true;
     resetDashboard();
-
     setText('fileError', '');
     setText('fileStatus', 'Reading ' + file.name + ' ...');
     $('fileStatus').className = 'file-status';
@@ -707,13 +783,13 @@ select {
     try {
       if (!window.XLSX) {
         throw new Error(
-          'The Excel reader did not load. Check your internet connection and refresh the page.'
+          'Excel reader did not load. Check your internet connection and refresh the page.'
         );
       }
 
       const buffer = await file.arrayBuffer();
 
-      workbook = XLSX.read(buffer, {
+      const workbook = XLSX.read(buffer, {
         type: 'array',
         cellDates: true
       });
@@ -722,39 +798,29 @@ select {
         throw new Error('No worksheets were found in this workbook.');
       }
 
-      sheetSelect.replaceChildren();
+      const sheetName = findBestSheet(workbook);
 
-      workbook.SheetNames.forEach(name => {
-        const option = document.createElement('option');
-        option.value = name;
-        option.textContent = name;
-        sheetSelect.appendChild(option);
-      });
+      quarterData[selectedQuarter] = {
+        workbook,
+        sheetName,
+        fileName: file.name
+      };
 
-      sheetSelect.disabled = false;
-
-      const preferred = chooseBestSheet();
-      sheetSelect.value = preferred;
-
-      analyzeSheet(preferred);
+      setText('quarterFile', 'Uploaded: ' + file.name);
+      analyzeWorkbook(quarterData[selectedQuarter]);
 
     } catch (error) {
-      workbook = null;
-      sheetSelect.disabled = true;
       resetDashboard();
-
       setText('fileStatus', 'Upload or analysis failed.');
       $('fileStatus').className = 'file-status error';
       setText('fileError', error.message || String(error));
     }
+
+    // Allow selecting the same file again if needed.
+    fileInput.value = '';
   });
 
-  sheetSelect.addEventListener('change', () => {
-    if (workbook && sheetSelect.value) {
-      analyzeSheet(sheetSelect.value);
-    }
-  });
-
+  updateQuarterUI();
 })();
 </script>
 </body>
