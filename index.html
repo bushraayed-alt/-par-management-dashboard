@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MedAvail Intelligence</title>
-
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
 <style>
@@ -20,16 +19,13 @@
   --red:#d74747;
 }
 * { box-sizing:border-box; }
-
 body {
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:var(--bg);
   color:var(--text);
 }
-
 .app { display:flex; min-height:100vh; }
-
 .sidebar {
   width:230px;
   flex-shrink:0;
@@ -37,14 +33,8 @@ body {
   color:white;
   padding:26px 18px;
 }
-
-.brand {
-  font-size:21px;
-  font-weight:800;
-  line-height:1.4;
-}
+.brand { font-size:21px; font-weight:800; line-height:1.4; }
 .brand span { color:#65d6c6; }
-
 .brand-sub {
   margin-top:6px;
   font-size:10px;
@@ -52,14 +42,12 @@ body {
   letter-spacing:1px;
   line-height:1.6;
 }
-
 .nav-label {
   margin:35px 10px 12px;
   color:#94abc2;
   font-size:10px;
   letter-spacing:1.5px;
 }
-
 .nav-item {
   padding:12px;
   margin:5px 0;
@@ -67,12 +55,7 @@ body {
   color:#dce6f0;
   font-size:13px;
 }
-
-.nav-item.active {
-  background:#2b4b6c;
-  color:white;
-}
-
+.nav-item.active { background:#2b4b6c; color:white; }
 .sidebar-foot {
   margin-top:45px;
   padding:10px;
@@ -80,13 +63,7 @@ body {
   font-size:11px;
   line-height:1.8;
 }
-
-main {
-  flex:1;
-  min-width:0;
-  padding:30px;
-}
-
+main { flex:1; min-width:0; padding:30px; }
 .top {
   display:flex;
   align-items:center;
@@ -95,26 +72,14 @@ main {
   flex-wrap:wrap;
   margin-bottom:24px;
 }
-
 .eyebrow {
   color:var(--teal);
   font-size:10px;
   font-weight:800;
   letter-spacing:1.5px;
 }
-
-h1 {
-  color:var(--navy);
-  font-size:27px;
-  margin:8px 0;
-}
-
-.subtitle {
-  font-size:13px;
-  color:var(--muted);
-  line-height:1.7;
-}
-
+h1 { color:var(--navy); font-size:27px; margin:8px 0; }
+.subtitle { font-size:13px; color:var(--muted); line-height:1.7; }
 .upload-btn {
   display:inline-block;
   padding:13px 18px;
@@ -126,9 +91,7 @@ h1 {
   cursor:pointer;
   border:0;
 }
-
 .upload-btn:hover { background:var(--navy2); }
-
 input[type=file] {
   position:absolute;
   width:1px;
@@ -136,26 +99,19 @@ input[type=file] {
   opacity:0;
   overflow:hidden;
 }
-
 .panel,.card {
   background:var(--white);
   border:1px solid var(--border);
   border-radius:13px;
   box-shadow:0 3px 12px #18345206;
 }
-
-.upload-panel {
-  padding:18px;
-  margin-bottom:22px;
-}
-
+.upload-panel { padding:18px; margin-bottom:22px; }
 .upload-row {
   display:flex;
   align-items:center;
   gap:12px;
   flex-wrap:wrap;
 }
-
 select {
   max-width:100%;
   padding:10px 12px;
@@ -165,7 +121,6 @@ select {
   color:var(--navy);
   font-size:13px;
 }
-
 .file-status {
   margin-top:11px;
   font-size:12px;
@@ -173,7 +128,6 @@ select {
   line-height:1.7;
   overflow-wrap:anywhere;
 }
-
 .success { color:#087664; }
 .error { color:#b42318; }
 
@@ -182,19 +136,12 @@ select {
   grid-template-columns:repeat(3,minmax(0,1fr));
   gap:16px;
 }
-
 .card {
-  min-height:150px;
+  min-height:145px;
   padding:21px;
   border-top:3px solid var(--accent,var(--teal));
 }
-
-.card-label {
-  color:#738197;
-  font-size:12px;
-  line-height:1.6;
-}
-
+.card-label { color:#738197; font-size:12px; line-height:1.6; }
 .metric {
   margin-top:17px;
   color:var(--navy);
@@ -202,21 +149,10 @@ select {
   font-weight:800;
   overflow-wrap:anywhere;
 }
-
 .metric.red { color:var(--red); }
+.card-note { margin-top:8px; color:var(--muted); font-size:11px; line-height:1.6; }
 
-.card-note {
-  margin-top:8px;
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.6;
-}
-
-.panel {
-  margin-top:22px;
-  padding:22px;
-}
-
+.panel { margin-top:22px; padding:22px; }
 .panel-head {
   display:flex;
   justify-content:space-between;
@@ -225,13 +161,7 @@ select {
   gap:12px;
   margin-bottom:17px;
 }
-
-h2 {
-  margin:0;
-  color:var(--navy);
-  font-size:16px;
-}
-
+h2 { margin:0; color:var(--navy); font-size:16px; }
 .tag {
   padding:7px 10px;
   background:#eef3f8;
@@ -239,18 +169,8 @@ h2 {
   border-radius:7px;
   font-size:11px;
 }
-
-.table-wrap {
-  width:100%;
-  overflow-x:auto;
-}
-
-table {
-  width:100%;
-  border-collapse:collapse;
-  min-width:520px;
-}
-
+.table-wrap { width:100%; overflow-x:auto; }
+table { width:100%; border-collapse:collapse; min-width:520px; }
 th {
   background:#f7f9fc;
   color:#7a889c;
@@ -259,23 +179,15 @@ th {
   font-size:10px;
   text-align:left;
 }
-
-th,td {
-  padding:13px 11px;
-  border-bottom:1px solid #edf1f5;
-}
-
+th,td { padding:13px 11px; border-bottom:1px solid #edf1f5; }
 td { font-size:12px; }
-
 tbody tr:last-child td { border-bottom:none; }
-
 .empty {
   text-align:center;
   color:#8592a4;
   padding:28px 12px!important;
   line-height:1.8;
 }
-
 .badge {
   display:inline-block;
   padding:6px 8px;
@@ -283,17 +195,7 @@ tbody tr:last-child td { border-bottom:none; }
   font-size:10px;
   font-weight:700;
 }
-
-.badge.red {
-  color:#b82e36;
-  background:#ffeded;
-}
-
-.badge.green {
-  color:#087664;
-  background:#e4f7f1;
-}
-
+.badge.red { color:#b82e36; background:#ffeded; }
 .note {
   margin-top:14px;
   font-size:11px;
@@ -301,27 +203,27 @@ tbody tr:last-child td { border-bottom:none; }
   line-height:1.8;
   overflow-wrap:anywhere;
 }
-
 .footer {
   margin:28px 0 8px;
   text-align:center;
   font-size:10px;
   color:#96a1b0;
 }
-
 @media(max-width:1000px) {
   .sidebar { width:190px; }
   main { padding:22px; }
 }
-
 @media(max-width:700px) {
   .sidebar { display:none; }
   main { padding:17px 12px; }
   h1 { font-size:22px; }
-  .kpis { grid-template-columns:1fr; gap:10px; }
-  .card { min-height:120px; padding:17px; }
-  .metric { font-size:30px; margin-top:10px; }
+  .kpis { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+  .card { min-height:125px; padding:14px; }
+  .metric { font-size:27px; margin-top:10px; }
   .panel { padding:14px; }
+}
+@media(max-width:400px) {
+  .kpis { grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -351,7 +253,8 @@ tbody tr:last-child td { border-bottom:none; }
       <div class="eyebrow">PHARMACY AUTOMATION &amp; TECHNOLOGY</div>
       <h1>Medication Data Analysis</h1>
       <div class="subtitle">
-        Basic analysis of medication records, ADC locations and zero-stock days.
+        Basic analysis of medication records, ADC locations,
+        zero-stock days and item usage status.
       </div>
     </div>
 
@@ -363,14 +266,11 @@ tbody tr:last-child td { border-bottom:none; }
 
   <section class="panel upload-panel">
     <div class="upload-row">
-      <strong style="font-size:13px;color:#163452">
-        Report Workspace
-      </strong>
+      <strong style="font-size:13px;color:#163452">Report Workspace</strong>
       <select id="sheetSelect" aria-label="Select worksheet" disabled>
         <option value="">Upload a workbook first</option>
       </select>
     </div>
-
     <div id="fileStatus" class="file-status">
       No report uploaded. Upload your Excel workbook to start.
     </div>
@@ -381,25 +281,37 @@ tbody tr:last-child td { border-bottom:none; }
     <div class="card" style="--accent:#4169a1">
       <div class="card-label">Medication Records Analyzed</div>
       <div class="metric" id="total">—</div>
-      <div class="card-note">
-        Non-empty medication records in the selected worksheet
-      </div>
+      <div class="card-note">Records with an identified medication</div>
     </div>
 
     <div class="card" style="--accent:#8065b3">
-      <div class="card-label">Wards / ADC Locations Analyzed</div>
+      <div class="card-label">Wards / ADC Locations</div>
       <div class="metric" id="wards">—</div>
-      <div class="card-note">
-        Unique non-empty location names
-      </div>
+      <div class="card-note">Unique locations identified</div>
     </div>
 
     <div class="card" style="--accent:#d74747">
       <div class="card-label">Records With Zero Stock Days</div>
       <div class="metric red" id="zero">—</div>
-      <div class="card-note" id="zeroNote">
-        Waiting for zero-stock data
-      </div>
+      <div class="card-note" id="zeroNote">Waiting for zero-stock data</div>
+    </div>
+
+    <div class="card" style="--accent:#138f8b">
+      <div class="card-label">Used Items (T)</div>
+      <div class="metric" id="used">—</div>
+      <div class="card-note">Records marked T in Item Used</div>
+    </div>
+
+    <div class="card" style="--accent:#d99a32">
+      <div class="card-label">Unused Items (F)</div>
+      <div class="metric" id="unused">—</div>
+      <div class="card-note">Records marked F in Item Used</div>
+    </div>
+
+    <div class="card" style="--accent:#2484a6">
+      <div class="card-label">Item Usage Rate</div>
+      <div class="metric" id="usageRate">—</div>
+      <div class="card-note" id="usageNote">Based on T and F records</div>
     </div>
   </section>
 
@@ -420,9 +332,7 @@ tbody tr:last-child td { border-bottom:none; }
         </thead>
         <tbody id="wardRows">
           <tr>
-            <td colspan="3" class="empty">
-              Upload an Excel report to see results.
-            </td>
+            <td colspan="3" class="empty">Upload an Excel report to see results.</td>
           </tr>
         </tbody>
       </table>
@@ -438,15 +348,12 @@ tbody tr:last-child td { border-bottom:none; }
       <h2>Data Check</h2>
       <span class="tag">Detected Excel columns</span>
     </div>
-
     <div id="columnInfo" class="note">
       The detected column names will appear here.
     </div>
   </section>
 
-  <div class="footer">
-    MedAvail Intelligence · Pharmacy Inventory Analytics
-  </div>
+  <div class="footer">MedAvail Intelligence · Pharmacy Inventory Analytics</div>
 </main>
 </div>
 
@@ -455,7 +362,6 @@ tbody tr:last-child td { border-bottom:none; }
   'use strict';
 
   const $ = id => document.getElementById(id);
-
   const fileInput = $('excelFile');
   const sheetSelect = $('sheetSelect');
 
@@ -486,7 +392,6 @@ tbody tr:last-child td { border-bottom:none; }
 
     const text = clean(value).replace(/,/g, '');
 
-    // Do not treat arbitrary text as zero.
     if (!/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(text)) {
       return null;
     }
@@ -500,87 +405,51 @@ tbody tr:last-child td { border-bottom:none; }
   }
 
   function resetDashboard() {
-    setText('total', '—');
-    setText('wards', '—');
-    setText('zero', '—');
+    ['total', 'wards', 'zero', 'used', 'unused', 'usageRate']
+      .forEach(id => setText(id, '—'));
+
     setText('zeroNote', 'Waiting for zero-stock data');
+    setText('usageNote', 'Based on T and F records');
     setText('columnInfo', 'The detected column names will appear here.');
     setText('summaryNote', 'The summary will appear after the worksheet is analyzed.');
 
-    showEmpty(
-      $('wardRows'),
-      'Upload an Excel report to see results.'
-    );
+    showEmpty($('wardRows'), 'Upload an Excel report to see results.');
   }
 
-  /*
-   * Column names are normalized before matching.
-   * No fixed Excel column positions are assumed.
-   */
   const aliases = {
     medication: [
-      'rx disp',
-      'rxdisp',
-      'item name',
-      'item description',
-      'medication name',
-      'drug name',
-      'description',
-      'medication',
-      'drug',
-      'item',
-      'item id',
-      'item code',
-      'item number',
-      'medication id',
-      'ndc'
+      'rx disp', 'rxdisp', 'item name', 'item description',
+      'medication name', 'drug name', 'description',
+      'medication', 'drug', 'item', 'item id', 'item code',
+      'item number', 'medication id', 'ndc'
     ],
 
     ward: [
-      'omni stid',
-      'omni station id',
-      'station id',
-      'station name',
-      'adc name',
-      'adc location',
-      'ward',
-      'ward name',
-      'ward location',
-      'location',
-      'location name',
-      'department',
-      'department name',
-      'unit',
-      'unit name'
+      'omni stid', 'omni station id', 'station id',
+      'station name', 'adc name', 'adc location',
+      'ward', 'ward name', 'ward location',
+      'location', 'location name', 'department',
+      'department name', 'unit', 'unit name'
     ],
 
     zero: [
-      'zero days',
-      'zerodays',
-      'zero day',
-      'days zero',
-      'zero stock days',
-      'days out of stock',
-      'stockout days',
-      'stock out days',
-      'days at zero',
-      'zero'
+      'zero days', 'zerodays', 'zero day', 'days zero',
+      'zero stock days', 'days out of stock',
+      'stockout days', 'stock out days', 'days at zero', 'zero'
     ],
 
     low: [
-      'low days',
-      'lowdays',
-      'low day',
-      'critical low days'
+      'low days', 'lowdays', 'low day', 'critical low days'
     ],
 
     stock: [
-      'qty onhand',
-      'qty on hand',
-      'quantity on hand',
-      'on hand',
-      'stock on hand',
-      'actual stock'
+      'qty onhand', 'qty on hand', 'quantity on hand',
+      'on hand', 'stock on hand', 'actual stock'
+    ],
+
+    used: [
+      'item used', 'itemused', 'item is used',
+      'used item', 'medication used'
     ]
   };
 
@@ -588,58 +457,39 @@ tbody tr:last-child td { border-bottom:none; }
     const names = aliases[type].map(normalize);
     const normalizedHeaders = headers.map(normalize);
 
-    // First: exact matching.
     for (let i = 0; i < normalizedHeaders.length; i++) {
-      if (names.includes(normalizedHeaders[i])) {
-        return i;
-      }
+      if (names.includes(normalizedHeaders[i])) return i;
     }
 
-    // Second: conservative matching for exported header variants.
     for (let i = 0; i < normalizedHeaders.length; i++) {
       const h = normalizedHeaders[i];
       if (!h) continue;
 
-      if (type === 'medication') {
-        if (
-          h.includes('rx disp') ||
-          h.includes('medication name') ||
-          h.includes('item name') ||
-          h === 'drug description'
-        ) return i;
-      }
+      if (type === 'medication' &&
+          (h.includes('rx disp') ||
+           h.includes('medication name') ||
+           h.includes('item name') ||
+           h === 'drug description')) return i;
 
-      if (type === 'ward') {
-        if (
-          h.includes('omni stid') ||
-          h.includes('station name') ||
-          h.includes('adc location') ||
-          h === 'ward location'
-        ) return i;
-      }
+      if (type === 'ward' &&
+          (h.includes('omni stid') ||
+           h.includes('station name') ||
+           h.includes('adc location') ||
+           h === 'ward location')) return i;
 
-      if (type === 'zero') {
-        if (
-          h.includes('zero days') ||
-          h.includes('zero stock days') ||
-          h.includes('stockout days') ||
-          h.includes('stock out days') ||
-          h.includes('days out of stock')
-        ) return i;
-      }
+      if (type === 'zero' &&
+          (h.includes('zero days') ||
+           h.includes('zero stock days') ||
+           h.includes('stockout days') ||
+           h.includes('stock out days') ||
+           h.includes('days out of stock')) return i;
 
-      if (type === 'low' && h.includes('low days')) {
-        return i;
-      }
+      if (type === 'low' && h.includes('low days')) return i;
 
-      if (
-        type === 'stock' &&
-        (
-          h.includes('quantity on hand') ||
-          h.includes('qty on hand') ||
-          h === 'qty onhand'
-        )
-      ) return i;
+      if (type === 'stock' &&
+          (h.includes('quantity on hand') ||
+           h.includes('qty on hand') ||
+           h === 'qty onhand')) return i;
     }
 
     return -1;
@@ -649,15 +499,14 @@ tbody tr:last-child td { border-bottom:none; }
     const headers = row.map(clean);
     let score = 0;
 
-    for (const type of ['medication', 'ward', 'zero', 'low', 'stock']) {
-      if (findColumn(headers, type) >= 0) {
-        score += 2;
-      }
+    for (const type of [
+      'medication', 'ward', 'zero', 'low', 'stock', 'used'
+    ]) {
+      if (findColumn(headers, type) >= 0) score += 2;
     }
 
     const normalized = headers.map(normalize);
 
-    if (normalized.includes('item used')) score++;
     if (normalized.includes('action')) score++;
     if (normalized.includes('recommended par')) score++;
 
@@ -665,10 +514,8 @@ tbody tr:last-child td { border-bottom:none; }
   }
 
   function isSummaryRow(row) {
-    const firstValues = row.slice(0, 4).map(normalize);
-
-    return firstValues.some(value =>
-      /^(grand total|total|subtotal|overall total)$/.test(value)
+    return row.slice(0, 4).some(value =>
+      /^(grand total|total|subtotal|overall total)$/.test(normalize(value))
     );
   }
 
@@ -694,10 +541,7 @@ tbody tr:last-child td { border-bottom:none; }
       .sort((a, b) => a[0].localeCompare(b[0]));
 
     if (!entries.length) {
-      showEmpty(
-        tbody,
-        'No location values were found. Check the detected columns below.'
-      );
+      showEmpty(tbody, 'No location values were found. Check Data Check below.');
       return;
     }
 
@@ -716,17 +560,13 @@ tbody tr:last-child td { border-bottom:none; }
 
       if (zeroMethod === 'unavailable') {
         zeroCell.textContent = 'N/A';
+      } else if (values.zero > 0) {
+        const badge = document.createElement('span');
+        badge.className = 'badge red';
+        badge.textContent = values.zero.toLocaleString();
+        zeroCell.appendChild(badge);
       } else {
-        zeroCell.textContent = values.zero.toLocaleString();
-
-        if (values.zero > 0) {
-          const badge = document.createElement('span');
-          badge.className = 'badge red';
-          badge.textContent = values.zero.toLocaleString();
-
-          zeroCell.textContent = '';
-          zeroCell.appendChild(badge);
-        }
+        zeroCell.textContent = '0';
       }
 
       tr.appendChild(zeroCell);
@@ -755,7 +595,6 @@ tbody tr:last-child td { border-bottom:none; }
         throw new Error('The selected worksheet is empty.');
       }
 
-      // Identify the most likely header row in the first 40 rows.
       let headerIndex = -1;
       let bestScore = 0;
 
@@ -770,8 +609,7 @@ tbody tr:last-child td { border-bottom:none; }
 
       if (headerIndex < 0 || bestScore < 2) {
         throw new Error(
-          'Could not identify the column headers confidently. ' +
-          'Choose a worksheet containing the medication data.'
+          'Could not identify the headers. Choose the worksheet containing medication data.'
         );
       }
 
@@ -782,12 +620,8 @@ tbody tr:last-child td { border-bottom:none; }
       const zeroCol = findColumn(headers, 'zero');
       const lowCol = findColumn(headers, 'low');
       const stockCol = findColumn(headers, 'stock');
+      const usedCol = findColumn(headers, 'used');
 
-      /*
-       * Important:
-       * Never assume S or T is a particular field.
-       * Columns are used only when their headers are identified.
-       */
       const rawRows = matrix.slice(headerIndex + 1)
         .filter(row => row.some(value => clean(value) !== ''))
         .filter(row => !isSummaryRow(row));
@@ -795,26 +629,16 @@ tbody tr:last-child td { border-bottom:none; }
       const rows = rawRows.map(row => ({
         medication: medCol >= 0 ? clean(row[medCol]) : '',
         ward: wardCol >= 0 ? clean(row[wardCol]) : '',
-        zeroValue: zeroCol >= 0
-          ? parseNumber(row[zeroCol])
-          : null,
-        lowValue: lowCol >= 0
-          ? parseNumber(row[lowCol])
-          : null,
-        stockValue: stockCol >= 0
-          ? parseNumber(row[stockCol])
-          : null
+        zeroValue: zeroCol >= 0 ? parseNumber(row[zeroCol]) : null,
+        lowValue: lowCol >= 0 ? parseNumber(row[lowCol]) : null,
+        stockValue: stockCol >= 0 ? parseNumber(row[stockCol]) : null,
+        itemUsed: usedCol >= 0
+          ? clean(row[usedCol]).toUpperCase()
+          : ''
       }));
 
-      /*
-       * If a medication identifier exists, count rows with a
-       * non-empty identifier. Otherwise, use rows with identifiable
-       * location or stock data.
-       */
       const data = rows.filter(row => {
-        if (medCol >= 0) {
-          return row.medication !== '';
-        }
+        if (medCol >= 0) return row.medication !== '';
 
         return (
           (wardCol >= 0 && row.ward !== '') ||
@@ -825,20 +649,10 @@ tbody tr:last-child td { border-bottom:none; }
 
       if (!data.length) {
         throw new Error(
-          'The headers were detected, but no usable records were found. ' +
-          'Please check the selected worksheet and medication column.'
+          'Headers were detected, but no usable records were found.'
         );
       }
 
-      /*
-       * Zero-stock calculation:
-       * 1. Prefer an identified Zero Days column.
-       * 2. Otherwise, use an identified on-hand quantity column.
-       * 3. Otherwise, report N/A instead of inventing a result.
-       *
-       * A positive Zero Days value means that the record experienced
-       * at least one zero-stock day during the reporting period.
-       */
       const zeroMethod = zeroCol >= 0
         ? 'days'
         : stockCol >= 0
@@ -861,10 +675,24 @@ tbody tr:last-child td { border-bottom:none; }
         ? null
         : data.filter(isZeroStock).length;
 
+      const usedCount = usedCol >= 0
+        ? data.filter(row => row.itemUsed === 'T').length
+        : null;
+
+      const unusedCount = usedCol >= 0
+        ? data.filter(row => row.itemUsed === 'F').length
+        : null;
+
+      const classifiedCount = usedCount === null
+        ? 0
+        : usedCount + unusedCount;
+
+      const usageRate = classifiedCount > 0
+        ? (usedCount / classifiedCount) * 100
+        : null;
+
       const uniqueWards = new Set(
-        data
-          .map(row => normalize(row.ward))
-          .filter(Boolean)
+        data.map(row => normalize(row.ward)).filter(Boolean)
       );
 
       const groups = {};
@@ -883,7 +711,6 @@ tbody tr:last-child td { border-bottom:none; }
         }
       });
 
-      // Update the KPI cards.
       setText('total', data.length.toLocaleString());
 
       setText(
@@ -902,12 +729,35 @@ tbody tr:last-child td { border-bottom:none; }
           ? 'Records with Zero Days greater than zero'
           : zeroMethod === 'stock'
             ? 'Records with on-hand quantity equal to or below zero'
-            : 'Zero-stock data unavailable: no recognized column'
+            : 'No recognized Zero Days or on-hand stock column'
+      );
+
+      setText(
+        'used',
+        usedCount === null ? 'N/A' : usedCount.toLocaleString()
+      );
+
+      setText(
+        'unused',
+        unusedCount === null ? 'N/A' : unusedCount.toLocaleString()
+      );
+
+      setText(
+        'usageRate',
+        usageRate === null ? 'N/A' : usageRate.toFixed(1) + '%'
+      );
+
+      setText(
+        'usageNote',
+        usedCol < 0
+          ? 'Item Used column not detected'
+          : classifiedCount === 0
+            ? 'No T/F values found'
+            : classifiedCount.toLocaleString() + ' records classified as T or F'
       );
 
       renderWardTable(groups, zeroMethod);
 
-      // Report which columns were actually detected.
       const detected = [
         'Worksheet: ' + sheetName,
         'Header row: ' + (headerIndex + 1),
@@ -921,6 +771,8 @@ tbody tr:last-child td { border-bottom:none; }
           (lowCol >= 0 ? headers[lowCol] : 'Not detected'),
         'On-hand stock column: ' +
           (stockCol >= 0 ? headers[stockCol] : 'Not detected'),
+        'Item Used column: ' +
+          (usedCol >= 0 ? headers[usedCol] : 'Not detected'),
         'Data records counted: ' + data.length.toLocaleString()
       ];
 
@@ -929,15 +781,10 @@ tbody tr:last-child td { border-bottom:none; }
       setText(
         'summaryNote',
         zeroMethod === 'unavailable'
-          ? 'Medication records are counted using the detected fields. ' +
-            'Zero Stock cannot be calculated until a Zero Days or ' +
-            'on-hand quantity column is identified.'
+          ? 'Zero Stock cannot be calculated until a Zero Days or on-hand quantity column is identified.'
           : zeroMethod === 'days'
-            ? 'Zero Stock counts medication records with Zero Days greater ' +
-              'than zero. This is a record count, not a count of unique ' +
-              'medication names. Blank Zero Days values are not counted.'
-            : 'Zero Stock is estimated from on-hand quantity equal to or ' +
-              'below zero. Blank quantities are not counted.'
+            ? 'Zero Stock counts records with Zero Days greater than zero. Blank values are not counted.'
+            : 'Zero Stock is estimated from on-hand quantity equal to or below zero. Blank quantities are not counted.'
       );
 
       setText(
@@ -945,7 +792,6 @@ tbody tr:last-child td { border-bottom:none; }
         'Analysis complete: ' + data.length.toLocaleString() +
         ' records analyzed from "' + sheetName + '".'
       );
-
       $('fileStatus').className = 'file-status success';
 
     } catch (error) {
@@ -962,22 +808,16 @@ tbody tr:last-child td { border-bottom:none; }
     let bestScore = -1;
 
     workbook.SheetNames.forEach(name => {
-      const matrix = XLSX.utils.sheet_to_json(
-        workbook.Sheets[name],
-        {
-          header: 1,
-          defval: '',
-          blankrows: false
-        }
-      );
+      const matrix = XLSX.utils.sheet_to_json(workbook.Sheets[name], {
+        header: 1,
+        defval: '',
+        blankrows: false
+      });
 
-      let sheetScore = 0;
+      let score = 0;
 
       for (let i = 0; i < Math.min(matrix.length, 40); i++) {
-        sheetScore = Math.max(
-          sheetScore,
-          headerScore(matrix[i])
-        );
+        score = Math.max(score, headerScore(matrix[i]));
       }
 
       const normalizedName = normalize(name);
@@ -986,11 +826,11 @@ tbody tr:last-child td { border-bottom:none; }
         normalizedName.includes('calculation') ||
         normalizedName.includes('action')
       ) {
-        sheetScore += 0.25;
+        score += 0.25;
       }
 
-      if (sheetScore > bestScore) {
-        bestScore = sheetScore;
+      if (score > bestScore) {
+        bestScore = score;
         bestName = name;
       }
     });
@@ -1004,8 +844,8 @@ tbody tr:last-child td { border-bottom:none; }
 
     workbook = null;
     sheetSelect.disabled = true;
-
     resetDashboard();
+
     setText('fileError', '');
     setText('fileStatus', 'Reading ' + file.name + ' ...');
     $('fileStatus').className = 'file-status';
@@ -1013,16 +853,12 @@ tbody tr:last-child td { border-bottom:none; }
     try {
       if (!window.XLSX) {
         throw new Error(
-          'The Excel reader did not load. Check your internet connection ' +
-          'and refresh the page.'
+          'Excel reader did not load. Check your internet connection and refresh the page.'
         );
       }
 
       const buffer = await file.arrayBuffer();
-
-      workbook = XLSX.read(buffer, {
-        type: 'array'
-      });
+      workbook = XLSX.read(buffer, { type: 'array' });
 
       if (!workbook.SheetNames.length) {
         throw new Error('No worksheets were found in this workbook.');
@@ -1047,7 +883,6 @@ tbody tr:last-child td { border-bottom:none; }
     } catch (error) {
       workbook = null;
       sheetSelect.disabled = true;
-
       resetDashboard();
 
       setText('fileStatus', 'Upload or analysis failed.');
