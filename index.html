@@ -8,268 +8,221 @@
 
 <style>
 :root {
-  --navy: #163452;
-  --navy2: #214d70;
-  --teal: #138f8b;
-  --bg: #f4f7fb;
-  --white: #ffffff;
-  --text: #25364b;
-  --muted: #7c8a9e;
-  --border: #e4eaf1;
-  --red: #d74747;
-  --amber: #c58a22;
-  --green: #14836f;
+  --navy:#163452;
+  --navy2:#214d70;
+  --teal:#138f8b;
+  --bg:#f4f7fb;
+  --white:#fff;
+  --text:#25364b;
+  --muted:#7c8a9e;
+  --border:#e4eaf1;
+  --red:#d74747;
 }
-* { box-sizing: border-box; }
+* { box-sizing:border-box; }
 body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
-.app { display: flex; min-height: 100vh; }
+.app { display:flex; min-height:100vh; }
 .sidebar {
-  width: 245px;
-  background: var(--navy);
-  color: white;
-  padding: 27px 18px;
-  flex-shrink: 0;
+  width:230px;
+  flex-shrink:0;
+  background:var(--navy);
+  color:white;
+  padding:26px 18px;
 }
-.brand { font-size: 22px; font-weight: 800; line-height: 1.4; }
-.brand span { color: #65d6c6; }
+.brand { font-size:21px; font-weight:800; line-height:1.4; }
+.brand span { color:#65d6c6; }
 .brand-sub {
-  font-size: 10px;
-  color: #b9c9da;
-  letter-spacing: 1.2px;
-  margin-top: 7px;
+  margin-top:6px;
+  font-size:10px;
+  color:#b9c9da;
+  letter-spacing:1px;
+  line-height:1.6;
 }
 .nav-label {
-  font-size: 10px;
-  color: #94abc2;
-  letter-spacing: 1.5px;
-  margin: 34px 12px 12px;
+  margin:35px 10px 12px;
+  color:#94abc2;
+  font-size:10px;
+  letter-spacing:1.5px;
 }
 .nav-item {
-  padding: 12px;
-  margin: 5px 0;
-  border-radius: 8px;
-  color: #dce6f0;
-  font-size: 13px;
+  padding:12px;
+  margin:5px 0;
+  border-radius:8px;
+  color:#dce6f0;
+  font-size:13px;
 }
-.nav-item.active { background: #2b4b6c; color: white; }
+.nav-item.active { background:#2b4b6c; color:white; }
 .sidebar-foot {
-  margin-top: 50px;
-  padding: 12px;
-  color: #b9c9da;
-  font-size: 11px;
-  line-height: 1.8;
+  margin-top:45px;
+  padding:10px;
+  color:#b9c9da;
+  font-size:11px;
+  line-height:1.8;
 }
-main { flex: 1; min-width: 0; padding: 30px; }
+main { flex:1; min-width:0; padding:30px; }
 .top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 26px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
 }
 .eyebrow {
-  color: var(--teal);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
+  color:var(--teal);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
 }
-h1 { color: var(--navy); font-size: 27px; margin: 8px 0; }
-.subtitle { font-size: 13px; color: var(--muted); line-height: 1.6; }
+h1 { color:var(--navy); font-size:27px; margin:8px 0; }
+.subtitle { font-size:13px; color:var(--muted); line-height:1.7; }
 .upload-btn {
-  display: inline-block;
-  background: var(--navy);
-  color: white;
-  padding: 13px 18px;
-  border-radius: 9px;
-  font-weight: 700;
-  font-size: 13px;
-  cursor: pointer;
-  border: none;
+  display:inline-block;
+  padding:13px 18px;
+  border-radius:9px;
+  background:var(--navy);
+  color:white;
+  font-weight:700;
+  font-size:13px;
+  cursor:pointer;
+  border:0;
 }
-.upload-btn:hover { background: var(--navy2); }
-input[type="file"] {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
+.upload-btn:hover { background:var(--navy2); }
+input[type=file] {
+  position:absolute;
+  width:1px;
+  height:1px;
+  opacity:0;
+  overflow:hidden;
 }
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
-  margin: 25px 0 18px;
+.panel,.card {
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:13px;
+  box-shadow:0 3px 12px #18345206;
 }
-.toolbar-title { font-size: 15px; color: var(--navy); font-weight: 800; }
-.quarters {
-  display: flex;
-  gap: 5px;
-  background: #e8eef5;
-  padding: 5px;
-  border-radius: 10px;
-}
-.quarters button {
-  border: 0;
-  background: transparent;
-  color: #64748b;
-  padding: 9px 15px;
-  border-radius: 7px;
-  cursor: pointer;
-  font-weight: 700;
-}
-.quarters button.active {
-  background: white;
-  color: var(--navy);
-  box-shadow: 0 2px 5px #102c4810;
-}
-.kpis {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 15px;
-}
-.card, .panel {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 13px;
-  box-shadow: 0 3px 12px #18345206;
-}
-.card {
-  position: relative;
-  overflow: hidden;
-  min-height: 132px;
-  padding: 19px;
-  border-top: 3px solid var(--accent, var(--teal));
-}
-.card-label {
-  font-size: 12px;
-  line-height: 1.5;
-  color: #738197;
-  min-height: 35px;
-}
-.metric {
-  font-size: 29px;
-  font-weight: 800;
-  color: var(--navy);
-  margin-top: 12px;
-  overflow-wrap: anywhere;
-}
-.metric.red { color: var(--red); }
-.metric.amber { color: var(--amber); }
-.panel { margin-top: 22px; padding: 22px; }
-.panel-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 17px;
-}
-h2 { font-size: 16px; color: var(--navy); margin: 0; }
-.tag {
-  background: #eef3f8;
-  color: #63748b;
-  padding: 7px 10px;
-  border-radius: 7px;
-  font-size: 11px;
-}
-.table-wrap { width: 100%; overflow-x: auto; }
-table { border-collapse: collapse; width: 100%; min-width: 720px; }
-th {
-  background: #f7f9fc;
-  color: #7a889c;
-  text-transform: uppercase;
-  letter-spacing: .4px;
-  font-size: 10px;
-  text-align: left;
-}
-th, td {
-  padding: 13px 11px;
-  border-bottom: 1px solid #edf1f5;
-}
-td { font-size: 12px; }
-tbody tr:last-child td { border-bottom: none; }
-.progress {
-  height: 7px;
-  min-width: 75px;
-  border-radius: 8px;
-  background: #e9eff4;
-  overflow: hidden;
-  margin-top: 7px;
-}
-.bar { height: 100%; background: var(--teal); border-radius: 8px; }
-.badge {
-  display: inline-block;
-  padding: 6px 8px;
-  border-radius: 6px;
-  font-size: 10px;
-  font-weight: 700;
-}
-.badge.red { color: #b82e36; background: #ffeded; }
-.badge.amber { color: #94610b; background: #fff4dd; }
-.badge.green { color: #087664; background: #e4f7f1; }
-.empty {
-  text-align: center;
-  color: #8592a4;
-  padding: 30px 15px !important;
-  line-height: 1.8;
-}
-.upload-panel {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 20px;
-}
+.upload-panel { padding:18px; margin-bottom:22px; }
 .upload-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
 }
 select {
-  max-width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #d7e0ea;
-  border-radius: 8px;
-  color: var(--navy);
-  background: white;
-  font-size: 13px;
+  max-width:100%;
+  padding:10px 12px;
+  border:1px solid #d7e0ea;
+  border-radius:8px;
+  background:white;
+  color:var(--navy);
+  font-size:13px;
 }
-.file-status { font-size: 12px; color: var(--muted); margin-top: 10px; }
-.error { color: #b42318; }
-.success { color: #087664; }
+.file-status {
+  margin-top:11px;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.7;
+  overflow-wrap:anywhere;
+}
+.success { color:#087664; }
+.error { color:#b42318; }
+.kpis {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+.card {
+  min-height:150px;
+  padding:21px;
+  border-top:3px solid var(--accent,var(--teal));
+}
+.card-label { color:#738197; font-size:12px; line-height:1.6; }
+.metric {
+  margin-top:17px;
+  color:var(--navy);
+  font-size:34px;
+  font-weight:800;
+  overflow-wrap:anywhere;
+}
+.metric.red { color:var(--red); }
+.card-note { margin-top:8px; color:var(--muted); font-size:11px; line-height:1.6; }
+.panel { margin-top:22px; padding:22px; }
+.panel-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:17px;
+}
+h2 { margin:0; color:var(--navy); font-size:16px; }
+.tag {
+  padding:7px 10px;
+  background:#eef3f8;
+  color:#63748b;
+  border-radius:7px;
+  font-size:11px;
+}
+.table-wrap { width:100%; overflow-x:auto; }
+table { width:100%; border-collapse:collapse; min-width:520px; }
+th {
+  background:#f7f9fc;
+  color:#7a889c;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+  font-size:10px;
+  text-align:left;
+}
+th,td {
+  padding:13px 11px;
+  border-bottom:1px solid #edf1f5;
+}
+td { font-size:12px; }
+tbody tr:last-child td { border-bottom:none; }
+.empty {
+  text-align:center;
+  color:#8592a4;
+  padding:28px 12px!important;
+  line-height:1.8;
+}
+.badge {
+  display:inline-block;
+  padding:6px 8px;
+  border-radius:6px;
+  font-size:10px;
+  font-weight:700;
+}
+.badge.red { color:#b82e36; background:#ffeded; }
+.badge.green { color:#087664; background:#e4f7f1; }
 .note {
-  font-size: 11px;
-  line-height: 1.7;
-  color: #7c8a9e;
-  margin-top: 14px;
+  margin-top:14px;
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.8;
+  overflow-wrap:anywhere;
 }
 .footer {
-  text-align: center;
-  font-size: 10px;
-  color: #96a1b0;
-  margin: 28px 0 8px;
+  margin:28px 0 8px;
+  text-align:center;
+  font-size:10px;
+  color:#96a1b0;
 }
-@media(max-width:1100px) {
-  .sidebar { width: 200px; }
-  main { padding: 23px; }
-  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media(max-width:1000px) {
+  .sidebar { width:190px; }
+  main { padding:22px; }
 }
-@media(max-width:650px) {
-  .sidebar { display: none; }
-  main { padding: 17px 12px; }
-  h1 { font-size: 22px; }
-  .kpis { gap: 9px; }
-  .card { padding: 13px; min-height: 120px; }
-  .metric { font-size: 25px; }
-  .panel { padding: 14px; }
+@media(max-width:700px) {
+  .sidebar { display:none; }
+  main { padding:17px 12px; }
+  h1 { font-size:22px; }
+  .kpis { grid-template-columns:1fr; gap:10px; }
+  .card { min-height:120px; padding:17px; }
+  .metric { font-size:30px; margin-top:10px; }
+  .panel { padding:14px; }
 }
 </style>
 </head>
@@ -283,36 +236,32 @@ select {
 
   <div class="nav-label">DASHBOARD</div>
   <div class="nav-item active">▦ &nbsp; Overview</div>
-  <div class="nav-item">▤ &nbsp; Medication Utilization</div>
-  <div class="nav-item">↗ &nbsp; PAR Optimization</div>
-  <div class="nav-item">⚑ &nbsp; Priority Actions</div>
-
-  <div class="nav-label">REPORTING</div>
-  <div class="nav-item">◷ &nbsp; Quarterly Analysis</div>
+  <div class="nav-item">▤ &nbsp; Medication Analysis</div>
+  <div class="nav-item">⚑ &nbsp; Zero Stock</div>
 
   <div class="sidebar-foot">
     SMARTER INVENTORY<br>
     BETTER AVAILABILITY<br><br>
-    Upload your quarterly Excel report to start the analysis.
+    Upload an Excel report to begin.
   </div>
 </aside>
 
 <main>
   <header class="top">
     <div>
-      <div class="eyebrow">PHARMACY AUTOMATION & TECHNOLOGY</div>
-      <h1>Medication Availability Dashboard</h1>
+      <div class="eyebrow">PHARMACY AUTOMATION &amp; TECHNOLOGY</div>
+      <h1>Medication Data Analysis</h1>
       <div class="subtitle">
-        Medication utilization, stock status and PAR optimization.
+        Basic analysis of medications, ADC locations and zero-stock records.
       </div>
     </div>
     <div>
-      <label for="excelFile" class="upload-btn">↑ &nbsp; Upload Excel Report</label>
-      <input id="excelFile" type="file" accept=".xlsx,.xls">
+      <label for="excelFile" class="upload-btn">↑ &nbsp; Upload Excel</label>
+      <input id="excelFile" type="file" accept=".xlsx,.xls,.xlsm">
     </div>
   </header>
 
-  <section class="upload-panel">
+  <section class="panel upload-panel">
     <div class="upload-row">
       <strong style="font-size:13px;color:#163452">Report Workspace</strong>
       <select id="sheetSelect" aria-label="Select worksheet" disabled>
@@ -320,111 +269,67 @@ select {
       </select>
     </div>
     <div id="fileStatus" class="file-status">
-      No report uploaded. Results will appear after analysis.
+      No report uploaded. Upload your Excel workbook to start.
     </div>
     <div id="fileError" class="file-status error"></div>
   </section>
-
-  <div class="toolbar">
-    <div>
-      <div class="toolbar-title">Performance Overview</div>
-      <div id="period" class="subtitle">Awaiting report</div>
-    </div>
-    <div class="quarters">
-      <button type="button" data-q="Q1">Q1</button>
-      <button type="button" data-q="Q2">Q2</button>
-      <button type="button" data-q="Q3">Q3</button>
-      <button type="button" data-q="Q4">Q4</button>
-    </div>
-  </div>
 
   <section class="kpis">
     <div class="card" style="--accent:#4169a1">
       <div class="card-label">Medication Records Analyzed</div>
       <div class="metric" id="total">—</div>
+      <div class="card-note">Medication records in the selected worksheet</div>
     </div>
-    <div class="card" style="--accent:#138f8b">
-      <div class="card-label">Medication Records Used</div>
-      <div class="metric" id="used">—</div>
-    </div>
-    <div class="card" style="--accent:#8794a7">
-      <div class="card-label">Medication Records Not Used</div>
-      <div class="metric" id="unused">—</div>
-    </div>
+
     <div class="card" style="--accent:#8065b3">
-      <div class="card-label">Wards / Locations Analyzed</div>
+      <div class="card-label">Wards / ADC Locations Analyzed</div>
       <div class="metric" id="wards">—</div>
+      <div class="card-note">Unique ward or station names detected</div>
     </div>
+
     <div class="card" style="--accent:#d74747">
-      <div class="card-label">Records With Zero Days</div>
+      <div class="card-label">Records With Zero Stock Days</div>
       <div class="metric red" id="zero">—</div>
-    </div>
-    <div class="card" style="--accent:#c58a22">
-      <div class="card-label">Records With Critical Low Days</div>
-      <div class="metric amber" id="critical">—</div>
-    </div>
-    <div class="card" style="--accent:#138f8b">
-      <div class="card-label">PAR Increase / Decrease Actions</div>
-      <div class="metric" id="adjust">—</div>
-    </div>
-    <div class="card" style="--accent:#64748b">
-      <div class="card-label">Other Explicit PAR Actions</div>
-      <div class="metric" id="noadjust">—</div>
+      <div class="card-note" id="zeroNote">Waiting for zero-stock data</div>
     </div>
   </section>
 
   <section class="panel">
     <div class="panel-head">
-      <h2>Ward Medication Utilization</h2>
-      <span class="tag">Ward-level analysis</span>
+      <h2>Ward / ADC Summary</h2>
+      <span class="tag">Location-level analysis</span>
     </div>
+
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th>Ward / Location</th>
+            <th>Ward / ADC Location</th>
             <th>Medication Records</th>
-            <th>Used Records</th>
-            <th>Unused Records</th>
-            <th>Utilization</th>
-            <th>Zero Days</th>
-            <th>Low Days</th>
+            <th>Zero Stock Records</th>
           </tr>
         </thead>
         <tbody id="wardRows">
-          <tr><td colspan="7" class="empty">Upload an Excel report to see ward-level results.</td></tr>
+          <tr>
+            <td colspan="3" class="empty">
+              Upload an Excel report to see results.
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
-    <div id="utilizationNote" class="note">
-      Utilization will be calculated from the medication records in the selected worksheet.
+    <div class="note" id="summaryNote">
+      The summary will appear after the worksheet is analyzed.
     </div>
   </section>
 
   <section class="panel">
     <div class="panel-head">
-      <h2>Priority Actions</h2>
-      <span class="tag">PAR review</span>
+      <h2>Data Check</h2>
+      <span class="tag">Detected Excel columns</span>
     </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Medication</th>
-            <th>Ward / Location</th>
-            <th>Current PAR</th>
-            <th>Recommended PAR</th>
-            <th>Status</th>
-            <th>Action From Report</th>
-          </tr>
-        </thead>
-        <tbody id="actionRows">
-          <tr><td colspan="6" class="empty">Priority actions will appear after a report is analyzed.</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="note">
-      PAR recommendations are displayed from the uploaded report. Zero or low days alone do not automatically mean that PAR should be increased.
+    <div id="columnInfo" class="note">
+      The detected column names will appear here.
     </div>
   </section>
 
@@ -435,47 +340,39 @@ select {
 <script>
 (function () {
   const $ = id => document.getElementById(id);
+
   const fileInput = $('excelFile');
   const sheetSelect = $('sheetSelect');
 
   let workbook = null;
-  let selectedQuarter = '';
 
-  const norm = v =>
-    String(v ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
-
-  const str = v => String(v ?? '').trim();
-
-  function findColumn(headers, aliases) {
-    return headers.find(h => aliases.includes(norm(h))) || null;
+  function normalize(value) {
+    return String(value ?? '')
+      .toLowerCase()
+      .replace(/[\r\n]+/g, ' ')
+      .replace(/[_\-./]+/g, ' ')
+      .replace(/[^\p{L}\p{N} ]/gu, '')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
-  function get(row, headers, aliases) {
-    const key = findColumn(headers, aliases);
-    return key ? row[key] : null;
+  function clean(value) {
+    return String(value ?? '').trim();
   }
 
-  function num(v) {
-    if (v === null || v === undefined || v === '') return 0;
-    const n = Number(String(v).replace(/,/g, ''));
-    return Number.isFinite(n) ? n : 0;
-  }
+  function number(value) {
+    if (value === null || value === undefined || clean(value) === '') {
+      return null;
+    }
 
-  function used(row, headers) {
-    const flag = norm(get(row, headers, [
-      'item_used', 'item used', 'used', 'is used'
-    ]));
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? value : null;
+    }
 
-    if (['.t.', 't', 'true', 'yes'].includes(flag)) return true;
-    if (['.f.', 'f', 'false', 'no'].includes(flag)) return false;
+    const text = clean(value).replace(/,/g, '');
+    const result = Number(text);
 
-    const usage = get(row, headers, [
-      '3 m usage', '3m usage', 'totalqty', 'total qty',
-      '3 month usage', '3 months consumption',
-      'consumption', 'usage'
-    ]);
-
-    return usage !== null && usage !== '' && num(usage) > 0;
+    return Number.isFinite(result) ? result : null;
   }
 
   function setText(id, value) {
@@ -483,25 +380,135 @@ select {
     if (element) element.textContent = value;
   }
 
-  function makeCell(tr, value) {
-    const td = document.createElement('td');
-    td.textContent = value;
-    tr.appendChild(td);
-    return td;
+  const aliases = {
+    medication: [
+      'rx disp', 'rxdisp', 'item name', 'item description',
+      'medication name', 'drug name', 'description',
+      'medication', 'drug', 'item', 'item id', 'item code',
+      'item number', 'medication id', 'ndc'
+    ],
+    ward: [
+      'omni stid', 'omni station id', 'station id',
+      'station name', 'adc name', 'adc location',
+      'ward', 'ward name', 'ward location',
+      'location', 'location name', 'department',
+      'department name', 'unit', 'unit name'
+    ],
+    zero: [
+      'zero days', 'zerodays', 'zero day', 'days zero',
+      'zero stock days', 'days out of stock',
+      'stockout days', 'stock out days', 'zero'
+    ],
+    low: [
+      'low days', 'lowdays', 'low day', 'critical low days'
+    ],
+    stock: [
+      'qty onhand', 'qty on hand', 'quantity on hand',
+      'on hand', 'stock on hand', 'actual stock'
+    ]
+  };
+
+  function findColumn(headers, type) {
+    const names = aliases[type].map(normalize);
+
+    // Exact match first.
+    for (let i = 0; i < headers.length; i++) {
+      if (names.includes(normalize(headers[i]))) return i;
+    }
+
+    // Allow common prefixes/suffixes in exported column names.
+    for (let i = 0; i < headers.length; i++) {
+      const h = normalize(headers[i]);
+      if (!h) continue;
+
+      if (type === 'medication' &&
+          (h.includes('rx disp') ||
+           h.includes('medication name') ||
+           h.includes('item name'))) return i;
+
+      if (type === 'ward' &&
+          (h.includes('omni stid') ||
+           h.includes('station name') ||
+           h.includes('adc location') ||
+           h === 'ward location')) return i;
+
+      if (type === 'zero' &&
+          (h.includes('zero days') ||
+           h.includes('zero stock days') ||
+           h.includes('stockout days'))) return i;
+
+      if (type === 'low' && h.includes('low days')) return i;
+    }
+
+    return -1;
   }
 
-  function emptyRow(tbody, colspan, message) {
+  function headerScore(row) {
+    const h = row.map(normalize);
+    let score = 0;
+
+    for (const type of ['medication', 'ward', 'zero', 'low', 'stock']) {
+      if (findColumn(h, type) >= 0) score += 2;
+    }
+
+    if (h.includes('item used') || h.includes('itemused')) score++;
+    if (h.includes('action') || h.includes('recommended par')) score++;
+
+    return score;
+  }
+
+  function isSummaryRow(row) {
+    const first = normalize(row.slice(0, 3).join(' '));
+    return /^(grand total|total|subtotal|overall total)$/.test(first);
+  }
+
+  function showEmpty(tbody, message) {
     tbody.replaceChildren();
     const tr = document.createElement('tr');
-    const td = makeCell(tr, message);
-    td.colSpan = colspan;
+    const td = document.createElement('td');
+    td.colSpan = 3;
     td.className = 'empty';
+    td.textContent = message;
+    tr.appendChild(td);
     tbody.appendChild(tr);
   }
 
-  function showError(message) {
-    setText('fileError', message);
-    setText('fileStatus', 'Analysis could not be completed.');
+  function renderWardTable(groups) {
+    const tbody = $('wardRows');
+    tbody.replaceChildren();
+
+    const entries = Object.entries(groups)
+      .sort((a, b) => a[0].localeCompare(b[0]));
+
+    if (!entries.length) {
+      showEmpty(
+        tbody,
+        'No ward/location values were found. Check the detected columns below.'
+      );
+      return;
+    }
+
+    entries.forEach(([ward, values]) => {
+      const tr = document.createElement('tr');
+
+      [ward, values.total.toLocaleString(),
+       values.zero.toLocaleString()].forEach((value, index) => {
+        const td = document.createElement('td');
+        td.textContent = value;
+
+        if (index === 2 && values.zero > 0) {
+          const badge = document.createElement('span');
+          badge.className = 'badge red';
+          badge.textContent = value;
+          td.textContent = '';
+          td.appendChild(badge);
+        }
+
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    });
   }
 
   function analyzeSheet(sheetName) {
@@ -509,33 +516,27 @@ select {
 
     setText('fileError', '');
     setText('fileStatus', 'Analyzing worksheet: ' + sheetName + ' ...');
+    $('fileStatus').className = 'file-status';
 
     try {
       const sheet = workbook.Sheets[sheetName];
       const matrix = XLSX.utils.sheet_to_json(sheet, {
         header: 1,
         defval: '',
-        raw: false
+        raw: true,
+        blankrows: false
       });
 
       if (!matrix.length) {
-        showError('This worksheet is empty.');
-        return;
+        throw new Error('The selected worksheet is empty.');
       }
 
-      // Look for a header row within the first 30 rows.
-      const knownHeaders = [
-        'item id', 'item_id', 'item name', 'item_name',
-        'zero days', 'low days', 'action', 'item_used'
-      ];
-
+      // Find the most likely header row, including reports with title rows.
       let headerIndex = 0;
-      let bestScore = 0;
+      let bestScore = -1;
 
-      for (let i = 0; i < Math.min(matrix.length, 30); i++) {
-        const score = matrix[i].filter(v =>
-          knownHeaders.includes(norm(v))
-        ).length;
+      for (let i = 0; i < Math.min(matrix.length, 40); i++) {
+        const score = headerScore(matrix[i]);
 
         if (score > bestScore) {
           bestScore = score;
@@ -543,252 +544,204 @@ select {
         }
       }
 
-      const headers = matrix[headerIndex].map(v => str(v));
-      const headerNames = headers.filter(Boolean);
-
-      if (!headerNames.length) {
-        showError('Could not find column headers in this worksheet.');
-        return;
-      }
-
-      const rows = matrix.slice(headerIndex + 1)
-        .filter(r => r.some(v => str(v) !== ''))
-        .map(r => {
-          const obj = {};
-          headers.forEach((h, i) => {
-            if (h) obj[h] = r[i] ?? '';
-          });
-          return obj;
-        });
-
-      const idCol = findColumn(headers, [
-        'item id', 'item_id', 'item code', 'medication id'
-      ]);
-      const nameCol = findColumn(headers, [
-        'item name', 'item_name', 'rx_disp', 'medication name',
-        'drug name', 'description'
-      ]);
-      const wardCol = findColumn(headers, [
-        'ward', 'ward name', 'location', 'location name',
-        'omni_stid', 'station', 'adc name'
-      ]);
-      const zeroCol = findColumn(headers, [
-        'zero days', 'zerodays', 'zero days '
-      ]);
-      const lowCol = findColumn(headers, [
-        'low days', 'lowdays', 'low days '
-      ]);
-      const actionCol = findColumn(headers, [
-        'action', 'recommended action', 'par action'
-      ]);
-      const parCol = findColumn(headers, [
-        'current par', 'current_par', 'par'
-      ]);
-      const recoCol = findColumn(headers, [
-        'reco par', 'recommended par', 'new par', 'recommended_par'
-      ]);
-      const stockCol = findColumn(headers, [
-        'qty_onhand', 'qty on hand', 'on hand',
-        'actual stock', 'stock on hand', 'quantity on hand'
-      ]);
-      const usageCol = findColumn(headers, [
-        '3 m usage', '3m usage', 'totalqty', 'total qty',
-        '3 month usage', '3 months consumption', 'consumption', 'usage'
-      ]);
-
-      if (!idCol && !nameCol) {
-        showError(
-          'The worksheet was read, but no medication identifier was detected. ' +
-          'Detected columns: ' + headerNames.join(', ')
+      if (bestScore < 2) {
+        throw new Error(
+          'Could not confidently identify the report headers. ' +
+          'Choose the worksheet that contains the medication data.'
         );
-        return;
       }
 
-      const data = rows.filter(r =>
-        (idCol && str(r[idCol])) ||
-        (nameCol && str(r[nameCol]))
-      );
+      const headers = matrix[headerIndex].map(clean);
 
-      if (!data.length) {
-        showError(
-          'Column headers were found, but no medication rows were detected. ' +
-          'Please select the worksheet containing the report data.'
-        );
-        return;
-      }
+      let medCol = findColumn(headers, 'medication');
+      let wardCol = findColumn(headers, 'ward');
+      let zeroCol = findColumn(headers, 'zero');
+      let lowCol = findColumn(headers, 'low');
+      let stockCol = findColumn(headers, 'stock');
 
-      const wardOf = r => str(wardCol ? r[wardCol] : '');
-      const isUsed = r => used(r, headers);
+      /*
+        Fallback positions from the previously discussed workbook:
+        G = current PAR, K = 3-month usage,
+        S = Low Days, T = Zero Days.
+        These fallback positions are used only when the matching
+        column header was not found.
+      */
+      if (lowCol < 0 && headers.length > 18) lowCol = 18;
+      if (zeroCol < 0 && headers.length > 19) zeroCol = 19;
 
-      const usedRows = data.filter(isUsed);
-      const unusedRows = data.filter(r => !isUsed(r));
-      const wards = [...new Set(data.map(wardOf).filter(Boolean))];
+      // Convert the remaining worksheet rows to data records.
+      const rawRows = matrix.slice(headerIndex + 1)
+        .filter(row => row.some(value => clean(value) !== ''))
+        .filter(row => !isSummaryRow(row));
 
-      const zeroRows = zeroCol
-        ? data.filter(r => num(r[zeroCol]) > 0) : null;
+      const rows = rawRows.map(row => ({
+        original: row,
+        medication: medCol >= 0 ? clean(row[medCol]) : '',
+        ward: wardCol >= 0 ? clean(row[wardCol]) : '',
+        zeroValue: zeroCol >= 0 ? number(row[zeroCol]) : null,
+        lowValue: lowCol >= 0 ? number(row[lowCol]) : null,
+        stockValue: stockCol >= 0 ? number(row[stockCol]) : null
+      }));
 
-      const lowRows = lowCol
-        ? data.filter(r => num(r[lowCol]) > 0) : null;
+      // Prefer medication rows when an identifier is available.
+      const hasMedicationColumn = medCol >= 0;
 
-      const actionText = r => norm(actionCol ? r[actionCol] : '');
-      const changeRows = actionCol
-        ? data.filter(r =>
-            actionText(r).includes('increase') ||
-            actionText(r).includes('decrease')
-          )
-        : null;
-
-      const explicitOtherActions = actionCol
-        ? data.filter(r => {
-            const a = actionText(r);
-            return a && !a.includes('increase') && !a.includes('decrease');
-          })
-        : null;
-
-      // KPI cards.
-      setText('total', data.length.toLocaleString());
-      setText('used', usedRows.length.toLocaleString());
-      setText('unused', unusedRows.length.toLocaleString());
-      setText('wards', wards.length.toLocaleString());
-      setText('zero', zeroRows === null ? 'N/A' : zeroRows.length.toLocaleString());
-      setText('critical', lowRows === null ? 'N/A' : lowRows.length.toLocaleString());
-      setText('adjust', changeRows === null ? 'N/A' : changeRows.length.toLocaleString());
-      setText('noadjust', explicitOtherActions === null ? 'N/A' : explicitOtherActions.length.toLocaleString());
-
-      // Ward-level summary.
-      const grouped = {};
-
-      data.forEach(r => {
-        const ward = wardOf(r);
-        if (!ward) return;
-
-        if (!grouped[ward]) {
-          grouped[ward] = {
-            total: 0, used: 0, unused: 0,
-            zero: 0, low: 0, stocked: 0, usedStocked: 0
-          };
+      const data = rows.filter(row => {
+        if (hasMedicationColumn) {
+          return row.medication !== '';
         }
 
-        const g = grouped[ward];
-        g.total++;
+        // If no medication identifier exists, use non-empty rows
+        // only when a ward or zero-stock field was detected.
+        return (wardCol >= 0 && row.ward !== '') ||
+               (zeroCol >= 0 && row.zeroValue !== null);
+      });
 
-        if (isUsed(r)) g.used++;
-        else g.unused++;
+      if (!data.length) {
+        throw new Error(
+          'Headers were found, but no medication records could be identified. ' +
+          'Please select the correct worksheet.'
+        );
+      }
 
-        if (zeroCol && num(r[zeroCol]) > 0) g.zero++;
-        if (lowCol && num(r[lowCol]) > 0) g.low++;
+      // If no explicit Zero Days column exists, use on-hand quantity.
+      const zeroMethod = zeroCol >= 0
+        ? 'days'
+        : stockCol >= 0
+          ? 'stock'
+          : 'unavailable';
 
-        if (stockCol && num(r[stockCol]) > 0) {
-          g.stocked++;
-          if (isUsed(r)) g.usedStocked++;
+      function isZeroStock(row) {
+        if (zeroMethod === 'days') {
+          return row.zeroValue !== null && row.zeroValue > 0;
+        }
+
+        if (zeroMethod === 'stock') {
+          return row.stockValue !== null && row.stockValue <= 0;
+        }
+
+        return false;
+      }
+
+      const zeroCount = zeroMethod === 'unavailable'
+        ? null
+        : data.filter(isZeroStock).length;
+
+      const uniqueWards = new Set(
+        data.map(row => row.ward).filter(Boolean)
+      );
+
+      const groups = {};
+
+      data.forEach(row => {
+        const ward = row.ward || 'Location not identified';
+
+        if (!groups[ward]) {
+          groups[ward] = { total: 0, zero: 0 };
+        }
+
+        groups[ward].total++;
+
+        if (zeroMethod !== 'unavailable' && isZeroStock(row)) {
+          groups[ward].zero++;
         }
       });
 
-      const wardBody = $('wardRows');
-      wardBody.replaceChildren();
+      setText('total', data.length.toLocaleString());
+      setText('wards', wardCol >= 0
+        ? uniqueWards.size.toLocaleString()
+        : 'N/A');
 
-      const groupEntries = Object.entries(grouped)
-        .sort((a, b) => a[0].localeCompare(b[0]));
+      setText('zero', zeroCount === null
+        ? 'N/A'
+        : zeroCount.toLocaleString());
 
-      if (!groupEntries.length) {
-        emptyRow(
-          wardBody, 7,
-          'No ward/location column was identified. Check the detected columns in your report.'
-        );
-      } else {
-        groupEntries.forEach(([ward, g]) => {
-          const tr = document.createElement('tr');
-          makeCell(tr, ward);
-          makeCell(tr, stockCol ? g.stocked.toLocaleString() : g.total.toLocaleString());
-          makeCell(tr, stockCol ? g.usedStocked.toLocaleString() : g.used.toLocaleString());
-          makeCell(tr, stockCol
-            ? (g.stocked - g.usedStocked).toLocaleString()
-            : g.unused.toLocaleString());
-
-          const denominator = stockCol ? g.stocked : g.total;
-          const numerator = stockCol ? g.usedStocked : g.used;
-          const pct = denominator ? numerator / denominator * 100 : 0;
-
-          const pctCell = makeCell(tr, denominator ? pct.toFixed(1) + '%' : 'N/A');
-          if (denominator) {
-            const progress = document.createElement('div');
-            progress.className = 'progress';
-            const bar = document.createElement('div');
-            bar.className = 'bar';
-            bar.style.width = Math.min(100, pct) + '%';
-            progress.appendChild(bar);
-            pctCell.appendChild(progress);
-          }
-
-          makeCell(tr, zeroCol ? g.zero.toLocaleString() : 'N/A');
-          makeCell(tr, lowCol ? g.low.toLocaleString() : 'N/A');
-          wardBody.appendChild(tr);
-        });
-      }
-
-      setText(
-        'utilizationNote',
-        stockCol
-          ? 'Utilization = used medication records with on-hand quantity above zero ÷ all medication records with on-hand quantity above zero. This measures utilization among currently stocked records, not units consumed.'
-          : 'No actual on-hand stock column was identified. Utilization is calculated as used medication records ÷ all medication records in each ward. This is not a physical-stock utilization percentage.'
+      setText('zeroNote',
+        zeroMethod === 'days'
+          ? 'Records with Zero Days greater than zero'
+          : zeroMethod === 'stock'
+            ? 'Records with on-hand quantity equal to or below zero'
+            : 'No recognizable Zero Days or on-hand stock column found'
       );
 
-      // Priority actions.
-      const actionBody = $('actionRows');
-      const priorityRows = data.filter(r => {
-        const a = actionText(r);
-        return a.includes('increase') ||
-          a.includes('decrease') ||
-          (zeroCol && num(r[zeroCol]) > 0) ||
-          (lowCol && num(r[lowCol]) > 0);
-      }).slice(0, 300);
+      renderWardTable(groups);
 
-      if (!priorityRows.length) {
-        emptyRow(
-          actionBody, 6,
-          'No priority records identified from the available action and stock-status columns.'
-        );
-      } else {
-        actionBody.replaceChildren();
+      const detected = [];
+      detected.push('Worksheet: ' + sheetName);
+      detected.push('Header row: ' + (headerIndex + 1));
+      detected.push('Medication column: ' +
+        (medCol >= 0 ? headers[medCol] : 'Not detected'));
+      detected.push('Ward/location column: ' +
+        (wardCol >= 0 ? headers[wardCol] : 'Not detected'));
+      detected.push('Zero Days column: ' +
+        (zeroCol >= 0 ? headers[zeroCol] : 'Not detected'));
+      detected.push('Low Days column: ' +
+        (lowCol >= 0 ? headers[lowCol] : 'Not detected'));
+      detected.push('On-hand stock column: ' +
+        (stockCol >= 0 ? headers[stockCol] : 'Not detected'));
 
-        priorityRows.forEach(r => {
-          const tr = document.createElement('tr');
-          const a = str(actionCol ? r[actionCol] : '');
-          const zero = zeroCol && num(r[zeroCol]) > 0;
-          const low = lowCol && num(r[lowCol]) > 0;
+      setText('columnInfo', detected.join(' | '));
 
-          makeCell(tr, str(nameCol ? r[nameCol] : '') ||
-                       str(idCol ? r[idCol] : '—'));
-          makeCell(tr, wardOf(r) || '—');
-          makeCell(tr, parCol ? str(r[parCol]) : '—');
-          makeCell(tr, recoCol ? str(r[recoCol]) : '—');
+      setText(
+        'summaryNote',
+        zeroMethod === 'unavailable'
+          ? 'Medication and location counts are shown where identifiable. Zero Stock cannot be calculated until a Zero Days or on-hand quantity column is detected.'
+          : zeroMethod === 'days'
+            ? 'Zero Stock is counted as each medication record with Zero Days greater than zero. Counts are records, not necessarily unique drug names.'
+            : 'Zero Stock is estimated from on-hand quantity equal to or below zero. Blank stock values are not counted as zero.'
+      );
 
-          const statusCell = makeCell(tr, '');
-          const badge = document.createElement('span');
-          badge.className = 'badge ' + (zero ? 'red' : low ? 'amber' : 'green');
-          badge.textContent = zero ? 'Zero Days' : low ? 'Low Days' : 'PAR Review';
-          statusCell.appendChild(badge);
-
-          makeCell(tr, a || 'Review');
-          actionBody.appendChild(tr);
-        });
-      }
-
-      setText('fileStatus',
+      setText(
+        'fileStatus',
         'Analysis complete: ' + data.length.toLocaleString() +
-        ' medication records read from "' + sheetName + '".'
+        ' records analyzed from "' + sheetName + '".'
       );
       $('fileStatus').className = 'file-status success';
 
-      setText(
-        'period',
-        (selectedQuarter ? selectedQuarter + ' · ' : '') +
-        sheetName + ' · ' + data.length.toLocaleString() + ' records'
-      );
-
     } catch (error) {
-      showError('Analysis error: ' + (error.message || String(error)));
+      setText('total', '—');
+      setText('wards', '—');
+      setText('zero', '—');
+      setText('zeroNote', 'Unable to calculate');
+      setText('columnInfo', '');
+      setText('summaryNote', 'Correct the worksheet selection or column mapping and try again.');
+      showEmpty($('wardRows'), 'Analysis could not be completed.');
+      setText('fileStatus', 'Analysis failed.');
+      $('fileStatus').className = 'file-status error';
+      setText('fileError', error.message || String(error));
     }
+  }
+
+  function chooseBestSheet() {
+    let bestName = workbook.SheetNames[0];
+    let bestScore = -1;
+
+    workbook.SheetNames.forEach(name => {
+      const matrix = XLSX.utils.sheet_to_json(workbook.Sheets[name], {
+        header: 1,
+        defval: '',
+        blankrows: false
+      });
+
+      let sheetScore = 0;
+
+      for (let i = 0; i < Math.min(matrix.length, 40); i++) {
+        sheetScore = Math.max(sheetScore, headerScore(matrix[i]));
+      }
+
+      const normalizedName = normalize(name);
+      if (normalizedName.includes('calculation') ||
+          normalizedName.includes('action')) {
+        sheetScore += 0.25;
+      }
+
+      if (sheetScore > bestScore) {
+        bestScore = sheetScore;
+        bestName = name;
+      }
+    });
+
+    return bestName;
   }
 
   fileInput.addEventListener('change', async event => {
@@ -802,14 +755,15 @@ select {
     try {
       if (!window.XLSX) {
         throw new Error(
-          'Excel reader could not load. Check the internet connection and refresh the page.'
+          'Excel reader did not load. Check your internet connection and refresh the page.'
         );
       }
 
-      workbook = XLSX.read(await file.arrayBuffer(), {type: 'array'});
+      const buffer = await file.arrayBuffer();
+      workbook = XLSX.read(buffer, { type: 'array' });
 
       if (!workbook.SheetNames.length) {
-        throw new Error('No worksheets found in this workbook.');
+        throw new Error('No worksheets were found in this workbook.');
       }
 
       sheetSelect.replaceChildren();
@@ -823,33 +777,22 @@ select {
 
       sheetSelect.disabled = false;
 
-      const preferred =
-        workbook.SheetNames.find(n => norm(n) === 'calculation') ||
-        workbook.SheetNames.find(n => norm(n).includes('action')) ||
-        workbook.SheetNames[0];
-
+      const preferred = chooseBestSheet();
       sheetSelect.value = preferred;
-      sheetSelect.onchange = () => analyzeSheet(sheetSelect.value);
 
       analyzeSheet(preferred);
 
     } catch (error) {
-      showError('Upload failed: ' + (error.message || String(error)));
+      setText('fileStatus', 'Upload or analysis failed.');
+      $('fileStatus').className = 'file-status error';
+      setText('fileError', error.message || String(error));
     }
   });
 
-  document.querySelectorAll('[data-q]').forEach(button => {
-    button.addEventListener('click', () => {
-      document.querySelectorAll('[data-q]').forEach(b => b.classList.remove('active'));
-      button.classList.add('active');
-      selectedQuarter = button.dataset.q;
-
-      if (workbook && sheetSelect.value) {
-        analyzeSheet(sheetSelect.value);
-      } else {
-        setText('period', selectedQuarter + ' · Upload the report for this quarter');
-      }
-    });
+  sheetSelect.addEventListener('change', () => {
+    if (workbook && sheetSelect.value) {
+      analyzeSheet(sheetSelect.value);
+    }
   });
 })();
 </script>
