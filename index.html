@@ -1,347 +1,1023 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MedAvail Intelligence</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
 <style>
-:root{
-  --navy:#17384d;--teal:#168578;--bg:#f3f6fa;
-  --text:#26394b;--muted:#718096;--border:#e2e9f0;
+:root {
+  --navy:#163452;
+  --navy2:#214d70;
+  --teal:#138f8b;
+  --bg:#f4f7fb;
+  --white:#fff;
+  --text:#25364b;
+  --muted:#7c8a9e;
+  --border:#e4eaf1;
+  --red:#d74747;
 }
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:var(--text)}
-.app{display:flex;min-height:100vh}
-.sidebar{width:220px;background:var(--navy);color:white;padding:26px 18px;flex-shrink:0}
-.brand{font-size:21px;font-weight:800;line-height:1.4}
-.brand span{color:#68d6c1}
-.brand-sub{font-size:10px;color:#b8cbd6;margin-top:5px}
-.nav-label{font-size:10px;color:#9fb7c6;letter-spacing:1px;margin:38px 10px 12px}
-.nav-item{padding:13px 12px;border-radius:8px;font-size:13px;color:#dce8ef;margin-bottom:6px}
-.nav-item.active{background:#28546b;color:white}
-.side-note{margin-top:35px;border:1px solid #416174;padding:13px;border-radius:9px;font-size:11px;line-height:1.7;color:#d5e3ea}
-main{flex:1;min-width:0;padding:28px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:25px}
-h1{font-size:26px;margin:0 0 7px;color:var(--navy)}
-.subtitle{font-size:13px;color:var(--muted)}
-.status{font-size:11px;padding:9px 12px;background:#e3f4ee;color:#13775d;border-radius:30px;white-space:nowrap}
-.section-title{font-size:15px;font-weight:750;margin:25px 0 13px}
-.panel{background:white;border:1px solid var(--border);border-radius:13px;padding:20px;min-width:0}
-.upload-row{display:flex;align-items:center;gap:15px}
-.upload-icon{width:48px;height:48px;display:grid;place-items:center;background:#e4f5f0;color:var(--teal);border-radius:12px;font-size:24px;flex-shrink:0}
-.upload-info{flex:1;min-width:170px}
-.upload-info strong{font-size:14px}
-.upload-info p{font-size:12px;color:var(--muted);margin:6px 0 0}
-.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-input[type=file],select{padding:10px;border:1px solid var(--border);border-radius:8px;background:white;max-width:100%;min-width:0}
-select{min-width:150px}
-button{padding:11px 17px;border:0;border-radius:8px;background:var(--teal);color:white;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.5;cursor:not-allowed}
-.message{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.5}
-.message.error{color:#b42318}
-.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.kpi{background:white;border:1px solid var(--border);border-radius:13px;padding:18px;min-width:0}
-.kpi-head{display:flex;align-items:center;justify-content:space-between;gap:7px}
-.kpi-label{font-size:12px;line-height:1.5;color:var(--muted)}
-.kpi-icon{width:35px;height:35px;border-radius:10px;display:grid;place-items:center;font-size:17px;flex-shrink:0}
-.teal{background:#e3f5f0;color:#168578}
-.blue{background:#eaf1fc;color:#3e70b5}
-.orange{background:#fff0dc;color:#b87918}
-.gray{background:#edf1f5;color:#66788a}
-.kpi-value{font-size:30px;font-weight:800;color:var(--navy);margin-top:16px;overflow-wrap:anywhere}
-.kpi-foot{font-size:11px;color:var(--muted);margin-top:6px}
-.content-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,1fr);gap:15px;margin-top:22px}
-.panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:15px}
-.panel-head h2{font-size:15px;margin:0}
-.panel-head small{font-size:11px;color:var(--muted)}
-.table-wrap{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:12px}
-th{background:#f4f7fa;text-align:left;color:#647587;padding:12px 10px;white-space:nowrap}
-td{padding:12px 10px;border-bottom:1px solid #edf1f4}
-.empty{text-align:center;padding:25px 12px;color:var(--muted);font-size:12px;line-height:1.8}
-.pill{display:inline-block;border-radius:20px;padding:5px 8px;background:#fff0e5;color:#b54708;font-size:10px;font-weight:bold}
-.pill.ok{background:#e3f5ed;color:#13775d}
-.check-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid #edf1f4;font-size:12px}
-.check-row:last-child{border-bottom:0}
-.check-name{color:#526577}
-.check-value{text-align:right;overflow-wrap:anywhere}
-.footer{text-align:center;color:#98a5b2;font-size:10px;margin-top:25px}
-@media(max-width:1000px){
- .sidebar{width:185px}main{padding:20px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
- .content-grid{grid-template-columns:1fr}
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
-@media(max-width:600px){
- .app{display:block}.sidebar{width:100%;padding:15px 17px}
- .nav-label,.nav-item,.side-note{display:none}
- main{padding:16px 12px}.topbar{align-items:flex-start;flex-direction:column}
- h1{font-size:23px}.panel{padding:15px}
- .controls{flex-direction:column}.controls input,.controls select,.controls button{width:100%}
- .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
- .kpi{padding:12px}.kpi-value{font-size:25px}.kpi-label{font-size:11px}
- .kpi-icon{width:29px;height:29px;font-size:14px}
+.app { display:flex; min-height:100vh; }
+
+.sidebar {
+  width:230px;
+  flex-shrink:0;
+  background:var(--navy);
+  color:white;
+  padding:26px 18px;
+}
+.brand { font-size:21px; font-weight:800; line-height:1.4; }
+.brand span { color:#65d6c6; }
+.brand-sub {
+  margin-top:6px;
+  font-size:10px;
+  color:#b9c9da;
+  letter-spacing:1px;
+  line-height:1.6;
+}
+.nav-label {
+  margin:35px 10px 12px;
+  color:#94abc2;
+  font-size:10px;
+  letter-spacing:1.5px;
+}
+.nav-item {
+  padding:12px;
+  margin:5px 0;
+  border-radius:8px;
+  color:#dce6f0;
+  font-size:13px;
+}
+.nav-item.active { background:#2b4b6c; color:white; }
+.sidebar-foot {
+  margin-top:45px;
+  padding:10px;
+  color:#b9c9da;
+  font-size:11px;
+  line-height:1.8;
+}
+
+main { flex:1; min-width:0; padding:30px; }
+.top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+}
+.eyebrow {
+  color:var(--teal);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
+}
+h1 {
+  color:var(--navy);
+  font-size:27px;
+  margin:8px 0;
+}
+.subtitle {
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.7;
+}
+.upload-btn {
+  display:inline-block;
+  padding:13px 18px;
+  border-radius:9px;
+  background:var(--navy);
+  color:white;
+  font-weight:700;
+  font-size:13px;
+  cursor:pointer;
+  border:0;
+}
+.upload-btn:hover { background:var(--navy2); }
+input[type=file] {
+  position:absolute;
+  width:1px;
+  height:1px;
+  opacity:0;
+  overflow:hidden;
+}
+
+.panel,.card {
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:13px;
+  box-shadow:0 3px 12px #18345206;
+}
+.upload-panel { padding:18px; margin-bottom:22px; }
+.upload-row {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+select {
+  max-width:100%;
+  padding:10px 12px;
+  border:1px solid #d7e0ea;
+  border-radius:8px;
+  background:white;
+  color:var(--navy);
+  font-size:13px;
+}
+.file-status {
+  margin-top:11px;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.7;
+  overflow-wrap:anywhere;
+}
+.success { color:#087664; }
+.error { color:#b42318; }
+
+.kpis {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+}
+.card {
+  min-height:150px;
+  padding:21px;
+  border-top:3px solid var(--accent,var(--teal));
+}
+.card-label {
+  color:#738197;
+  font-size:12px;
+  line-height:1.6;
+}
+.metric {
+  margin-top:17px;
+  color:var(--navy);
+  font-size:32px;
+  font-weight:800;
+  overflow-wrap:anywhere;
+}
+.metric.red { color:var(--red); }
+.card-note {
+  margin-top:8px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+}
+
+.panel { margin-top:22px; padding:22px; }
+.panel-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:17px;
+}
+h2 { margin:0; color:var(--navy); font-size:16px; }
+.tag {
+  padding:7px 10px;
+  background:#eef3f8;
+  color:#63748b;
+  border-radius:7px;
+  font-size:11px;
+}
+.table-wrap { width:100%; overflow-x:auto; }
+table {
+  width:100%;
+  border-collapse:collapse;
+  min-width:610px;
+}
+th {
+  background:#f7f9fc;
+  color:#7a889c;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+  font-size:10px;
+  text-align:left;
+}
+th,td {
+  padding:13px 11px;
+  border-bottom:1px solid #edf1f5;
+}
+td { font-size:12px; }
+tbody tr:last-child td { border-bottom:none; }
+.empty {
+  text-align:center;
+  color:#8592a4;
+  padding:28px 12px!important;
+  line-height:1.8;
+}
+.badge {
+  display:inline-block;
+  padding:6px 8px;
+  border-radius:6px;
+  font-size:10px;
+  font-weight:700;
+}
+.badge.red { color:#b82e36; background:#ffeded; }
+.note {
+  margin-top:14px;
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.8;
+  overflow-wrap:anywhere;
+}
+.footer {
+  margin:28px 0 8px;
+  text-align:center;
+  font-size:10px;
+  color:#96a1b0;
+}
+
+@media(max-width:1200px) {
+  .kpis { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:1000px) {
+  .sidebar { width:190px; }
+  main { padding:22px; }
+}
+@media(max-width:700px) {
+  .sidebar { display:none; }
+  main { padding:17px 12px; }
+  h1 { font-size:22px; }
+  .kpis { grid-template-columns:1fr; gap:10px; }
+  .card { min-height:120px; padding:17px; }
+  .metric { font-size:30px; margin-top:10px; }
+  .panel { padding:14px; }
 }
 </style>
 </head>
+
 <body>
 <div class="app">
+
 <aside class="sidebar">
   <div class="brand">MedAvail <span>Intelligence</span></div>
-  <div class="brand-sub">PHARMACY INVENTORY ANALYTICS</div>
-  <div class="nav-label">WORKSPACE</div>
+  <div class="brand-sub">PHARMACY ANALYTICS PLATFORM</div>
+
+  <div class="nav-label">DASHBOARD</div>
   <div class="nav-item active">▦ &nbsp; Overview</div>
-  <div class="nav-item">◉ &nbsp; Availability Analysis</div>
-  <div class="nav-item">▤ &nbsp; Data Validation</div>
-  <div class="side-note"><strong>CORE ANALYSIS</strong><br>Upload your Excel report to analyze medication records, stock availability and item usage.</div>
+  <div class="nav-item">▤ &nbsp; Medication Analysis</div>
+  <div class="nav-item">⚑ &nbsp; Zero Stock</div>
+
+  <div class="sidebar-foot">
+    SMARTER INVENTORY<br>
+    BETTER AVAILABILITY<br><br>
+    Upload an Excel report to begin.
+  </div>
 </aside>
 
 <main>
-  <div class="topbar">
+  <header class="top">
     <div>
-      <h1>Medication Availability</h1>
-      <div class="subtitle">A clear view of your pharmacy inventory data.</div>
+      <div class="eyebrow">PHARMACY AUTOMATION &amp; TECHNOLOGY</div>
+      <h1>Medication Data Analysis</h1>
+      <div class="subtitle">
+        Basic analysis of medication records, ADC locations and stock availability.
+      </div>
     </div>
-    <div class="status" id="status">● Waiting for data</div>
-  </div>
 
-  <div class="section-title">Import your data</div>
-  <section class="panel">
+    <div>
+      <label for="excelFile" class="upload-btn">↑ &nbsp; Upload Excel</label>
+      <input id="excelFile" type="file" accept=".xlsx,.xls,.xlsm">
+    </div>
+  </header>
+
+  <section class="panel upload-panel">
     <div class="upload-row">
-      <div class="upload-icon">▤</div>
-      <div class="upload-info">
-        <strong>Excel Report Upload</strong>
-        <p>Upload an Omnicell or pharmacy Excel report.</p>
-      </div>
+      <strong style="font-size:13px;color:#163452">Report Workspace</strong>
+      <select id="sheetSelect" aria-label="Select worksheet" disabled>
+        <option value="">Upload a workbook first</option>
+      </select>
     </div>
-    <div class="controls">
-      <input id="fileInput" type="file" accept=".xlsx,.xls,.csv">
-      <select id="sheetSelect" disabled><option value="">Select worksheet</option></select>
-      <button id="analyzeBtn" disabled>Analyze Data</button>
+    <div id="fileStatus" class="file-status">
+      No report uploaded. Upload your Excel workbook to start.
     </div>
-    <div id="message" class="message">No file selected.</div>
+    <div id="fileError" class="file-status error"></div>
   </section>
 
-  <div class="section-title">Key performance indicators</div>
   <section class="kpis">
-    <div class="kpi">
-      <div class="kpi-head"><div class="kpi-label">Medication Records</div><div class="kpi-icon teal">▤</div></div>
-      <div class="kpi-value" id="medCount">—</div><div class="kpi-foot">Records analyzed</div>
+    <div class="card" style="--accent:#4169a1">
+      <div class="card-label">Medication Records Analyzed</div>
+      <div class="metric" id="total">—</div>
+      <div class="card-note" id="totalNote">
+        Valid records after data checks
+      </div>
     </div>
-    <div class="kpi">
-      <div class="kpi-head"><div class="kpi-label">Wards / ADC Locations</div><div class="kpi-icon blue">⌂</div></div>
-      <div class="kpi-value" id="wardCount">—</div><div class="kpi-foot">Distinct locations</div>
+
+    <div class="card" style="--accent:#8065b3">
+      <div class="card-label">Wards / ADC Locations</div>
+      <div class="metric" id="wards">—</div>
+      <div class="card-note">Unique identified locations</div>
     </div>
-    <div class="kpi">
-      <div class="kpi-head"><div class="kpi-label">Zero Stock Records</div><div class="kpi-icon orange">!</div></div>
-      <div class="kpi-value" id="zeroCount">—</div><div class="kpi-foot">Records with zero-stock days</div>
+
+    <div class="card" style="--accent:#d74747">
+      <div class="card-label">Zero Days Records</div>
+      <div class="metric red" id="zeroDays">—</div>
+      <div class="card-note">Records where Zero Days is greater than zero</div>
     </div>
-    <div class="kpi">
-      <div class="kpi-head"><div class="kpi-label">Used Items (T)</div><div class="kpi-icon teal">✓</div></div>
-      <div class="kpi-value" id="usedCount">—</div><div class="kpi-foot">Item Used = .T.</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-head"><div class="kpi-label">Unused Items (F)</div><div class="kpi-icon gray">○</div></div>
-      <div class="kpi-value" id="unusedCount">—</div><div class="kpi-foot">Item Used = .F.</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-head"><div class="kpi-label">Item Usage Rate</div><div class="kpi-icon blue">%</div></div>
-      <div class="kpi-value" id="usageRate">—</div><div class="kpi-foot">T ÷ (T + F)</div>
+
+    <div class="card" style="--accent:#e29a42">
+      <div class="card-label">Current Zero Stock</div>
+      <div class="metric red" id="currentZero">—</div>
+      <div class="card-note">Records with current on-hand quantity equal to zero</div>
     </div>
   </section>
 
-  <section class="content-grid">
-    <div class="panel">
-      <div class="panel-head"><h2>Ward / ADC Summary</h2><small id="tableCount">0 locations</small></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Ward / ADC</th><th>Records</th><th>Zero Stock</th></tr></thead>
-          <tbody id="summaryBody"><tr><td colspan="3" class="empty">Upload a file to view the summary.</td></tr></tbody>
-        </table>
-      </div>
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Ward / ADC Summary</h2>
+      <span class="tag">Location-level analysis</span>
     </div>
-    <div class="panel">
-      <div class="panel-head"><h2>Data Validation</h2><small>Detected columns</small></div>
-      <div id="columnChecks"><div class="empty">Detected columns appear here after analysis.</div></div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ward / ADC Location</th>
+            <th>Medication Records</th>
+            <th>Zero Days Records</th>
+            <th>Current Zero Stock</th>
+          </tr>
+        </thead>
+        <tbody id="wardRows">
+          <tr><td colspan="4" class="empty">
+            Upload an Excel report to see results.
+          </td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note" id="summaryNote">
+      The summary will appear after the worksheet is analyzed.
     </div>
   </section>
-  <div class="footer">MedAvail Intelligence · Basic Analytics Dashboard</div>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Data Check</h2>
+      <span class="tag">Detected Excel columns</span>
+    </div>
+    <div id="columnInfo" class="note">
+      The detected column names will appear here.
+    </div>
+  </section>
+
+  <div class="footer">
+    MedAvail Intelligence · Pharmacy Inventory Analytics
+  </div>
 </main>
 </div>
 
 <script>
-const $ = id => document.getElementById(id);
-let workbook = null, headers = [], rows = [], filename = "";
+(function () {
+  'use strict';
 
-function clean(v) {
-  return v === null || v === undefined ? "" : String(v).trim();
-}
-function norm(v) {
-  return clean(v).toLowerCase()
-    .replace(/[_\-./\\()[\]?]+/g, " ")
-    .replace(/\s+/g, " ").trim();
-}
-function escapeHTML(v) {
-  return String(v ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[c]);
-}
-const aliases = {
-  med:["medication","medication name","drug","drug name","item","item name","description","product name","medication description","item description"],
-  ward:["ward","ward name","location","location name","adc","adc name","cabinet","cabinet name","station","station name","unit","department","nursing unit","device location"],
-  zero:["zero days","zero stock days","zero stock","days at zero","zero day","zero"],
-  low:["low days","low stock days","days low"],
-  stock:["on hand","on hand quantity","quantity on hand","current stock","stock quantity","qty on hand","available quantity","quantity"],
-  used:["item used","itemused","item is used","used item","medication used","item used t f","item used tf","is item used","used","usage flag"]
-};
+  const $ = id => document.getElementById(id);
+  const fileInput = $('excelFile');
+  const sheetSelect = $('sheetSelect');
 
-function findCol(type) {
-  const hs = headers.map(norm);
-  for (const alias of aliases[type]) {
-    const i = hs.indexOf(norm(alias));
-    if (i >= 0) return i;
-  }
-  if (type === "used") {
-    return hs.findIndex(h =>
-      h.includes("item") && h.includes("used") ||
-      h === "is used" || h === "used"
-    );
-  }
-  if (type === "zero") return hs.findIndex(h => h.includes("zero") && (h.includes("day") || h.includes("stock")));
-  if (type === "low") return hs.findIndex(h => h.includes("low") && h.includes("day"));
-  if (type === "ward") return hs.findIndex(h => /^(ward|location|adc|cabinet|station|nursing unit|device location)( name)?$/.test(h));
-  if (type === "med") return hs.findIndex(h => /^(medication|drug|item|product)( name| description)?$/.test(h));
-  if (type === "stock") return hs.findIndex(h => h.includes("on hand") || h === "current stock" || h === "stock quantity");
-  return -1;
-}
-function cell(row, i) { return i >= 0 ? row[i] : ""; }
+  let workbook = null;
 
-// Converts .T., T, TRUE to T and .F., F, FALSE to F.
-function parseTF(value) {
-  const v = clean(value).toUpperCase().replace(/^\.+|\.+$/g, "").trim();
-  if (v === "T" || v === "TRUE") return "T";
-  if (v === "F" || v === "FALSE") return "F";
-  return "";
-}
-function hasZeroDays(value) {
-  const s = clean(value).toLowerCase();
-  if (!s) return false;
-  const n = Number(s);
-  return Number.isFinite(n) && n > 0;
-}
-function setMessage(msg, error=false) {
-  $("message").textContent = msg;
-  $("message").className = error ? "message error" : "message";
-}
-function reset() {
-  ["medCount","wardCount","zeroCount","usedCount","unusedCount","usageRate"].forEach(id => $(id).textContent="—");
-  $("summaryBody").innerHTML='<tr><td colspan="3" class="empty">Upload a file to view the summary.</td></tr>';
-  $("columnChecks").innerHTML='<div class="empty">Detected columns appear here after analysis.</div>';
-  $("tableCount").textContent="0 locations";
-  $("status").textContent="● Waiting for data";
-}
-$("fileInput").addEventListener("change", async e => {
-  reset(); workbook=null; headers=[]; rows=[];
-  $("sheetSelect").innerHTML='<option value="">Select worksheet</option>';
-  $("sheetSelect").disabled=true; $("analyzeBtn").disabled=true;
-  const file=e.target.files[0];
-  if(!file){setMessage("No file selected.");return;}
-  if(typeof XLSX==="undefined"){setMessage("Excel library did not load. Check internet connection and reload.",true);return;}
-  try {
-    filename=file.name;
-    const buf=await file.arrayBuffer();
-    workbook=file.name.toLowerCase().endsWith(".csv")
-      ? XLSX.read(new TextDecoder().decode(buf),{type:"string"})
-      : XLSX.read(buf,{type:"array"});
-    $("sheetSelect").innerHTML=workbook.SheetNames.map((s,i)=>`<option value="${i}">${escapeHTML(s)}</option>`).join("");
-    $("sheetSelect").disabled=false; $("analyzeBtn").disabled=false;
-    loadSheet();
-  } catch(err) {setMessage("Could not read file: "+err.message,true);}
-});
-$("sheetSelect").addEventListener("change",loadSheet);
-function loadSheet() {
-  if(!workbook)return;
-  const sheet=workbook.Sheets[workbook.SheetNames[Number($("sheetSelect").value||0)]];
-  const matrix=XLSX.utils.sheet_to_json(sheet,{header:1,defval:"",raw:false});
-  if(!matrix.length){headers=[];rows=[];setMessage("The worksheet is empty.",true);return;}
-  let best=0,bestScore=-1;
-  const max=Math.min(20,matrix.length);
-  for(let r=0;r<max;r++){
-    const h=matrix[r].map(clean);
-    const old=headers; headers=h;
-    let score=["med","ward","zero","low","stock","used"].reduce((n,t)=>n+(findCol(t)>=0?1:0),0);
-    if(score>bestScore){bestScore=score;best=r;}
-    headers=old;
+  function clean(value) {
+    return String(value ?? '').trim();
   }
-  headers=matrix[best].map(clean);
-  rows=matrix.slice(best+1).filter(r=>r.some(v=>clean(v)!==""));
-  setMessage(`Loaded ${filename}. Worksheet: ${workbook.SheetNames[Number($("sheetSelect").value||0)]}. ${rows.length} rows found.`);
-}
-$("analyzeBtn").addEventListener("click",analyze);
-function analyze() {
-  if(!headers.length){setMessage("No column headers detected.",true);return;}
-  const c={med:findCol("med"),ward:findCol("ward"),zero:findCol("zero"),low:findCol("low"),stock:findCol("stock"),used:findCol("used")};
-  const all=rows.map(row=>({
-    medication:clean(cell(row,c.med)),
-    ward:clean(cell(row,c.ward)),
-    zero:cell(row,c.zero),
-    stock:cell(row,c.stock),
-    used:parseTF(cell(row,c.used))
-  }));
-  const data=c.med>=0 ? all.filter(r=>r.medication!=="") :
-    all.filter(r=>r.ward!=="" || clean(r.zero)!=="" || clean(r.stock)!=="" || r.used!=="");
-  const locations=new Set(data.map(r=>r.ward).filter(Boolean));
-  const used=data.filter(r=>r.used==="T").length;
-  const unused=data.filter(r=>r.used==="F").length;
-  const totalTF=used+unused;
-  const zero=c.zero>=0 ? data.filter(r=>hasZeroDays(r.zero)).length :
-    c.stock>=0 ? data.filter(r=>clean(r.stock)!=="" && Number(cellValue(r.stock))===0).length : null;
 
-  $("medCount").textContent=data.length.toLocaleString();
-  $("wardCount").textContent=locations.size.toLocaleString();
-  $("zeroCount").textContent=zero===null?"N/A":zero.toLocaleString();
-  $("usedCount").textContent=used.toLocaleString();
-  $("unusedCount").textContent=unused.toLocaleString();
-  $("usageRate").textContent=totalTF ? (used/totalTF*100).toFixed(1)+"%" : "0.0%";
-  renderSummary(data,c);
-  renderChecks(c);
-  $("status").textContent="● Analysis complete";
-  setMessage(`Analysis completed. ${data.length.toLocaleString()} records analyzed. Item Used column: ${c.used<0?"not detected":headers[c.used]}.`);
-}
-function cellValue(v){return v;}
-function renderSummary(data,c) {
-  if(c.ward<0){
-    $("summaryBody").innerHTML='<tr><td colspan="3" class="empty">Ward / ADC column not detected.</td></tr>';
-    $("tableCount").textContent="Unavailable";return;
+  function normalize(value) {
+    return clean(value)
+      .toLowerCase()
+      .replace(/[\r\n]+/g, ' ')
+      .replace(/[_\-./]+/g, ' ')
+      .replace(/[^\p{L}\p{N} ]/gu, '')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
-  const groups=new Map();
-  data.forEach(r=>{
-    const name=r.ward||"(Blank location)";
-    if(!groups.has(name))groups.set(name,{records:0,zero:0});
-    const g=groups.get(name);g.records++;
-    if(c.zero>=0 && hasZeroDays(r.zero))g.zero++;
-    else if(c.zero<0 && c.stock>=0 && clean(r.stock)!=="" && Number(r.stock)===0)g.zero++;
+
+  function parseNumber(value) {
+    if (value === null || value === undefined || clean(value) === '') {
+      return null;
+    }
+
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? value : null;
+    }
+
+    const text = clean(value).replace(/,/g, '');
+
+    if (!/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(text)) {
+      return null;
+    }
+
+    const number = Number(text);
+    return Number.isFinite(number) ? number : null;
+  }
+
+  function setText(id, value) {
+    $(id).textContent = value;
+  }
+
+  function resetDashboard() {
+    ['total', 'wards', 'zeroDays', 'currentZero'].forEach(id => {
+      setText(id, '—');
+    });
+
+    setText('totalNote', 'Valid records after data checks');
+    setText('columnInfo', 'The detected column names will appear here.');
+    setText('summaryNote', 'The summary will appear after the worksheet is analyzed.');
+
+    showEmpty($('wardRows'), 'Upload an Excel report to see results.');
+  }
+
+  /*
+   * Column matching is based on header names, not Excel positions.
+   * The aliases cover common Excel/ADC export variations.
+   */
+  const aliases = {
+    medication: [
+      'rx disp', 'rxdisp',
+      'item name', 'item description', 'item desc',
+      'medication name', 'drug name', 'drug description',
+      'medication description', 'description',
+      'medication', 'drug', 'item',
+      'item id', 'item code', 'item number', 'item no',
+      'medication id', 'medication code',
+      'ndc', 'product name', 'product description'
+    ],
+
+    ward: [
+      'omni stid', 'omni station id',
+      'station id', 'station name', 'station',
+      'adc name', 'adc location', 'adc',
+      'ward', 'ward name', 'ward location',
+      'location', 'location name',
+      'department', 'department name',
+      'unit', 'unit name',
+      'cabinet', 'cabinet name', 'device location'
+    ],
+
+    zero: [
+      'zero days', 'zerodays', 'zero day',
+      'days zero', 'zero stock days',
+      'days out of stock', 'stockout days',
+      'stock out days', 'days at zero',
+      'days with zero stock'
+    ],
+
+    stock: [
+      'qty onhand', 'qty on hand',
+      'onhand qty', 'on hand quantity',
+      'quantity on hand', 'on hand',
+      'stock on hand', 'actual stock',
+      'current stock', 'current quantity',
+      'current qty', 'available quantity',
+      'available qty', 'quantity available',
+      'onhand', 'on hand qty', 'physical quantity'
+    ],
+
+    low: [
+      'low days', 'lowdays', 'low day',
+      'critical low days'
+    ]
+  };
+
+  function findColumn(headers, type) {
+    const normalizedHeaders = headers.map(normalize);
+    const names = aliases[type].map(normalize);
+
+    // Exact matches first.
+    for (let i = 0; i < normalizedHeaders.length; i++) {
+      if (names.includes(normalizedHeaders[i])) {
+        return i;
+      }
+    }
+
+    // Conservative matches for common export variations.
+    for (let i = 0; i < normalizedHeaders.length; i++) {
+      const h = normalizedHeaders[i];
+      if (!h) continue;
+
+      if (type === 'medication') {
+        if (
+          h.includes('medication name') ||
+          h.includes('medication description') ||
+          h.includes('item description') ||
+          h.includes('drug description') ||
+          h.includes('product description') ||
+          h.includes('product name') ||
+          h === 'rx disp'
+        ) return i;
+      }
+
+      if (type === 'ward') {
+        if (
+          h.includes('omni station') ||
+          h.includes('omni stid') ||
+          h.includes('station name') ||
+          h.includes('adc location') ||
+          h.includes('device location') ||
+          h.includes('ward location') ||
+          h.includes('cabinet name')
+        ) return i;
+      }
+
+      if (type === 'zero') {
+        if (
+          h.includes('zero days') ||
+          h.includes('zero stock days') ||
+          h.includes('stockout days') ||
+          h.includes('stock out days') ||
+          h.includes('days out of stock') ||
+          h.includes('days with zero stock')
+        ) return i;
+      }
+
+      if (type === 'stock') {
+        if (
+          h.includes('quantity on hand') ||
+          h.includes('qty on hand') ||
+          h.includes('qty onhand') ||
+          h.includes('current stock') ||
+          h.includes('current quantity') ||
+          h.includes('available quantity') ||
+          h.includes('quantity available') ||
+          h.includes('stock on hand')
+        ) return i;
+      }
+
+      if (type === 'low' && h.includes('low days')) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  function headerDetails(row) {
+    const headers = row.map(clean);
+    const columns = {};
+
+    ['medication', 'ward', 'zero', 'stock', 'low'].forEach(type => {
+      columns[type] = findColumn(headers, type);
+    });
+
+    let score = 0;
+    let recognized = 0;
+
+    const weights = {
+      medication: 3,
+      ward: 2,
+      zero: 3,
+      stock: 3,
+      low: 1
+    };
+
+    Object.keys(columns).forEach(type => {
+      if (columns[type] >= 0) {
+        score += weights[type];
+        recognized++;
+      }
+    });
+
+    const normalizedHeaders = headers.map(normalize);
+
+    if (normalizedHeaders.includes('item used')) score += 0.5;
+    if (normalizedHeaders.includes('recommended par')) score += 0.5;
+    if (normalizedHeaders.includes('action')) score += 0.25;
+
+    return { headers, columns, score, recognized };
+  }
+
+  function findHeader(matrix) {
+    let best = null;
+    const limit = Math.min(matrix.length, 60);
+
+    for (let i = 0; i < limit; i++) {
+      const details = headerDetails(matrix[i]);
+
+      // Require at least two recognized fields and a meaningful score.
+      if (details.recognized < 2 || details.score < 4) continue;
+
+      if (!best || details.score > best.details.score) {
+        best = { index: i, details };
+      }
+    }
+
+    return best;
+  }
+
+  function isSummaryRow(row) {
+    return row.some(value => {
+      const v = normalize(value);
+      return /^(grand total|total|subtotal|overall total)$/.test(v);
+    });
+  }
+
+  function showEmpty(tbody, message) {
+    tbody.replaceChildren();
+
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+
+    td.colSpan = 4;
+    td.className = 'empty';
+    td.textContent = message;
+
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
+
+  function renderWardTable(groups, locationAvailable) {
+    const tbody = $('wardRows');
+    tbody.replaceChildren();
+
+    if (!locationAvailable) {
+      showEmpty(
+        tbody,
+        'Location column was not identified. The location summary cannot be calculated reliably.'
+      );
+      return;
+    }
+
+    const entries = Object.values(groups)
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    if (!entries.length) {
+      showEmpty(tbody, 'No identifiable location values were found.');
+      return;
+    }
+
+    entries.forEach(group => {
+      const tr = document.createElement('tr');
+
+      const nameCell = document.createElement('td');
+      nameCell.textContent = group.name || 'Location not identified';
+      tr.appendChild(nameCell);
+
+      const totalCell = document.createElement('td');
+      totalCell.textContent = group.total.toLocaleString();
+      tr.appendChild(totalCell);
+
+      const daysCell = document.createElement('td');
+      daysCell.textContent = group.zeroDays === null
+        ? 'N/A'
+        : group.zeroDays.toLocaleString();
+
+      if (group.zeroDays !== null && group.zeroDays > 0) {
+        const badge = document.createElement('span');
+        badge.className = 'badge red';
+        badge.textContent = group.zeroDays.toLocaleString();
+        daysCell.textContent = '';
+        daysCell.appendChild(badge);
+      }
+      tr.appendChild(daysCell);
+
+      const stockCell = document.createElement('td');
+      stockCell.textContent = group.currentZero === null
+        ? 'N/A'
+        : group.currentZero.toLocaleString();
+
+      if (group.currentZero !== null && group.currentZero > 0) {
+        const badge = document.createElement('span');
+        badge.className = 'badge red';
+        badge.textContent = group.currentZero.toLocaleString();
+        stockCell.textContent = '';
+        stockCell.appendChild(badge);
+      }
+      tr.appendChild(stockCell);
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  function analyzeSheet(sheetName) {
+    if (!workbook || !sheetName) return;
+
+    setText('fileError', '');
+    setText('fileStatus', 'Analyzing worksheet: ' + sheetName + ' ...');
+    $('fileStatus').className = 'file-status';
+
+    try {
+      const sheet = workbook.Sheets[sheetName];
+
+      const matrix = XLSX.utils.sheet_to_json(sheet, {
+        header: 1,
+        defval: '',
+        raw: true,
+        blankrows: false
+      });
+
+      if (!matrix.length) {
+        throw new Error('The selected worksheet is empty.');
+      }
+
+      const header = findHeader(matrix);
+
+      if (!header) {
+        throw new Error(
+          'Could not confidently identify the header row. ' +
+          'Select the worksheet that contains the medication data.'
+        );
+      }
+
+      const headerIndex = header.index;
+      const headers = header.details.headers;
+      const cols = header.details.columns;
+
+      const medCol = cols.medication;
+      const wardCol = cols.ward;
+      const zeroCol = cols.zero;
+      const stockCol = cols.stock;
+      const lowCol = cols.low;
+
+      const rawRows = matrix
+        .slice(headerIndex + 1)
+        .filter(row => row.some(value => clean(value) !== ''))
+        .filter(row => !isSummaryRow(row));
+
+      const records = rawRows.map(row => ({
+        medication: medCol >= 0 ? clean(row[medCol]) : '',
+        ward: wardCol >= 0 ? clean(row[wardCol]) : '',
+        zeroDays: zeroCol >= 0 ? parseNumber(row[zeroCol]) : null,
+        stock: stockCol >= 0 ? parseNumber(row[stockCol]) : null
+      }));
+
+      /*
+       * If a medication identifier exists, require it to be populated.
+       * If not detected, count rows containing recognized numeric data,
+       * but disclose that medication-level identification is unavailable.
+       */
+      let data;
+
+      if (medCol >= 0) {
+        data = records.filter(row => row.medication !== '');
+      } else {
+        data = records.filter(row =>
+          (zeroCol >= 0 && row.zeroDays !== null) ||
+          (stockCol >= 0 && row.stock !== null)
+        );
+      }
+
+      if (!data.length) {
+        throw new Error(
+          'No usable medication records were found. ' +
+          'Check the selected worksheet and detected columns.'
+        );
+      }
+
+      const uniqueLocations = new Map();
+
+      data.forEach(row => {
+        const location = clean(row.ward);
+        const key = normalize(location);
+        if (key && !uniqueLocations.has(key)) {
+          uniqueLocations.set(key, location);
+        }
+      });
+
+      const zeroDaysCount = zeroCol >= 0
+        ? data.filter(row => row.zeroDays !== null && row.zeroDays > 0).length
+        : null;
+
+      // Current zero stock means quantity exactly equals zero.
+      // Blank or non-numeric stock values are excluded.
+      const currentZeroCount = stockCol >= 0
+        ? data.filter(row => row.stock !== null && row.stock === 0).length
+        : null;
+
+      const groups = {};
+
+      data.forEach(row => {
+        const locationName = clean(row.ward);
+        const key = normalize(locationName) || '__unknown__';
+
+        if (!groups[key]) {
+          groups[key] = {
+            name: locationName || 'Location not identified',
+            total: 0,
+            zeroDays: zeroCol >= 0 ? 0 : null,
+            currentZero: stockCol >= 0 ? 0 : null
+          };
+        }
+
+        groups[key].total++;
+
+        if (
+          zeroCol >= 0 &&
+          row.zeroDays !== null &&
+          row.zeroDays > 0
+        ) {
+          groups[key].zeroDays++;
+        }
+
+        if (
+          stockCol >= 0 &&
+          row.stock !== null &&
+          row.stock === 0
+        ) {
+          groups[key].currentZero++;
+        }
+      });
+
+      setText('total', data.length.toLocaleString());
+      setText(
+        'wards',
+        wardCol >= 0 ? uniqueLocations.size.toLocaleString() : 'N/A'
+      );
+      setText(
+        'zeroDays',
+        zeroDaysCount === null ? 'N/A' : zeroDaysCount.toLocaleString()
+      );
+      setText(
+        'currentZero',
+        currentZeroCount === null ? 'N/A' : currentZeroCount.toLocaleString()
+      );
+
+      setText(
+        'totalNote',
+        medCol >= 0
+          ? 'Rows with a non-empty medication identifier'
+          : 'Estimated data rows; medication identifier not detected'
+      );
+
+      renderWardTable(groups, wardCol >= 0);
+
+      const detected = [
+        'Worksheet: ' + sheetName,
+        'Header row: ' + (headerIndex + 1),
+        'Medication column: ' +
+          (medCol >= 0 ? headers[medCol] : 'Not detected'),
+        'Ward / location column: ' +
+          (wardCol >= 0 ? headers[wardCol] : 'Not detected'),
+        'Zero Days column: ' +
+          (zeroCol >= 0 ? headers[zeroCol] : 'Not detected'),
+        'Current stock column: ' +
+          (stockCol >= 0 ? headers[stockCol] : 'Not detected'),
+        'Low Days column: ' +
+          (lowCol >= 0 ? headers[lowCol] : 'Not detected'),
+        'Records counted: ' + data.length.toLocaleString(),
+        'Unique locations: ' +
+          (wardCol >= 0 ? uniqueLocations.size.toLocaleString() : 'N/A')
+      ];
+
+      setText('columnInfo', detected.join(' | '));
+
+      const notes = [];
+
+      if (medCol < 0) {
+        notes.push(
+          'Medication identifier was not detected; the total is an estimated count of rows with recognized numeric data.'
+        );
+      }
+
+      if (zeroCol < 0) {
+        notes.push(
+          'Zero Days is N/A because no recognized Zero Days column was found.'
+        );
+      } else {
+        notes.push(
+          'Zero Days Records counts rows where the Zero Days value is greater than zero. Blank and non-numeric values are excluded.'
+        );
+      }
+
+      if (stockCol < 0) {
+        notes.push(
+          'Current Zero Stock is N/A because no recognized on-hand quantity column was found.'
+        );
+      } else {
+        notes.push(
+          'Current Zero Stock counts rows where the current on-hand quantity equals exactly zero. Blank values and negative quantities are not counted.'
+        );
+      }
+
+      if (wardCol < 0) {
+        notes.push(
+          'Location summary is unavailable because no recognized location column was found.'
+        );
+      }
+
+      setText('summaryNote', notes.join(' '));
+
+      setText(
+        'fileStatus',
+        'Analysis complete: ' + data.length.toLocaleString() +
+        ' records analyzed from "' + sheetName + '".'
+      );
+      $('fileStatus').className = 'file-status success';
+
+    } catch (error) {
+      resetDashboard();
+      setText('fileStatus', 'Analysis failed.');
+      $('fileStatus').className = 'file-status error';
+      setText('fileError', error.message || String(error));
+    }
+  }
+
+  function chooseBestSheet() {
+    let bestName = workbook.SheetNames[0];
+    let bestScore = -1;
+
+    workbook.SheetNames.forEach(name => {
+      const matrix = XLSX.utils.sheet_to_json(workbook.Sheets[name], {
+        header: 1,
+        defval: '',
+        blankrows: false
+      });
+
+      const header = findHeader(matrix);
+      let score = header ? header.details.score : 0;
+
+      const normalizedName = normalize(name);
+
+      if (
+        normalizedName.includes('calculation') ||
+        normalizedName.includes('action') ||
+        normalizedName.includes('par')
+      ) {
+        score += 0.25;
+      }
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestName = name;
+      }
+    });
+
+    return bestName;
+  }
+
+  fileInput.addEventListener('change', async event => {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    workbook = null;
+    sheetSelect.disabled = true;
+    resetDashboard();
+
+    setText('fileError', '');
+    setText('fileStatus', 'Reading ' + file.name + ' ...');
+    $('fileStatus').className = 'file-status';
+
+    try {
+      if (!window.XLSX) {
+        throw new Error(
+          'The Excel reader did not load. Check your internet connection and refresh the page.'
+        );
+      }
+
+      const buffer = await file.arrayBuffer();
+
+      workbook = XLSX.read(buffer, {
+        type: 'array',
+        cellDates: true
+      });
+
+      if (!workbook.SheetNames.length) {
+        throw new Error('No worksheets were found in this workbook.');
+      }
+
+      sheetSelect.replaceChildren();
+
+      workbook.SheetNames.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        sheetSelect.appendChild(option);
+      });
+
+      sheetSelect.disabled = false;
+
+      const preferred = chooseBestSheet();
+      sheetSelect.value = preferred;
+
+      analyzeSheet(preferred);
+
+    } catch (error) {
+      workbook = null;
+      sheetSelect.disabled = true;
+      resetDashboard();
+
+      setText('fileStatus', 'Upload or analysis failed.');
+      $('fileStatus').className = 'file-status error';
+      setText('fileError', error.message || String(error));
+    }
   });
-  const list=[...groups.entries()].sort((a,b)=>b[1].zero-a[1].zero||b[1].records-a[1].records);
-  $("tableCount").textContent=list.length+" locations";
-  $("summaryBody").innerHTML=list.length?list.map(([name,g])=>`
-    <tr><td>${escapeHTML(name)}</td><td>${g.records.toLocaleString()}</td>
-    <td><span class="pill ${g.zero===0?"ok":""}">${g.zero.toLocaleString()}</span></td></tr>
-  `).join(""):'<tr><td colspan="3" class="empty">No locations found.</td></tr>';
-}
-function renderChecks(c) {
-  const items=[["med","Medication / Item"],["ward","Ward / ADC"],["zero","Zero Days"],["low","Low Days"],["stock","Stock Quantity"],["used","Item Used (.T. / .F.)"]];
-  $("columnChecks").innerHTML=items.map(([key,label])=>{
-    const i=c[key],found=i>=0;
-    const value=found?`${escapeHTML(headers[i])} · Column ${columnLetter(i)}`:"Not detected";
-    return `<div class="check-row"><span class="check-name">${label}</span><span class="check-value"><span class="pill ${found?"ok":""}">${value}</span></span></div>`;
-  }).join("");
-}
-function columnLetter(i) {
-  let out="",n=i+1;
-  while(n){const r=(n-1)%26;out=String.fromCharCode(65+r)+out;n=Math.floor((n-1)/26);}
-  return out;
-}
+
+  sheetSelect.addEventListener('change', () => {
+    if (workbook && sheetSelect.value) {
+      analyzeSheet(sheetSelect.value);
+    }
+  });
+
+})();
 </script>
 </body>
 </html>
