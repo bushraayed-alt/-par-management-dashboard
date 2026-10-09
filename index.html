@@ -2,147 +2,208 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MedAvail Intelligence</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 :root {
-  --navy: #153451;
-  --teal: #168b91;
-  --bg: #f4f7fa;
-  --border: #e2e8f0;
+  --navy:#142d4e; --teal:#0d9488; --bg:#f3f6fb;
+  --muted:#748197; --line:#e5eaf2; --white:#fff;
 }
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: #243447;
-}
-header {
-  background: white;
-  padding: 24px 5%;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-h1 { margin: 0; color: var(--navy); font-size: 25px; }
-.subtitle { color: #718096; margin-top: 7px; font-size: 14px; }
-main { max-width: 1450px; margin: auto; padding: 28px 5%; }
-.toolbar {
-  display: flex; justify-content: space-between;
-  align-items: center; flex-wrap: wrap; gap: 12px;
-  margin-bottom: 24px;
-}
-button, .upload {
-  border: 1px solid var(--border); border-radius: 8px;
-  padding: 10px 16px; background: white; cursor: pointer;
-  color: var(--navy); font-weight: 600;
-}
-button.active, .primary {
-  background: var(--navy); color: white;
-}
-.quarters { display: flex; gap: 8px; flex-wrap: wrap; }
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px; margin-bottom: 26px;
-}
-.card, .panel {
-  background: white; border: 1px solid var(--border);
-  border-radius: 12px; padding: 20px;
-}
-.card { min-height: 125px; }
-.card-label { font-size: 13px; color: #718096; }
-.value { font-size: 30px; font-weight: 700; color: var(--navy); margin-top: 15px; }
-.section-title { color: var(--navy); margin: 0 0 18px; font-size: 18px; }
-.panel { margin-bottom: 24px; overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; min-width: 750px; }
-th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
-th { color: #64748b; background: #f8fafc; }
-.progress { background: #e8eef2; height: 8px; border-radius: 8px; min-width: 90px; overflow: hidden; }
-.bar { background: var(--teal); height: 100%; border-radius: 8px; }
-.status { font-weight: 700; }
-.zero { color: #dc4545; }
-.low { color: #bd7a13; }
-.note { font-size: 12px; color: #718096; margin-top: 12px; }
-input[type=file] { display: none; }
-@media(max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-@media(max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:#23334b}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:235px;background:var(--navy);color:white;padding:30px 18px;flex-shrink:0}
+.brand{font-size:21px;font-weight:800;line-height:1.35}
+.brand span{color:#54d5c4}
+.brand-sub{font-size:11px;color:#b9c8dc;margin:8px 0 38px}
+.nav-label{font-size:10px;color:#91a7c2;letter-spacing:1.4px;margin:24px 12px 10px}
+.nav-item{padding:12px;border-radius:9px;font-size:13px;color:#d7e2ef;margin:5px 0}
+.nav-item.active{background:#294667;color:white}
+.sidebar-note{font-size:11px;line-height:1.7;color:#aebed2;margin-top:45px}
+main{flex:1;min-width:0;padding:30px 32px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:28px}
+.eyebrow{font-size:11px;color:var(--teal);font-weight:800;letter-spacing:1.6px}
+h1{font-size:27px;margin:7px 0;color:var(--navy)}
+.sub{font-size:13px;color:var(--muted)}
+.upload{background:var(--navy);color:white;border:0;padding:13px 18px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;display:inline-block}
+.upload:hover{background:#234a72}
+input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.quarterbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.quarters{display:flex;gap:7px;background:#e9eef5;padding:5px;border-radius:11px}
+.quarters button{border:0;background:transparent;padding:9px 15px;border-radius:8px;color:#62718a;cursor:pointer;font-weight:700}
+.quarters button.active{background:white;color:var(--navy);box-shadow:0 2px 6px #152c4b12}
+.period{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.card,.panel{background:white;border:1px solid var(--line);border-radius:15px;box-shadow:0 3px 12px #152c4b05}
+.card{padding:19px;min-height:135px;position:relative;overflow:hidden}
+.card:after{content:"";position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent,#0d9488)}
+.card-label{font-size:12px;color:#69788e;line-height:1.5;min-height:36px}
+.metric{font-size:30px;font-weight:800;letter-spacing:-.7px;color:var(--navy);margin-top:12px}
+.metric small{font-size:11px;font-weight:500;color:#8a96a8}
+.section-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:17px}
+h2{font-size:16px;color:var(--navy);margin:0}
+.panel{padding:22px;margin-top:20px;min-width:0}
+.pill{font-size:11px;color:#64748b;background:#f1f5f9;padding:7px 10px;border-radius:7px}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:700px}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.45px;color:#8290a4;background:#f8fafc}
+th,td{padding:14px 12px;border-bottom:1px solid #edf1f6}
+td{font-size:12px;color:#35445b}
+tbody tr:last-child td{border-bottom:0}
+.progress{height:7px;background:#edf1f6;border-radius:10px;overflow:hidden;min-width:65px;margin-top:6px}
+.bar{height:100%;background:var(--teal);border-radius:10px}
+.status{display:inline-block;padding:6px 8px;border-radius:7px;font-size:10px;font-weight:800}
+.red{color:#c24141;background:#fff0f0}.amber{color:#a56810;background:#fff6e4}.green{color:#087e70;background:#e7f8f3}
+.empty{text-align:center!important;padding:32px!important;color:#8290a4;line-height:1.8}
+#fileInfo{display:none;margin-top:18px;padding:18px;background:#eaf8f5;border:1px solid #bce9df;border-radius:12px;color:#155e58;font-size:13px;line-height:1.8}
+#fileError{color:#b42318;margin-top:10px;font-size:13px}
+#sheetSelect{padding:9px;border:1px solid var(--line);border-radius:8px;max-width:100%}
+.footer{font-size:11px;color:#8995a7;text-align:center;margin:22px 0}
+@media(max-width:1100px){.sidebar{width:190px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}main{padding:24px}}
+@media(max-width:650px){.sidebar{display:none}main{padding:18px 13px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{padding:14px}.metric{font-size:25px}h1{font-size:23px}.panel{padding:15px}}
+@media(max-width:380px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header>
-  <div>
-    <h1>MedAvail Intelligence</h1>
-    <div class="subtitle">Smart Medication Availability & Inventory Management</div>
-  </div>
-  <label class="upload primary" for="excelFile">Upload Quarterly Report</label>
-  <input id="excelFile" type="file" accept=".xlsx,.xls">
-</header>
-
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand">MedAvail <span>Intelligence</span></div>
+  <div class="brand-sub">PHARMACY ANALYTICS PLATFORM</div>
+  <div class="nav-label">WORKSPACE</div>
+  <div class="nav-item active">▦ &nbsp; Overview</div>
+  <div class="nav-item">▤ &nbsp; Medication Utilization</div>
+  <div class="nav-item">↗ &nbsp; PAR Optimization</div>
+  <div class="nav-item">⚑ &nbsp; Priority Actions</div>
+  <div class="nav-label">REPORTING</div>
+  <div class="nav-item">◷ &nbsp; Quarterly Analysis</div>
+  <div class="sidebar-note">SMARTER INVENTORY.<br>BETTER AVAILABILITY.<br><br>Upload a quarterly report to begin analyzing your medication inventory.</div>
+</aside>
 <main>
-  <div class="toolbar">
+  <div class="top">
     <div>
-      <strong>Quarterly Dashboard</strong>
-      <div class="subtitle" id="period">Select reporting quarter</div>
+      <div class="eyebrow">PHARMACY AUTOMATION & TECHNOLOGY</div>
+      <h1>Medication Availability Dashboard</h1>
+      <div class="sub">Inventory intelligence, ward utilization and PAR optimization.</div>
     </div>
+    <div>
+      <label for="excelFile" class="upload">↑ &nbsp; Upload Excel Report</label>
+      <input id="excelFile" type="file" accept=".xlsx,.xls">
+    </div>
+  </div>
+
+  <div class="quarterbar">
+    <div><strong style="font-size:14px;color:#142d4e">Performance Overview</strong><div class="period" id="period">No report loaded</div></div>
     <div class="quarters">
-      <button onclick="selectQuarter('Q1',this)">Q1</button>
-      <button onclick="selectQuarter('Q2',this)">Q2</button>
-      <button onclick="selectQuarter('Q3',this)">Q3</button>
-      <button onclick="selectQuarter('Q4',this)">Q4</button>
+      <button class="active" data-q="Q1">Q1</button>
+      <button data-q="Q2">Q2</button>
+      <button data-q="Q3">Q3</button>
+      <button data-q="Q4">Q4</button>
     </div>
   </div>
 
   <div class="grid">
-    <div class="card"><div class="card-label">Total Medications Analyzed</div><div class="value" id="total">—</div></div>
-    <div class="card"><div class="card-label">Medications Used</div><div class="value" id="used">—</div></div>
-    <div class="card"><div class="card-label">Medications Not Used</div><div class="value" id="unused">—</div></div>
-    <div class="card"><div class="card-label">Wards Analyzed</div><div class="value" id="wards">—</div></div>
-    <div class="card"><div class="card-label">Zero Stock Medications</div><div class="value zero" id="zero">—</div></div>
-    <div class="card"><div class="card-label">Critical Low (CL)</div><div class="value low" id="critical">—</div></div>
-    <div class="card"><div class="card-label">PAR Adjustment Needed</div><div class="value" id="adjust">—</div></div>
-    <div class="card"><div class="card-label">No PAR Adjustment Needed</div><div class="value" id="noadjust">—</div></div>
+    <div class="card" style="--accent:#4169a1"><div class="card-label">Total Medication Records</div><div class="metric" id="total">—</div></div>
+    <div class="card" style="--accent:#0d9488"><div class="card-label">Medications Used</div><div class="metric" id="used">—</div></div>
+    <div class="card" style="--accent:#8b98aa"><div class="card-label">Medications Not Used</div><div class="metric" id="unused">—</div></div>
+    <div class="card" style="--accent:#7659b8"><div class="card-label">Wards Analyzed</div><div class="metric" id="wards">—</div></div>
+    <div class="card" style="--accent:#d94c4c"><div class="card-label">Zero Stock</div><div class="metric" id="zero">—</div></div>
+    <div class="card" style="--accent:#d99b2b"><div class="card-label">Critical Low (CL)</div><div class="metric" id="critical">—</div></div>
+    <div class="card" style="--accent:#168b91"><div class="card-label">PAR Adjustment Needed</div><div class="metric" id="adjust">—</div></div>
+    <div class="card" style="--accent:#64748b"><div class="card-label">No PAR Change Needed</div><div class="metric" id="noadjust">—</div></div>
   </div>
 
+  <div id="fileInfo"></div>
+  <div id="fileError"></div>
+
   <section class="panel">
-    <h2 class="section-title">Ward Medication Utilization</h2>
-    <table>
-      <thead><tr>
-        <th>Ward</th><th>Actual Stock Items</th><th>Used</th>
-        <th>Not Used</th><th>Utilization</th><th>Zero Stock</th><th>Critical Low</th>
-      </tr></thead>
-      <tbody id="wardRows">
-        <tr><td colspan="7">Upload an Excel report to analyze ward-level medication utilization.</td></tr>
-      </tbody>
-    </table>
-    <p class="note">Utilization = used medication-item combinations ÷ actual stocked medication-item combinations × 100.</p>
+    <div class="section-head"><h2>Ward Medication Utilization</h2><span class="pill">Ward-level analysis</span></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Ward</th><th>Stocked Items</th><th>Used</th><th>Not Used</th><th>Utilization</th><th>Zero</th><th>Critical Low</th></tr></thead>
+      <tbody id="wardRows"><tr><td colspan="7" class="empty">Upload your Excel report to view medication utilization by ward.</td></tr></tbody>
+    </table></div>
+    <div class="sub" style="margin-top:14px">Utilization is calculated from medication records classified as used within each ward. Exact calculation depends on the columns in your report.</div>
   </section>
 
   <section class="panel">
-    <h2 class="section-title">Priority Actions</h2>
-    <table>
-      <thead><tr>
-        <th>Medication</th><th>Ward</th><th>Current PAR</th>
-        <th>Recommended PAR</th><th>Status</th><th>Suggested Action</th>
-      </tr></thead>
-      <tbody id="actionRows">
-        <tr><td colspan="6">Actions will appear after the Excel analysis engine is connected.</td></tr>
-      </tbody>
-    </table>
+    <div class="section-head"><h2>Priority Actions</h2><span class="pill">PAR review</span></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Medication</th><th>Ward / ADC</th><th>Current PAR</th><th>Recommended PAR</th><th>Status</th><th>Suggested Action</th></tr></thead>
+      <tbody id="actionRows"><tr><td colspan="6" class="empty">PAR recommendations will appear after the report columns are mapped and validated.</td></tr></tbody>
+    </table></div>
   </section>
-  <p class="note">No real results are displayed until a report is uploaded and processed.</p>
+  <div class="footer">MedAvail Intelligence · Quarterly Medication Inventory Analytics</div>
 </main>
+</div>
 
 <script>
-function selectQuarter(q, btn) {
-  document.querySelectorAll('.quarters button').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('period').textContent = q + ' — select or upload the relevant quarterly report';
-}
+const fileInput = document.getElementById('excelFile');
+fileInput.addEventListener('change', async (event) => {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const error = document.getElementById('fileError');
+  const info = document.getElementById('fileInfo');
+  error.textContent = '';
+  info.style.display = 'block';
+  info.textContent = 'Reading ' + file.name + ' ...';
+
+  if (!window.XLSX) {
+    error.textContent = 'Excel reader failed to load. Check your internet connection and refresh GitHub Pages.';
+    info.style.display = 'none';
+    return;
+  }
+  try {
+    const buffer = await file.arrayBuffer();
+    const workbook = XLSX.read(buffer, {type:'array'});
+    if (!workbook.SheetNames.length) throw new Error('No worksheets were found.');
+    const details = workbook.SheetNames.map(name => {
+      const rows = XLSX.utils.sheet_to_json(workbook.Sheets[name], {header:1, defval:''});
+      const headers = rows.length ? rows[0].filter(v => String(v).trim() !== '') : [];
+      return {name, count:Math.max(0,rows.length-1), headers};
+    });
+    info.innerHTML = '';
+    const title = document.createElement('strong');
+    title.textContent = 'File uploaded successfully: ' + file.name;
+    info.appendChild(title);
+    const line = document.createElement('div');
+    line.textContent = 'Worksheets found: ' + details.length;
+    info.appendChild(line);
+    const select = document.createElement('select');
+    select.id = 'sheetSelect';
+    select.setAttribute('aria-label','Choose worksheet');
+    details.forEach((d,i) => {
+      const option = document.createElement('option');
+      option.value = d.name;
+      option.textContent = d.name + ' (' + d.count + ' data rows)';
+      select.appendChild(option);
+    });
+    info.appendChild(document.createElement('br'));
+    info.appendChild(document.createElement('br'));
+    info.appendChild(select);
+    const headerBox = document.createElement('div');
+    headerBox.style.marginTop = '10px';
+    info.appendChild(headerBox);
+    function showHeaders() {
+      const d = details.find(x => x.name === select.value);
+      headerBox.textContent = 'Detected columns: ' + (d.headers.length ? d.headers.join(' · ') : 'No header row detected');
+      document.getElementById('period').textContent = file.name + ' · ' + d.name + ' · ' + d.count + ' data rows';
+    }
+    select.addEventListener('change', showHeaders);
+    showHeaders();
+  } catch (e) {
+    info.style.display = 'none';
+    error.textContent = 'Could not read this Excel file: ' + (e.message || 'Unknown error') + '. Please upload a valid .xlsx or .xls workbook.';
+  }
+});
+document.querySelectorAll('[data-q]').forEach(button => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('[data-q]').forEach(b=>b.classList.remove('active'));
+    button.classList.add('active');
+    const file = fileInput.files && fileInput.files[0];
+    document.getElementById('period').textContent =
+      button.dataset.q + (file ? ' · ' + file.name : ' · upload a report for this quarter');
+  });
+});
 </script>
 </body>
 </html>
